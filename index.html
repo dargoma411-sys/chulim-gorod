@@ -84,7 +84,6 @@
         }
         .modal input:focus { border-color: #2b5278; }
 
-        /* Блок с ценой */
         .price-box {
             margin-top: 12px; margin-bottom: 16px;
             padding: 12px; border-radius: 10px;
@@ -129,7 +128,7 @@
             <div class="name">Robux</div>
             <div class="desc">от 100 шт</div>
         </div>
-        <div class="card" onclick="openCategory('cat_steam', '💨 Steam Balance', 'баланса', 1.05)">
+        <div class="card" onclick="openSteam()">
             <span class="emoji">💨</span>
             <div class="name">Steam Balance</div>
             <div class="desc">RUB, UAH, USD, EUR</div>
@@ -149,6 +148,7 @@
     <div class="footer">MorvexxShop © 2026</div>
     <div class="toast" id="toast"></div>
 
+    <!-- Окно ввода количества -->
     <div class="modal-overlay" id="modal">
         <div class="modal">
             <h3 id="modal-title">Введите количество</h3>
@@ -163,6 +163,23 @@
             <div class="modal-buttons">
                 <button class="modal-btn cancel" onclick="closeModal()">Отмена</button>
                 <button class="modal-btn confirm" onclick="confirmModal()">Купить</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Окно выбора валюты Steam -->
+    <div class="modal-overlay" id="steam-modal">
+        <div class="modal">
+            <h3>💨 Steam Balance</h3>
+            <p>Выбери валюту:</p>
+            <div style="display: flex; flex-direction: column; gap: 10px;">
+                <button class="modal-btn confirm" onclick="chooseSteamCurrency('rub', '🇷🇺 Рубли', '₽', 1.05)">🇷🇺 Рубли</button>
+                <button class="modal-btn confirm" onclick="chooseSteamCurrency('uah', '🇺🇦 Гривны', '₴', 1.89)">🇺🇦 Гривны</button>
+                <button class="modal-btn confirm" onclick="chooseSteamCurrency('usd', '🇺🇸 Доллары', '$', 84.17)">🇺🇸 Доллары</button>
+                <button class="modal-btn confirm" onclick="chooseSteamCurrency('eur', '🇪🇺 Евро', '€', 97.13)">🇪🇺 Евро</button>
+            </div>
+            <div class="modal-buttons" style="margin-top: 16px;">
+                <button class="modal-btn cancel" onclick="closeSteamModal()">Отмена</button>
             </div>
         </div>
     </div>
@@ -190,6 +207,7 @@
             setTimeout(() => toast.classList.remove('show'), 3000);
         }
 
+        // === Обычные категории ===
         function openCategory(catCode, catName, unit, rate) {
             currentCategory = catCode;
             currentRate = rate;
@@ -201,6 +219,28 @@
             setTimeout(() => document.getElementById('modal-input').focus(), 100);
         }
 
+        // === Steam ===
+        function openSteam() {
+            document.getElementById('steam-modal').classList.add('show');
+        }
+
+        function closeSteamModal() {
+            document.getElementById('steam-modal').classList.remove('show');
+        }
+
+        function chooseSteamCurrency(code, name, symbol, rate) {
+            closeSteamModal();
+            currentCategory = "cat_steam";
+            currentRate = rate;
+            document.getElementById('modal-title').textContent = `💨 Steam Balance (${name})`;
+            document.getElementById('modal-desc').textContent = `Введите количество (${symbol}):`;
+            document.getElementById('modal-input').value = '';
+            document.getElementById('price-value').textContent = '0 ₽';
+            document.getElementById('modal').classList.add('show');
+            setTimeout(() => document.getElementById('modal-input').focus(), 100);
+        }
+
+        // === Общее ===
         function updatePrice() {
             const input = document.getElementById('modal-input').value;
             const quantity = parseInt(input) || 0;
@@ -245,6 +285,7 @@
             .catch(() => showToast("❌ Ошибка сервера"));
         }
 
+        // === Профиль и заказы ===
         function openBot(action) {
             if (action === "profile") {
                 fetch(`${API_URL}/api/profile/${user.id}`)
