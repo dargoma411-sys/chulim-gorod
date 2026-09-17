@@ -10,143 +10,147 @@
 
         body {
             font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-            background: var(--tg-theme-bg-color, #0f1620);
-            color: var(--tg-theme-text-color, #ffffff);
+            background: #0d1117;
+            color: #e6edf3;
             padding: 16px;
             padding-bottom: 40px;
             min-height: 100vh;
             -webkit-tap-highlight-color: transparent;
+            letter-spacing: -0.01em;
         }
 
         /* Шапка */
         .header {
-            text-align: center;
-            margin-bottom: 20px;
-            padding: 28px 20px;
-            background: linear-gradient(135deg, #1e3a5f 0%, #2b5278 50%, #3a6a9a 100%);
-            border-radius: 24px;
-            box-shadow: 0 8px 24px rgba(43, 82, 120, 0.4);
+            margin-bottom: 24px;
+            padding: 24px 20px;
+            background: #161b22;
+            border: 1px solid #21262d;
+            border-radius: 16px;
             position: relative;
             overflow: hidden;
         }
         .header::before {
             content: '';
             position: absolute;
-            top: -50%; right: -50%;
-            width: 200%; height: 200%;
-            background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, transparent 70%);
-            animation: shimmer 8s infinite linear;
-        }
-        @keyframes shimmer {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
+            top: 0; left: 0;
+            width: 100%; height: 1px;
+            background: linear-gradient(90deg, transparent, #2f81f7, transparent);
         }
         .header h1 {
-            font-size: 28px;
-            font-weight: 800;
+            font-size: 22px;
+            font-weight: 700;
             margin-bottom: 6px;
-            letter-spacing: 0.5px;
-            position: relative;
-            z-index: 1;
-            text-shadow: 0 2px 8px rgba(0,0,0,0.3);
+            letter-spacing: -0.02em;
+            color: #ffffff;
         }
         .header p {
             font-size: 13px;
-            opacity: 0.85;
-            position: relative;
-            z-index: 1;
-            font-weight: 500;
+            color: #7d8590;
+            font-weight: 400;
         }
 
         /* Кнопки сверху */
         .top-buttons {
             display: flex;
             gap: 10px;
-            margin-bottom: 20px;
+            margin-bottom: 24px;
         }
         .top-btn {
             flex: 1;
-            background: var(--tg-theme-secondary-bg-color, #1c2733);
-            border: 1px solid rgba(255,255,255,0.06);
-            color: var(--tg-theme-text-color, #ffffff);
+            background: #161b22;
+            border: 1px solid #21262d;
+            color: #e6edf3;
             padding: 14px 12px;
-            border-radius: 16px;
+            border-radius: 12px;
             font-size: 14px;
-            font-weight: 600;
+            font-weight: 500;
             cursor: pointer;
             display: flex;
             align-items: center;
             justify-content: center;
             gap: 8px;
-            transition: all 0.2s;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+            transition: all 0.15s;
         }
         .top-btn:active {
-            background: #2b5278;
-            transform: scale(0.97);
-            border-color: #3a6a9a;
+            background: #1f2937;
+            border-color: #2f81f7;
+            transform: scale(0.98);
+        }
+        .top-btn-icon {
+            width: 16px;
+            height: 16px;
+            opacity: 0.7;
         }
 
         /* Заголовок секции */
         .section-title {
-            font-size: 12px;
-            opacity: 0.5;
-            margin: 8px 0 12px 6px;
+            font-size: 11px;
+            color: #7d8590;
+            margin: 0 0 12px 2px;
             text-transform: uppercase;
-            letter-spacing: 1.5px;
-            font-weight: 700;
+            letter-spacing: 0.08em;
+            font-weight: 600;
         }
 
         /* Сетка */
         .grid {
             display: grid;
             grid-template-columns: repeat(2, 1fr);
-            gap: 12px;
+            gap: 10px;
         }
         .card {
-            background: linear-gradient(145deg, #1c2733 0%, #232e3c 100%);
-            border-radius: 18px;
-            padding: 20px 16px;
-            text-align: center;
+            background: #161b22;
+            border: 1px solid #21262d;
+            border-radius: 14px;
+            padding: 18px 14px;
             cursor: pointer;
-            border: 1px solid rgba(255,255,255,0.05);
-            transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+            transition: all 0.15s;
             position: relative;
             overflow: hidden;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.2);
-        }
-        .card::after {
-            content: '';
-            position: absolute;
-            top: 0; left: 0; right: 0;
-            height: 2px;
-            background: linear-gradient(90deg, transparent, #3a6a9a, transparent);
-            opacity: 0;
-            transition: opacity 0.3s;
+            text-align: left;
         }
         .card:active {
-            transform: scale(0.96);
-            background: linear-gradient(145deg, #2b5278 0%, #1e3a5f 100%);
-            border-color: #3a6a9a;
-            box-shadow: 0 6px 20px rgba(43, 82, 120, 0.5);
+            background: #1f2937;
+            border-color: #2f81f7;
+            transform: scale(0.98);
         }
-        .card:active::after { opacity: 1; }
-        .card .emoji {
-            font-size: 38px;
-            display: block;
-            margin-bottom: 10px;
-            filter: drop-shadow(0 2px 4px rgba(0,0,0,0.3));
+        .card-top {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 16px;
+        }
+        .card-icon {
+            width: 36px;
+            height: 36px;
+            border-radius: 10px;
+            background: #1f2937;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 16px;
+            font-weight: 700;
+            color: #2f81f7;
+            letter-spacing: -0.03em;
+        }
+        .card-badge {
+            font-size: 10px;
+            color: #7d8590;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            font-weight: 600;
         }
         .card .name {
-            font-size: 13px;
-            font-weight: 700;
+            font-size: 14px;
+            font-weight: 600;
             margin-bottom: 4px;
-            letter-spacing: 0.2px;
+            color: #ffffff;
+            letter-spacing: -0.01em;
         }
         .card .desc {
             font-size: 11px;
-            opacity: 0.55;
-            font-weight: 500;
+            color: #7d8590;
+            font-weight: 400;
         }
 
         /* Карточка по центру */
@@ -158,13 +162,13 @@
 
         /* Футер */
         .footer {
-            margin-top: 28px;
+            margin-top: 32px;
             padding: 16px;
             text-align: center;
             font-size: 11px;
-            opacity: 0.35;
-            font-weight: 500;
-            letter-spacing: 0.5px;
+            color: #484f58;
+            font-weight: 400;
+            letter-spacing: 0.02em;
         }
 
         /* Toast */
@@ -173,21 +177,21 @@
             bottom: 40px;
             left: 50%;
             transform: translateX(-50%) translateY(20px);
-            background: linear-gradient(135deg, #2b5278 0%, #1e3a5f 100%);
-            color: white;
+            background: #161b22;
+            border: 1px solid #2f81f7;
+            color: #ffffff;
             padding: 14px 24px;
-            border-radius: 14px;
-            font-size: 14px;
-            font-weight: 600;
+            border-radius: 12px;
+            font-size: 13px;
+            font-weight: 500;
             opacity: 0;
-            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
             pointer-events: none;
             z-index: 100;
             max-width: 90%;
             text-align: center;
             white-space: pre-line;
-            box-shadow: 0 8px 24px rgba(0,0,0,0.4);
-            border: 1px solid rgba(255,255,255,0.1);
+            box-shadow: 0 8px 24px rgba(0,0,0,0.5);
         }
         .toast.show {
             opacity: 1;
@@ -198,67 +202,54 @@
         .modal-overlay {
             position: fixed;
             top: 0; left: 0; right: 0; bottom: 0;
-            background: rgba(0,0,0,0.75);
-            backdrop-filter: blur(4px);
+            background: rgba(0,0,0,0.8);
             display: none;
             align-items: center;
             justify-content: center;
             z-index: 200;
             padding: 20px;
-            animation: fadeIn 0.2s;
-        }
-        @keyframes fadeIn {
-            from { opacity: 0; }
-            to { opacity: 1; }
         }
         .modal-overlay.show { display: flex; }
         .modal {
-            background: linear-gradient(145deg, #1c2733 0%, #232e3c 100%);
-            border-radius: 20px;
+            background: #161b22;
+            border: 1px solid #21262d;
+            border-radius: 16px;
             padding: 24px;
             width: 100%;
             max-width: 340px;
             max-height: 80vh;
             overflow-y: auto;
-            border: 1px solid rgba(255,255,255,0.08);
-            box-shadow: 0 20px 60px rgba(0,0,0,0.5);
-            animation: slideUp 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-        }
-        @keyframes slideUp {
-            from { transform: translateY(30px); opacity: 0; }
-            to { transform: translateY(0); opacity: 1; }
         }
         .modal h3 {
-            font-size: 19px;
+            font-size: 18px;
             font-weight: 700;
-            margin-bottom: 8px;
-            letter-spacing: 0.2px;
+            margin-bottom: 6px;
+            letter-spacing: -0.02em;
+            color: #ffffff;
         }
         .modal p {
-            font-size: 14px;
-            opacity: 0.65;
-            margin-bottom: 16px;
+            font-size: 13px;
+            color: #7d8590;
+            margin-bottom: 18px;
             line-height: 1.5;
         }
         .modal input {
             width: 100%;
-            padding: 15px 16px;
-            border-radius: 12px;
-            border: 1.5px solid rgba(255,255,255,0.1);
-            background: rgba(0,0,0,0.25);
-            color: var(--tg-theme-text-color, #ffffff);
+            padding: 14px 16px;
+            border-radius: 10px;
+            border: 1px solid #21262d;
+            background: #0d1117;
+            color: #ffffff;
             font-size: 16px;
             font-weight: 600;
             outline: none;
-            transition: all 0.2s;
+            transition: all 0.15s;
         }
         .modal input:focus {
-            border-color: #3a6a9a;
-            background: rgba(0,0,0,0.4);
-            box-shadow: 0 0 0 3px rgba(58, 106, 154, 0.15);
+            border-color: #2f81f7;
         }
         .modal input::placeholder {
-            color: rgba(255,255,255,0.35);
+            color: #484f58;
             font-weight: 400;
         }
 
@@ -266,25 +257,24 @@
             margin-top: 14px;
             margin-bottom: 18px;
             padding: 16px;
-            border-radius: 14px;
-            background: linear-gradient(135deg, rgba(43, 82, 120, 0.3) 0%, rgba(30, 58, 95, 0.3) 100%);
+            border-radius: 12px;
+            background: #0d1117;
+            border: 1px solid #21262d;
             text-align: center;
-            border: 1px solid rgba(58, 106, 154, 0.3);
         }
         .price-label {
-            font-size: 11px;
-            opacity: 0.6;
+            font-size: 10px;
+            color: #7d8590;
             margin-bottom: 6px;
             text-transform: uppercase;
-            letter-spacing: 1px;
-            font-weight: 700;
+            letter-spacing: 0.08em;
+            font-weight: 600;
         }
         .price-value {
             font-size: 24px;
-            font-weight: 800;
-            color: #6ab3f3;
-            letter-spacing: 0.5px;
-            text-shadow: 0 2px 8px rgba(106, 179, 243, 0.3);
+            font-weight: 700;
+            color: #2f81f7;
+            letter-spacing: -0.02em;
         }
 
         .modal-buttons {
@@ -294,96 +284,163 @@
         .modal-btn {
             flex: 1;
             padding: 14px;
-            border-radius: 12px;
+            border-radius: 10px;
             border: none;
-            font-size: 15px;
-            font-weight: 700;
+            font-size: 14px;
+            font-weight: 600;
             cursor: pointer;
-            transition: all 0.2s;
-            letter-spacing: 0.3px;
+            transition: all 0.15s;
+            letter-spacing: -0.01em;
         }
-        .modal-btn:active { transform: scale(0.97); }
+        .modal-btn:active { transform: scale(0.98); }
         .modal-btn.cancel {
-            background: rgba(255,255,255,0.08);
-            color: var(--tg-theme-text-color, #ffffff);
-            border: 1px solid rgba(255,255,255,0.1);
+            background: transparent;
+            color: #e6edf3;
+            border: 1px solid #21262d;
         }
-        .modal-btn.cancel:active { background: rgba(255,255,255,0.15); }
+        .modal-btn.cancel:active {
+            background: #1f2937;
+            border-color: #7d8590;
+        }
         .modal-btn.confirm {
-            background: linear-gradient(135deg, #2b5278 0%, #3a6a9a 100%);
-            color: white;
-            box-shadow: 0 4px 12px rgba(43, 82, 120, 0.4);
+            background: #238636;
+            color: #ffffff;
         }
         .modal-btn.confirm:active {
-            box-shadow: 0 2px 6px rgba(43, 82, 120, 0.6);
+            background: #2ea043;
         }
         .modal-btn.danger {
-            background: linear-gradient(135deg, #7a2b2b 0%, #9a3a3a 100%);
-            color: #ffcccc;
-            box-shadow: 0 4px 12px rgba(122, 43, 43, 0.4);
+            background: #da3633;
+            color: #ffffff;
+        }
+        .modal-btn.danger:active {
+            background: #f85149;
+        }
+        .modal-btn.primary {
+            background: #2f81f7;
+            color: #ffffff;
+        }
+        .modal-btn.primary:active {
+            background: #388bfd;
         }
 
         /* Заказы */
         .order-item {
-            background: rgba(0,0,0,0.25);
-            border-radius: 14px;
+            background: #0d1117;
+            border: 1px solid #21262d;
+            border-radius: 12px;
             padding: 16px;
-            margin-bottom: 12px;
-            border: 1px solid rgba(255,255,255,0.06);
-            transition: all 0.2s;
+            margin-bottom: 10px;
         }
         .order-item .order-title {
-            font-size: 14px;
+            font-size: 13px;
             font-weight: 700;
-            margin-bottom: 8px;
-            color: #6ab3f3;
-            letter-spacing: 0.3px;
+            margin-bottom: 10px;
+            color: #2f81f7;
+            letter-spacing: -0.01em;
         }
         .order-item .order-info {
             font-size: 13px;
-            opacity: 0.8;
+            color: #7d8590;
             margin-bottom: 4px;
-            line-height: 1.4;
+            line-height: 1.5;
+        }
+        .order-item .order-info strong {
+            color: #e6edf3;
+            font-weight: 500;
         }
         .order-item .order-status {
-            font-size: 13px;
+            font-size: 12px;
             margin-bottom: 12px;
-            font-weight: 700;
-            margin-top: 8px;
+            font-weight: 600;
+            margin-top: 10px;
+            padding: 6px 10px;
+            border-radius: 6px;
+            display: inline-block;
+            letter-spacing: -0.01em;
         }
-        .order-status.pending { color: #f3b76a; }
-        .order-status.completed { color: #6af38a; }
-        .order-status.cancelled { color: #f36a6a; }
+        .order-status.pending {
+            color: #d29922;
+            background: rgba(210, 153, 34, 0.1);
+            border: 1px solid rgba(210, 153, 34, 0.3);
+        }
+        .order-status.completed {
+            color: #3fb950;
+            background: rgba(63, 185, 80, 0.1);
+            border: 1px solid rgba(63, 185, 80, 0.3);
+        }
+        .order-status.cancelled {
+            color: #f85149;
+            background: rgba(248, 81, 73, 0.1);
+            border: 1px solid rgba(248, 81, 73, 0.3);
+        }
 
         .order-buttons { display: flex; gap: 8px; }
         .order-cancel-btn {
             flex: 1;
             padding: 11px;
-            border-radius: 10px;
-            border: none;
-            background: linear-gradient(135deg, #5a2b2b 0%, #7a3a3a 100%);
-            color: #ff9a9a;
+            border-radius: 8px;
+            border: 1px solid #21262d;
+            background: transparent;
+            color: #f85149;
             font-size: 13px;
             cursor: pointer;
-            font-weight: 700;
-            transition: all 0.2s;
+            font-weight: 600;
+            transition: all 0.15s;
         }
-        .order-cancel-btn:active { transform: scale(0.97); }
+        .order-cancel-btn:active {
+            background: rgba(248, 81, 73, 0.1);
+            border-color: #f85149;
+            transform: scale(0.98);
+        }
         .order-delete-btn {
             flex: 1;
             padding: 11px;
-            border-radius: 10px;
-            border: 1px solid rgba(255,255,255,0.1);
-            background: rgba(255,255,255,0.06);
-            color: #cccccc;
+            border-radius: 8px;
+            border: 1px solid #21262d;
+            background: transparent;
+            color: #7d8590;
             font-size: 13px;
             cursor: pointer;
-            font-weight: 700;
-            transition: all 0.2s;
+            font-weight: 600;
+            transition: all 0.15s;
         }
         .order-delete-btn:active {
-            background: rgba(255,255,255,0.12);
-            transform: scale(0.97);
+            background: #1f2937;
+            color: #e6edf3;
+            transform: scale(0.98);
+        }
+
+        /* Список выбора валюты */
+        .currency-list {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            margin-bottom: 16px;
+        }
+        .currency-btn {
+            padding: 14px 16px;
+            border-radius: 10px;
+            border: 1px solid #21262d;
+            background: #0d1117;
+            color: #e6edf3;
+            font-size: 14px;
+            font-weight: 500;
+            cursor: pointer;
+            text-align: left;
+            transition: all 0.15s;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+        .currency-btn:active {
+            background: #1f2937;
+            border-color: #2f81f7;
+        }
+        .currency-btn .currency-rate {
+            font-size: 12px;
+            color: #7d8590;
+            font-weight: 400;
         }
     </style>
 </head>
@@ -394,36 +451,57 @@
     </div>
 
     <div class="top-buttons">
-        <button class="top-btn" onclick="openBot('profile')">👤 Профиль</button>
-        <button class="top-btn" onclick="openBot('my_orders')">🛒 Мои заказы</button>
+        <button class="top-btn" onclick="openBot('profile')">
+            <svg class="top-btn-icon" viewBox="0 0 16 16" fill="currentColor"><path d="M8 8a3 3 0 1 0 0-6 3 3 0 0 0 0 6Zm2-3a2 2 0 1 1-4 0 2 2 0 0 1 4 0Zm4 8c0 1-1 1-1 1H3s-1 0-1-1 1-4 6-4 6 3 6 4Zm-1-.004c-.001-.246-.154-.986-.832-1.664C11.516 10.68 10.289 10 8 10c-2.29 0-3.516.68-4.168 1.332-.678.678-.83 1.418-.832 1.664h10Z"/></svg>
+            Профиль
+        </button>
+        <button class="top-btn" onclick="openBot('my_orders')">
+            <svg class="top-btn-icon" viewBox="0 0 16 16" fill="currentColor"><path d="M0 1.5A.5.5 0 0 1 .5 1H2a.5.5 0 0 1 .485.379L2.89 3H14.5a.5.5 0 0 1 .49.598l-1 5a.5.5 0 0 1-.465.401l-9.397.472L4.415 11H13a.5.5 0 0 1 0 1H4a.5.5 0 0 1-.491-.408L2.01 3.607 1.61 2H.5a.5.5 0 0 1-.5-.5zM3.102 4l.84 4.479 9.144-.459L13.89 4H3.102zM5 12a2 2 0 1 0 0 4 2 2 0 0 0 0-4zm7 0a2 2 0 1 0 0 4 2 2 0 0 0 0-4zm-7 1a1 1 0 1 1 0 2 1 1 0 0 1 0-2zm7 0a1 1 0 1 1 0 2 1 1 0 0 1 0-2z"/></svg>
+            Заказы
+        </button>
     </div>
 
     <div class="section-title">Категории</div>
     <div class="grid">
-        <div class="card" onclick="openCategory('cat_stars', '⭐ Telegram Stars', 'звёзд', 1.45)">
-            <span class="emoji">⭐</span>
+        <div class="card" onclick="openCategory('cat_stars', 'Telegram Stars', 'звёзд', 1.45)">
+            <div class="card-top">
+                <div class="card-icon">TS</div>
+                <div class="card-badge">100+</div>
+            </div>
             <div class="name">Telegram Stars</div>
-            <div class="desc">от 100 шт</div>
+            <div class="desc">Цифровые звёзды</div>
         </div>
-        <div class="card" onclick="openCategory('cat_robux', '🎮 Robux', 'Robux', 1.1)">
-            <span class="emoji">🎮</span>
+        <div class="card" onclick="openCategory('cat_robux', 'Robux', 'Robux', 1.1)">
+            <div class="card-top">
+                <div class="card-icon">RB</div>
+                <div class="card-badge">100+</div>
+            </div>
             <div class="name">Robux</div>
-            <div class="desc">от 100 шт</div>
+            <div class="desc">Игровая валюта</div>
         </div>
         <div class="card" onclick="openSteam()">
-            <span class="emoji">💨</span>
+            <div class="card-top">
+                <div class="card-icon">ST</div>
+                <div class="card-badge">4 валюты</div>
+            </div>
             <div class="name">Steam Balance</div>
-            <div class="desc">RUB, UAH, USD, EUR</div>
+            <div class="desc">RUB · UAH · USD · EUR</div>
         </div>
-        <div class="card" onclick="openCategory('cat_standoff', '🔫 Standoff 2 Gold', 'голды', 0.5)">
-            <span class="emoji">🔫</span>
+        <div class="card" onclick="openCategory('cat_standoff', 'Standoff 2 Gold', 'голды', 0.5)">
+            <div class="card-top">
+                <div class="card-icon">S2</div>
+                <div class="card-badge">100+</div>
+            </div>
             <div class="name">Standoff 2 Gold</div>
-            <div class="desc">от 100 шт</div>
+            <div class="desc">Игровая валюта</div>
         </div>
-        <div class="card center" onclick="openCategory('cat_brawl', '💎 Brawl Stars Gems', 'гемов', 1.2)">
-            <span class="emoji">💎</span>
+        <div class="card center" onclick="openCategory('cat_brawl', 'Brawl Stars Gems', 'гемов', 1.2)">
+            <div class="card-top">
+                <div class="card-icon">BS</div>
+                <div class="card-badge">100+</div>
+            </div>
             <div class="name">Brawl Stars Gems</div>
-            <div class="desc">от 100 шт</div>
+            <div class="desc">Игровая валюта</div>
         </div>
     </div>
 
@@ -450,15 +528,27 @@
     <!-- Окно выбора валюты Steam -->
     <div class="modal-overlay" id="steam-modal">
         <div class="modal">
-            <h3>💨 Steam Balance</h3>
-            <p>Выбери валюту:</p>
-            <div style="display: flex; flex-direction: column; gap: 10px;">
-                <button class="modal-btn confirm" onclick="chooseSteamCurrency('rub', '🇷🇺 Рубли', '₽', 1.05)">🇷🇺 Рубли</button>
-                <button class="modal-btn confirm" onclick="chooseSteamCurrency('uah', '🇺🇦 Гривны', '₴', 1.89)">🇺🇦 Гривны</button>
-                <button class="modal-btn confirm" onclick="chooseSteamCurrency('usd', '🇺🇸 Доллары', '$', 84.17)">🇺🇸 Доллары</button>
-                <button class="modal-btn confirm" onclick="chooseSteamCurrency('eur', '🇪🇺 Евро', '€', 97.13)">🇪🇺 Евро</button>
+            <h3>Steam Balance</h3>
+            <p>Выберите валюту пополнения</p>
+            <div class="currency-list">
+                <button class="currency-btn" onclick="chooseSteamCurrency('rub', 'Рубли', '₽', 1.05)">
+                    <span>Рубли</span>
+                    <span class="currency-rate">1,05 ₽</span>
+                </button>
+                <button class="currency-btn" onclick="chooseSteamCurrency('uah', 'Гривны', '₴', 1.89)">
+                    <span>Гривны</span>
+                    <span class="currency-rate">1,89 ₽</span>
+                </button>
+                <button class="currency-btn" onclick="chooseSteamCurrency('usd', 'Доллары', '$', 84.17)">
+                    <span>Доллары</span>
+                    <span class="currency-rate">84,17 ₽</span>
+                </button>
+                <button class="currency-btn" onclick="chooseSteamCurrency('eur', 'Евро', '€', 97.13)">
+                    <span>Евро</span>
+                    <span class="currency-rate">97,13 ₽</span>
+                </button>
             </div>
-            <div class="modal-buttons" style="margin-top: 16px;">
+            <div class="modal-buttons">
                 <button class="modal-btn cancel" onclick="closeSteamModal()">Назад</button>
             </div>
         </div>
@@ -467,7 +557,7 @@
     <!-- Окно со списком заказов -->
     <div class="modal-overlay" id="orders-modal">
         <div class="modal">
-            <h3>🛒 Мои заказы</h3>
+            <h3>Мои заказы</h3>
             <div id="orders-list"></div>
             <div class="modal-buttons" style="margin-top: 16px;">
                 <button class="modal-btn cancel" onclick="closeOrdersModal()">Закрыть</button>
@@ -533,7 +623,7 @@
             closeSteamModal();
             currentCategory = "cat_steam";
             currentRate = rate;
-            document.getElementById('modal-title').textContent = `💨 Steam Balance (${name})`;
+            document.getElementById('modal-title').textContent = `Steam Balance · ${name}`;
             document.getElementById('modal-desc').textContent = `Введите количество (${symbol}):`;
             document.getElementById('modal-input').value = '';
             document.getElementById('price-value').textContent = '0 ₽';
@@ -557,7 +647,7 @@
         function confirmModal() {
             const quantity = parseInt(document.getElementById('modal-input').value);
             if (!quantity || quantity <= 0) {
-                showToast("❌ Введите число");
+                showToast("Введите число");
                 return;
             }
             const cat = currentCategory;
@@ -576,12 +666,12 @@
             .then(r => r.json())
             .then(data => {
                 if (data.error) {
-                    showToast("❌ " + data.error);
+                    showToast(data.error);
                 } else {
-                    showToast(`✅ Заказ #${data.order_id} принят! Сумма: ${data.price_text} ₽`);
+                    showToast(`Заказ #${data.order_id} принят · ${data.price_text} ₽`);
                 }
             })
-            .catch(() => showToast("❌ Ошибка сервера"));
+            .catch(() => showToast("Ошибка сервера"));
         }
 
         function openBot(action) {
@@ -589,9 +679,9 @@
                 fetch(`${API_URL}/api/profile/${user.id}`)
                 .then(r => r.json())
                 .then(data => {
-                    showToast(`👤 Заказов: ${data.orders_count}, потрачено: ${data.total_spent_text} ₽`);
+                    showToast(`Заказов: ${data.orders_count} · Потрачено: ${data.total_spent_text} ₽`);
                 })
-                .catch(() => showToast("❌ Ошибка сервера"));
+                .catch(() => showToast("Ошибка сервера"));
             } else if (action === "my_orders") {
                 loadOrders();
             }
@@ -603,14 +693,14 @@
             .then(orders => {
                 const list = document.getElementById('orders-list');
                 if (orders.length === 0) {
-                    list.innerHTML = '<p style="opacity: 0.6;">У тебя пока нет заказов.</p>';
+                    list.innerHTML = '<p style="opacity: 0.6; font-size: 13px;">У вас пока нет заказов.</p>';
                 } else {
                     list.innerHTML = orders.map(o => {
                         let statusText = '';
                         let statusClass = '';
-                        if (o.status === 'pending') { statusText = '⏳ В обработке'; statusClass = 'pending'; }
-                        else if (o.status === 'completed') { statusText = '✅ Выполнен'; statusClass = 'completed'; }
-                        else { statusText = '❌ Отменён'; statusClass = 'cancelled'; }
+                        if (o.status === 'pending') { statusText = 'В обработке'; statusClass = 'pending'; }
+                        else if (o.status === 'completed') { statusText = 'Выполнен'; statusClass = 'completed'; }
+                        else { statusText = 'Отменён'; statusClass = 'cancelled'; }
 
                         let buttons = '';
                         if (o.status === 'pending') {
@@ -619,16 +709,16 @@
                             </div>`;
                         } else if (o.status === 'cancelled') {
                             buttons = `<div class="order-buttons">
-                                <button class="order-delete-btn" onclick="deleteOrder(${o.id})">🗑 Удалить</button>
+                                <button class="order-delete-btn" onclick="deleteOrder(${o.id})">Удалить</button>
                             </div>`;
                         }
 
                         return `
                             <div class="order-item">
                                 <div class="order-title">Заказ #${o.id}</div>
-                                <div class="order-info">${o.category_name}</div>
+                                <div class="order-info"><strong>${o.category_name}</strong></div>
                                 <div class="order-info">${o.quantity} ${o.unit}</div>
-                                <div class="order-info">💰 ${o.price_text} ₽</div>
+                                <div class="order-info">Сумма: <strong>${o.price_text} ₽</strong></div>
                                 <div class="order-status ${statusClass}">${statusText}</div>
                                 ${buttons}
                             </div>
@@ -637,7 +727,7 @@
                 }
                 document.getElementById('orders-modal').classList.add('show');
             })
-            .catch(() => showToast("❌ Ошибка сервера"));
+            .catch(() => showToast("Ошибка сервера"));
         }
 
         function closeOrdersModal() {
@@ -647,7 +737,7 @@
         function openCancelModal(orderId, catName, qty, unit, price) {
             cancelOrderId = orderId;
             document.getElementById('cancel-info').innerHTML = 
-                `Заказ #${orderId}<br>${catName}<br>${qty} ${unit}<br>💰 ${price} ₽`;
+                `Заказ #${orderId}<br>${catName}<br>${qty} ${unit}<br>Сумма: ${price} ₽`;
             document.getElementById('cancel-modal').classList.add('show');
         }
 
@@ -669,13 +759,13 @@
             .then(r => r.json())
             .then(data => {
                 if (data.error) {
-                    showToast("❌ " + data.error);
+                    showToast(data.error);
                 } else {
-                    showToast("✅ Заказ отменён");
+                    showToast("Заказ отменён");
                     loadOrders();
                 }
             })
-            .catch(() => showToast("❌ Ошибка сервера"));
+            .catch(() => showToast("Ошибка сервера"));
         }
 
         function deleteOrder(orderId) {
@@ -687,13 +777,13 @@
             .then(r => r.json())
             .then(data => {
                 if (data.error) {
-                    showToast("❌ " + data.error);
+                    showToast(data.error);
                 } else {
-                    showToast("✅ Заказ удалён");
+                    showToast("Заказ удалён");
                     loadOrders();
                 }
             })
-            .catch(() => showToast("❌ Ошибка сервера"));
+            .catch(() => showToast("Ошибка сервера"));
         }
     </script>
 </body>
