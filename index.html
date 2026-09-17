@@ -23,10 +23,7 @@
         .header h1 { font-size: 24px; margin-bottom: 4px; }
         .header p { font-size: 14px; opacity: 0.8; }
 
-        /* Кнопки профиля и заказов — СВЕРХУ, под шапкой */
-        .top-buttons {
-            display: flex; gap: 10px; margin-bottom: 16px;
-        }
+        .top-buttons { display: flex; gap: 10px; margin-bottom: 16px; }
         .top-btn {
             flex: 1; background: var(--tg-theme-secondary-bg-color, #232e3c);
             border: none; color: var(--tg-theme-text-color, #ffffff);
@@ -65,7 +62,6 @@
         }
         .toast.show { opacity: 1; }
 
-        /* Своё модальное окно */
         .modal-overlay {
             position: fixed; top: 0; left: 0; right: 0; bottom: 0;
             background: rgba(0,0,0,0.7); display: none;
@@ -84,9 +80,20 @@
             border: 1px solid rgba(255,255,255,0.15);
             background: var(--tg-theme-bg-color, #17212b);
             color: var(--tg-theme-text-color, #ffffff);
-            font-size: 16px; margin-bottom: 16px; outline: none;
+            font-size: 16px; outline: none;
         }
         .modal input:focus { border-color: #2b5278; }
+
+        /* Блок с ценой */
+        .price-box {
+            margin-top: 12px; margin-bottom: 16px;
+            padding: 12px; border-radius: 10px;
+            background: var(--tg-theme-bg-color, #17212b);
+            text-align: center;
+        }
+        .price-label { font-size: 12px; opacity: 0.6; margin-bottom: 4px; }
+        .price-value { font-size: 20px; font-weight: 700; color: #6ab3f3; }
+
         .modal-buttons { display: flex; gap: 10px; }
         .modal-btn {
             flex: 1; padding: 12px; border-radius: 10px; border: none;
@@ -105,39 +112,34 @@
         <p>Игровая валюта и подписки</p>
     </div>
 
-    <!-- Кнопки СВЕРХУ -->
     <div class="top-buttons">
-        <button class="top-btn" onclick="openBot('profile')">
-            👤 Профиль
-        </button>
-        <button class="top-btn" onclick="openBot('my_orders')">
-            🛒 Мои заказы
-        </button>
+        <button class="top-btn" onclick="openBot('profile')">👤 Профиль</button>
+        <button class="top-btn" onclick="openBot('my_orders')">🛒 Мои заказы</button>
     </div>
 
     <div class="section-title">Категории</div>
     <div class="grid">
-        <div class="card" onclick="openCategory('cat_stars', '⭐ Telegram Stars', 'звёзд')">
+        <div class="card" onclick="openCategory('cat_stars', '⭐ Telegram Stars', 'звёзд', 1.45)">
             <span class="emoji">⭐</span>
             <div class="name">Telegram Stars</div>
             <div class="desc">от 100 шт</div>
         </div>
-        <div class="card" onclick="openCategory('cat_robux', '🎮 Robux', 'Robux')">
+        <div class="card" onclick="openCategory('cat_robux', '🎮 Robux', 'Robux', 1.1)">
             <span class="emoji">🎮</span>
             <div class="name">Robux</div>
             <div class="desc">от 100 шт</div>
         </div>
-        <div class="card" onclick="openCategory('cat_steam', '💨 Steam Balance', 'баланса')">
+        <div class="card" onclick="openCategory('cat_steam', '💨 Steam Balance', 'баланса', 1.05)">
             <span class="emoji">💨</span>
             <div class="name">Steam Balance</div>
             <div class="desc">RUB, UAH, USD, EUR</div>
         </div>
-        <div class="card" onclick="openCategory('cat_standoff', '🔫 Standoff 2 Gold', 'голды')">
+        <div class="card" onclick="openCategory('cat_standoff', '🔫 Standoff 2 Gold', 'голды', 0.5)">
             <span class="emoji">🔫</span>
             <div class="name">Standoff 2 Gold</div>
             <div class="desc">от 100 шт</div>
         </div>
-        <div class="card" onclick="openCategory('cat_brawl', '💎 Brawl Stars Gems', 'гемов')">
+        <div class="card" onclick="openCategory('cat_brawl', '💎 Brawl Stars Gems', 'гемов', 1.2)">
             <span class="emoji">💎</span>
             <div class="name">Brawl Stars Gems</div>
             <div class="desc">от 100 шт</div>
@@ -147,12 +149,17 @@
     <div class="footer">MorvexxShop © 2026</div>
     <div class="toast" id="toast"></div>
 
-    <!-- Модальное окно -->
     <div class="modal-overlay" id="modal">
         <div class="modal">
             <h3 id="modal-title">Введите количество</h3>
             <p id="modal-desc">Сколько хотите купить?</p>
-            <input type="number" id="modal-input" placeholder="Например: 500" inputmode="numeric">
+            <input type="text" id="modal-input" placeholder="Например: 500" inputmode="numeric" oninput="updatePrice()">
+            
+            <div class="price-box">
+                <div class="price-label">Стоимость:</div>
+                <div class="price-value" id="price-value">0 ₽</div>
+            </div>
+
             <div class="modal-buttons">
                 <button class="modal-btn cancel" onclick="closeModal()">Отмена</button>
                 <button class="modal-btn confirm" onclick="confirmModal()">Купить</button>
@@ -162,15 +169,19 @@
 
     <script>
         const tg = window.Telegram?.WebApp;
-        if (tg) {
-            tg.ready();
-            tg.expand();
-        }
+        if (tg) { tg.ready(); tg.expand(); }
 
         const API_URL = "https://morvexx-api.onrender.com";
         const user = tg?.initDataUnsafe?.user || {};
 
         let currentCategory = null;
+        let currentRate = 0;
+
+        function formatNumber(n) {
+            const parts = n.toFixed(2).split('.');
+            parts[0] = parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, '.');
+            return parts.join(',');
+        }
 
         function showToast(text) {
             const toast = document.getElementById('toast');
@@ -179,18 +190,28 @@
             setTimeout(() => toast.classList.remove('show'), 3000);
         }
 
-        function openCategory(catCode, catName, unit) {
+        function openCategory(catCode, catName, unit, rate) {
             currentCategory = catCode;
+            currentRate = rate;
             document.getElementById('modal-title').textContent = catName;
             document.getElementById('modal-desc').textContent = `Введите количество (${unit}):`;
             document.getElementById('modal-input').value = '';
+            document.getElementById('price-value').textContent = '0 ₽';
             document.getElementById('modal').classList.add('show');
             setTimeout(() => document.getElementById('modal-input').focus(), 100);
+        }
+
+        function updatePrice() {
+            const input = document.getElementById('modal-input').value;
+            const quantity = parseInt(input) || 0;
+            const price = quantity * currentRate;
+            document.getElementById('price-value').textContent = formatNumber(price) + ' ₽';
         }
 
         function closeModal() {
             document.getElementById('modal').classList.remove('show');
             currentCategory = null;
+            currentRate = 0;
         }
 
         function confirmModal() {
