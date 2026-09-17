@@ -101,12 +101,18 @@
         .order-status.pending { color: #f3b76a; }
         .order-status.completed { color: #6af38a; }
         .order-status.cancelled { color: #f36a6a; }
+        .order-buttons { display: flex; gap: 8px; }
         .order-cancel-btn {
-            width: 100%; padding: 10px; border-radius: 8px; border: none;
+            flex: 1; padding: 10px; border-radius: 8px; border: none;
             background: #5a2b2b; color: #ff9a9a; font-size: 14px;
             cursor: pointer; font-weight: 600;
         }
-        .order-cancel-btn:active { background: #7a2b2b; }
+        .order-delete-btn {
+            flex: 1; padding: 10px; border-radius: 8px; border: none;
+            background: #3a3a3a; color: #cccccc; font-size: 14px;
+            cursor: pointer; font-weight: 600;
+        }
+        .order-delete-btn:active { background: #4a4a4a; }
     </style>
 </head>
 <body>
@@ -209,6 +215,18 @@
         </div>
     </div>
 
+    <!-- Окно подтверждения удаления -->
+    <div class="modal-overlay" id="delete-modal">
+        <div class="modal">
+            <h3>Удалить заказ?</h3>
+            <p id="delete-info">Вы уверены?</p>
+            <div class="modal-buttons">
+                <button class="modal-btn cancel" onclick="closeDeleteModal()">Назад</button>
+                <button class="modal-btn danger" onclick="confirmDelete()">Удалить</button>
+            </div>
+        </div>
+    </div>
+
     <script>
         const tg = window.Telegram?.WebApp;
         if (tg) { tg.ready(); tg.expand(); }
@@ -219,6 +237,7 @@
         let currentCategory = null;
         let currentRate = 0;
         let cancelOrderId = null;
+        let deleteOrderId = null;
 
         function formatNumber(n) {
             const parts = n.toFixed(2).split('.');
@@ -334,9 +353,15 @@
                         else if (o.status === 'completed') { statusText = '✅ Выполнен'; statusClass = 'completed'; }
                         else { statusText = '❌ Отменён'; statusClass = 'cancelled'; }
 
-                        let cancelBtn = '';
+                        let buttons = '';
                         if (o.status === 'pending') {
-                            cancelBtn = `<button class="order-cancel-btn" onclick="openCancelModal(${o.id}, '${o.category_name}', ${o.quantity}, '${o.unit}', '${o.price_text}')">Отменить заказ</button>`;
+                            buttons = `<div class="order-buttons">
+                                <button class="order-cancel-btn" onclick="openCancelModal(${o.id}, '${o.category_name}', ${o.quantity}, '${o.unit}', '${o.price_text}')">Отменить</button>
+                            </div>`;
+                        } else if (o.status === 'cancelled') {
+                            buttons = `<div class="order-buttons">
+                                <button class="order-delete-btn" onclick="openDeleteModal(${o.id}, '${o.category_name}', ${o.quantity}, '${o.unit}', '${o.price_text}')">🗑 Удалить</button>
+                            </div>`;
                         }
 
                         return `
@@ -346,7 +371,7 @@
                                 <div class="order-info">${o.quantity} ${o.unit}</div>
                                 <div class="order-info">💰 ${o.price_text} ₽</div>
                                 <div class="order-status ${statusClass}">${statusText}</div>
-                                ${cancelBtn}
+                                ${buttons}
                             </div>
                         `;
                     }).join('');
@@ -360,7 +385,6 @@
             document.getElementById('orders-modal').classList.remove('show');
         }
 
-        // Окно подтверждения отмены
         function openCancelModal(orderId, catName, qty, unit, price) {
             cancelOrderId = orderId;
             document.getElementById('cancel-info').innerHTML = 
@@ -389,6 +413,40 @@
                     showToast("❌ " + data.error);
                 } else {
                     showToast("✅ Заказ отменён");
+                    loadOrders();
+                }
+            })
+            .catch(() => showToast("❌ Ошибка сервера"));
+        }
+
+        function openDeleteModal(orderId, catName, qty, unit, price) {
+            deleteOrderId = orderId;
+            document.getElementById('delete-info').innerHTML = 
+                `Заказ #${orderId}<br>${catName}<br>${qty} ${unit}<br>💰 ${price} ₽`;
+            document.getElementById('delete-modal').classList.add('show');
+        }
+
+        function closeDeleteModal() {
+            document.getElementById('delete-modal').classList.remove('show');
+            deleteOrderId = null;
+        }
+
+        function confirmDelete() {
+            if (!deleteOrderId) return;
+            const orderId = deleteOrderId;
+            closeDeleteModal();
+
+            fetch(`${API_URL}/api/orders/${orderId}/delete`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ user_id: user.id })
+            })
+            .then(r => r.json())
+            .then(data => {
+                if (data.error) {
+                    showToast("❌ " + data.error);
+                } else {
+                    showToast("✅ Заказ удалён");
                     loadOrders();
                 }
             })
