@@ -123,7 +123,7 @@
             height: 200%;
             background: linear-gradient(90deg, transparent 0%, rgba(255, 255, 255, 0.6) 50%, transparent 100%);
             transform: skewX(-25deg);
-            transition: left 0.6s ease;
+            transition: none;
             pointer-events: none;
         }
         .top-btn:hover {
@@ -132,18 +132,12 @@
             transform: translateY(-2px);
             box-shadow: 0 6px 16px rgba(43, 82, 120, 0.5);
         }
-        .top-btn:hover::after { left: 150%; }
+        .top-btn:hover::after {
+            left: 150%;
+            transition: left 0.6s ease;
+        }
         .top-btn:active {
             transform: scale(0.97);
-            background: #1e3a5f;
-        }
-        .top-btn:active::after {
-            left: -120%;
-            transition: none;
-        }
-        .top-btn:active::after {
-            left: 150%;
-            transition: left 0.5s ease;
         }
 
         .section-title {
@@ -171,6 +165,7 @@
             position: relative;
             overflow: hidden;
             box-shadow: 0 6px 18px rgba(43, 82, 120, 0.35);
+            z-index: 1;
         }
         .card::before {
             content: '';
@@ -180,6 +175,7 @@
             background: radial-gradient(circle, rgba(255,255,255,0.12) 0%, transparent 70%);
             animation: shimmer 6s infinite linear;
             z-index: 0;
+            pointer-events: none;
         }
         .card::after {
             content: '';
@@ -190,29 +186,21 @@
             height: 200%;
             background: linear-gradient(90deg, transparent 0%, rgba(255, 255, 255, 0.7) 50%, transparent 100%);
             transform: skewX(-25deg);
-            transition: left 0.7s ease;
+            transition: none;
             pointer-events: none;
             z-index: 2;
         }
-        /* Наведение */
         .card:hover {
             transform: translateY(-4px) scale(1.02);
             box-shadow: 0 12px 28px rgba(43, 82, 120, 0.6);
             border-color: rgba(106, 179, 243, 0.4);
         }
-        .card:hover::after { left: 150%; }
-        /* Нажатие */
-        .card:active {
-            transform: scale(0.96) translateY(0);
-            box-shadow: 0 4px 12px rgba(43, 82, 120, 0.7);
-        }
-        .card:active::after {
-            left: -120%;
-            transition: none;
-        }
-        .card:active::after {
+        .card:hover::after {
             left: 150%;
-            transition: left 0.5s ease;
+            transition: left 0.7s ease;
+        }
+        .card:active {
+            transform: scale(0.96);
         }
         .card .icon {
             width: 44px;
@@ -222,7 +210,8 @@
             color: #ffffff;
             filter: drop-shadow(0 2px 6px rgba(0,0,0,0.4));
             position: relative;
-            z-index: 1;
+            z-index: 3;
+            pointer-events: none;
         }
         .card .icon svg {
             width: 100%;
@@ -242,14 +231,16 @@
             margin-bottom: 4px;
             letter-spacing: 0.2px;
             position: relative;
-            z-index: 1;
+            z-index: 3;
+            pointer-events: none;
         }
         .card .desc {
             font-size: 11px;
             opacity: 0.7;
             font-weight: 500;
             position: relative;
-            z-index: 1;
+            z-index: 3;
+            pointer-events: none;
         }
 
         .card.center {
@@ -412,24 +403,19 @@
             height: 200%;
             background: linear-gradient(90deg, transparent 0%, rgba(255, 255, 255, 0.5) 50%, transparent 100%);
             transform: skewX(-25deg);
-            transition: left 0.6s ease;
+            transition: none;
             pointer-events: none;
         }
         .modal-btn:hover {
             transform: translateY(-2px);
             box-shadow: 0 6px 16px rgba(0,0,0,0.3);
         }
-        .modal-btn:hover::after { left: 150%; }
+        .modal-btn:hover::after {
+            left: 150%;
+            transition: left 0.6s ease;
+        }
         .modal-btn:active {
             transform: scale(0.97);
-        }
-        .modal-btn:active::after {
-            left: -120%;
-            transition: none;
-        }
-        .modal-btn:active::after {
-            left: 150%;
-            transition: left 0.5s ease;
         }
         .modal-btn.cancel {
             background: rgba(255,255,255,0.08);
@@ -506,23 +492,18 @@
             height: 200%;
             background: linear-gradient(90deg, transparent 0%, rgba(255, 255, 255, 0.5) 50%, transparent 100%);
             transform: skewX(-25deg);
-            transition: left 0.6s ease;
+            transition: none;
             pointer-events: none;
         }
         .order-cancel-btn:hover {
             transform: translateY(-2px);
             box-shadow: 0 6px 16px rgba(122, 43, 43, 0.5);
         }
-        .order-cancel-btn:hover::after { left: 150%; }
-        .order-cancel-btn:active { transform: scale(0.97); }
-        .order-cancel-btn:active::after {
-            left: -120%;
-            transition: none;
-        }
-        .order-cancel-btn:active::after {
+        .order-cancel-btn:hover::after {
             left: 150%;
-            transition: left 0.5s ease;
+            transition: left 0.6s ease;
         }
+        .order-cancel-btn:active { transform: scale(0.97); }
 
         .order-delete-btn {
             flex: 1;
@@ -547,7 +528,7 @@
             height: 200%;
             background: linear-gradient(90deg, transparent 0%, rgba(255, 255, 255, 0.5) 50%, transparent 100%);
             transform: skewX(-25deg);
-            transition: left 0.6s ease;
+            transition: none;
             pointer-events: none;
         }
         .order-delete-btn:hover {
@@ -555,17 +536,12 @@
             transform: translateY(-2px);
             box-shadow: 0 6px 16px rgba(0,0,0,0.3);
         }
-        .order-delete-btn:hover::after { left: 150%; }
+        .order-delete-btn:hover::after {
+            left: 150%;
+            transition: left 0.6s ease;
+        }
         .order-delete-btn:active {
             transform: scale(0.97);
-        }
-        .order-delete-btn:active::after {
-            left: -120%;
-            transition: none;
-        }
-        .order-delete-btn:active::after {
-            left: 150%;
-            transition: left 0.5s ease;
         }
 
         .currency-list {
@@ -600,7 +576,7 @@
             height: 200%;
             background: linear-gradient(90deg, transparent 0%, rgba(255, 255, 255, 0.5) 50%, transparent 100%);
             transform: skewX(-25deg);
-            transition: left 0.6s ease;
+            transition: none;
             pointer-events: none;
         }
         .currency-btn:hover {
@@ -609,17 +585,12 @@
             transform: translateX(4px);
             box-shadow: 0 6px 16px rgba(43, 82, 120, 0.4);
         }
-        .currency-btn:hover::after { left: 150%; }
+        .currency-btn:hover::after {
+            left: 150%;
+            transition: left 0.6s ease;
+        }
         .currency-btn:active {
             transform: scale(0.98);
-        }
-        .currency-btn:active::after {
-            left: -120%;
-            transition: none;
-        }
-        .currency-btn:active::after {
-            left: 150%;
-            transition: left 0.5s ease;
         }
         .currency-btn .currency-rate {
             font-size: 12px;
@@ -865,15 +836,4 @@
                 if (data.error) {
                     showToast("❌ " + data.error);
                 } else {
-                    showToast(`✅ Заказ #${data.order_id} принят! Сумма: ${data.price_text} ₽`);
-                }
-            })
-            .catch(() => showToast("❌ Ошибка сервера"));
-        }
-
-        function openBot(action) {
-            if (action === "profile") {
-                fetch(`${API_URL}/api/profile/${user.id}`)
-                .then(r => r.json())
-                .then(data => {
-                    showToast(`👤 Заказов: ${data.orders_count}, потрачено: ${data.total
+                    showToast(`✅ Заказ #${data.order_id} принят!
