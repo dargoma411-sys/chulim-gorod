@@ -90,6 +90,7 @@
             color: var(--tg-theme-text-color, #ffffff);
         }
         .modal-btn.confirm { background: #2b5278; color: white; }
+        .modal-btn.danger { background: #7a2b2b; color: #ff9a9a; }
         .order-item {
             background: var(--tg-theme-bg-color, #17212b);
             border-radius: 12px; padding: 14px; margin-bottom: 10px;
@@ -162,7 +163,7 @@
                 <div class="price-value" id="price-value">0 ₽</div>
             </div>
             <div class="modal-buttons">
-                <button class="modal-btn cancel" onclick="closeModal()">Отмена</button>
+                <button class="modal-btn cancel" onclick="closeModal()">Назад</button>
                 <button class="modal-btn confirm" onclick="confirmModal()">Купить</button>
             </div>
         </div>
@@ -180,7 +181,7 @@
                 <button class="modal-btn confirm" onclick="chooseSteamCurrency('eur', '🇪🇺 Евро', '€', 97.13)">🇪🇺 Евро</button>
             </div>
             <div class="modal-buttons" style="margin-top: 16px;">
-                <button class="modal-btn cancel" onclick="closeSteamModal()">Отмена</button>
+                <button class="modal-btn cancel" onclick="closeSteamModal()">Назад</button>
             </div>
         </div>
     </div>
@@ -196,6 +197,18 @@
         </div>
     </div>
 
+    <!-- Окно подтверждения отмены -->
+    <div class="modal-overlay" id="cancel-modal">
+        <div class="modal">
+            <h3>Отменить заказ?</h3>
+            <p id="cancel-info">Вы уверены?</p>
+            <div class="modal-buttons">
+                <button class="modal-btn cancel" onclick="closeCancelModal()">Назад</button>
+                <button class="modal-btn danger" onclick="confirmCancel()">Отменить</button>
+            </div>
+        </div>
+    </div>
+
     <script>
         const tg = window.Telegram?.WebApp;
         if (tg) { tg.ready(); tg.expand(); }
@@ -205,6 +218,7 @@
 
         let currentCategory = null;
         let currentRate = 0;
+        let cancelOrderId = null;
 
         function formatNumber(n) {
             const parts = n.toFixed(2).split('.');
@@ -322,7 +336,7 @@
 
                         let cancelBtn = '';
                         if (o.status === 'pending') {
-                            cancelBtn = `<button class="order-cancel-btn" onclick="cancelOrder(${o.id})">Отменить заказ</button>`;
+                            cancelBtn = `<button class="order-cancel-btn" onclick="openCancelModal(${o.id}, '${o.category_name}', ${o.quantity}, '${o.unit}', '${o.price_text}')">Отменить заказ</button>`;
                         }
 
                         return `
@@ -346,8 +360,23 @@
             document.getElementById('orders-modal').classList.remove('show');
         }
 
-        function cancelOrder(orderId) {
-            if (!confirm("Отменить заказ #" + orderId + "?")) return;
+        // Окно подтверждения отмены
+        function openCancelModal(orderId, catName, qty, unit, price) {
+            cancelOrderId = orderId;
+            document.getElementById('cancel-info').innerHTML = 
+                `Заказ #${orderId}<br>${catName}<br>${qty} ${unit}<br>💰 ${price} ₽`;
+            document.getElementById('cancel-modal').classList.add('show');
+        }
+
+        function closeCancelModal() {
+            document.getElementById('cancel-modal').classList.remove('show');
+            cancelOrderId = null;
+        }
+
+        function confirmCancel() {
+            if (!cancelOrderId) return;
+            const orderId = cancelOrderId;
+            closeCancelModal();
 
             fetch(`${API_URL}/api/orders/${orderId}/cancel`, {
                 method: 'POST',
