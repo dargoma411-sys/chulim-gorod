@@ -34,15 +34,16 @@
             position: absolute;
             color: #ffffff;
             font-size: 10px;
-            opacity: 0.4;
+            opacity: 0.6;
             user-select: none;
             animation: snowfall linear infinite;
             top: -10%;
+            text-shadow: 0 0 5px rgba(255,255,255,0.5);
         }
         @keyframes snowfall {
             0% { transform: translateY(-10%) translateX(0) rotate(0deg); opacity: 0; }
-            10% { opacity: 0.5; }
-            90% { opacity: 0.5; }
+            10% { opacity: 0.8; }
+            90% { opacity: 0.8; }
             100% { transform: translateY(110vh) translateX(20px) rotate(360deg); opacity: 0; }
         }
 
@@ -665,6 +666,7 @@
 
     <div class="toast" id="toast"></div>
 
+    <!-- Окно ввода количества -->
     <div class="modal-overlay" id="modal">
         <div class="modal">
             <h3 id="modal-title">Введите количество</h3>
@@ -681,6 +683,7 @@
         </div>
     </div>
 
+    <!-- Окно выбора валюты Steam -->
     <div class="modal-overlay" id="steam-modal">
         <div class="modal">
             <h3>Steam Balance</h3>
@@ -709,6 +712,7 @@
         </div>
     </div>
 
+    <!-- Окно со списком заказов -->
     <div class="modal-overlay" id="orders-modal">
         <div class="modal">
             <h3>Мои заказы</h3>
@@ -719,6 +723,7 @@
         </div>
     </div>
 
+    <!-- Окно подтверждения отмены -->
     <div class="modal-overlay" id="cancel-modal">
         <div class="modal">
             <h3>Отменить заказ?</h3>
@@ -731,30 +736,43 @@
     </div>
 
     <script>
+        // Инициализация Telegram WebApp
         const tg = window.Telegram?.WebApp;
-        if (tg) { tg.ready(); tg.expand(); }
+        if (tg) {
+            tg.ready();
+            tg.expand();
+        }
 
         const API_URL = "https://morvexx-api.onrender.com";
-        const user = tg?.initDataUnsafe?.user || {};
+        const user = tg?.initDataUnsafe?.user || { id: null, username: null };
 
         let currentCategory = null;
         let currentRate = 0;
         let cancelOrderId = null;
 
+        // Проверка инициализации
+        function checkUser() {
+            if (!user.id) {
+                showToast("⚠️ Telegram не инициализирован. Откройте бота в Telegram.");
+                return false;
+            }
+            return true;
+        }
+
+        // Создание снежинок
         function createSnow() {
             const container = document.getElementById('snow');
             const snowChars = ['❄', '❅', '❆', '•', '*'];
-            const count = 30;
-
+            const count = 40;
             for (let i = 0; i < count; i++) {
                 const flake = document.createElement('div');
                 flake.className = 'snowflake';
                 flake.textContent = snowChars[Math.floor(Math.random() * snowChars.length)];
                 flake.style.left = Math.random() * 100 + '%';
-                flake.style.fontSize = (Math.random() * 8 + 6) + 'px';
+                flake.style.fontSize = (Math.random() * 12 + 8) + 'px';
                 flake.style.animationDuration = (Math.random() * 10 + 8) + 's';
                 flake.style.animationDelay = (Math.random() * 8) + 's';
-                flake.style.opacity = (Math.random() * 0.3 + 0.15);
+                flake.style.opacity = (Math.random() * 0.5 + 0.3);
                 container.appendChild(flake);
             }
         }
@@ -774,6 +792,7 @@
         }
 
         function openCategory(catCode, catName, unit, rate) {
+            if (!checkUser()) return;
             currentCategory = catCode;
             currentRate = rate;
             document.getElementById('modal-title').textContent = catName;
@@ -785,6 +804,7 @@
         }
 
         function openSteam() {
+            if (!checkUser()) return;
             document.getElementById('steam-modal').classList.add('show');
         }
         function closeSteamModal() {
@@ -817,6 +837,8 @@
         }
 
         function confirmModal() {
+            if (!checkUser()) return;
+            
             const quantity = parseInt(document.getElementById('modal-input').value);
             if (!quantity || quantity <= 0) {
                 showToast("❌ Введите число");
@@ -843,17 +865,29 @@
                     showToast(`✅ Заказ #${data.order_id} принят! Сумма: ${data.price_text} ₽`);
                 }
             })
-            .catch(() => showToast("❌ Ошибка сервера"));
+            .catch(err => {
+                console.error(err);
+                showToast("❌ Ошибка сервера");
+            });
         }
 
         function openBot(action) {
+            if (!checkUser()) return;
+            
             if (action === "profile") {
                 fetch(`${API_URL}/api/profile/${user.id}`)
                 .then(r => r.json())
                 .then(data => {
-                    showToast(`👤 Заказов: ${data.orders_count}, потрачено: ${data.total_spent_text} ₽`);
+                    if (data.error) {
+                        showToast("❌ " + data.error);
+                    } else {
+                        showToast(`👤 Заказов: ${data.orders_count}, потрачено: ${data.total_spent_text} ₽`);
+                    }
                 })
-                .catch(() => showToast("❌ Ошибка сервера"));
+                .catch(err => {
+                    console.error(err);
+                    showToast("❌ Ошибка сервера");
+                });
             } else if (action === "my_orders") {
                 loadOrders();
             }
@@ -862,4 +896,133 @@
         function loadOrders() {
             fetch(`${API_URL}/api/orders/${user.id}`)
             .then(r => r.json())
-           
+            .then(orders => {
+                const list = document.getElementById('orders-list');
+                
+                if (!Array.isArray(orders)) {
+                    list.innerHTML = '<p style="opacity: 0.6;">Ошибка загрузки заказов.</p>';
+                    document.getElementById('orders-modal').classList.add('show');
+                    return;
+                }
+                
+                if (orders.length === 0) {
+                    list.innerHTML = '<p style="opacity: 0.6;">У тебя пока нет заказов.</p>';
+                } else {
+                    list.innerHTML = orders.map(o => {
+                        let statusText = '';
+                        let statusClass = '';
+                        if (o.status === 'pending') { 
+                            statusText = '⏳ В обработке'; 
+                            statusClass = 'pending'; 
+                        } else if (o.status === 'completed') { 
+                            statusText = '✅ Выполнен'; 
+                            statusClass = 'completed'; 
+                        } else { 
+                            statusText = '❌ Отменён'; 
+                            statusClass = 'cancelled'; 
+                        }
+
+                        let buttons = '';
+                        if (o.status === 'pending') {
+                            buttons = `<div class="order-buttons">
+                                <button class="order-cancel-btn" onclick="openCancelModal(${o.id}, '${(o.category_name || '').replace(/'/g, "\\'")}', ${o.quantity}, '${(o.unit || '').replace(/'/g, "\\'")}', '${(o.price_text || '').replace(/'/g, "\\'")}')">Отменить</button>
+                            </div>`;
+                        } else if (o.status === 'cancelled') {
+                            buttons = `<div class="order-buttons">
+                                <button class="order-delete-btn" onclick="deleteOrder(${o.id})">🗑 Удалить</button>
+                            </div>`;
+                        }
+
+                        return `
+                            <div class="order-item">
+                                <div class="order-title">Заказ #${o.id}</div>
+                                <div class="order-info">${o.category_name || 'Неизвестно'}</div>
+                                <div class="order-info">${o.quantity} ${o.unit || ''}</div>
+                                <div class="order-info">💰 ${o.price_text || '?'} ₽</div>
+                                <div class="order-status ${statusClass}">${statusText}</div>
+                                ${buttons}
+                            </div>
+                        `;
+                    }).join('');
+                }
+                document.getElementById('orders-modal').classList.add('show');
+            })
+            .catch(err => {
+                console.error(err);
+                showToast("❌ Ошибка сервера");
+            });
+        }
+
+        function closeOrdersModal() {
+            document.getElementById('orders-modal').classList.remove('show');
+        }
+
+        function openCancelModal(orderId, catName, qty, unit, price) {
+            cancelOrderId = orderId;
+            document.getElementById('cancel-info').innerHTML =
+                `Заказ #${orderId}<br>${catName}<br>${qty} ${unit}<br>💰 ${price} ₽`;
+            document.getElementById('cancel-modal').classList.add('show');
+        }
+
+        function closeCancelModal() {
+            document.getElementById('cancel-modal').classList.remove('show');
+            cancelOrderId = null;
+        }
+
+        function confirmCancel() {
+            if (!cancelOrderId) return;
+            const orderId = cancelOrderId;
+            closeCancelModal();
+
+            fetch(`${API_URL}/api/orders/${orderId}/cancel`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ user_id: user.id })
+            })
+            .then(r => r.json())
+            .then(data => {
+                if (data.error) {
+                    showToast("❌ " + data.error);
+                } else {
+                    showToast("✅ Заказ отменён");
+                    loadOrders();
+                }
+            })
+            .catch(err => {
+                console.error(err);
+                showToast("❌ Ошибка сервера");
+            });
+        }
+
+        function deleteOrder(orderId) {
+            fetch(`${API_URL}/api/orders/${orderId}/delete`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ user_id: user.id })
+            })
+            .then(r => r.json())
+            .then(data => {
+                if (data.error) {
+                    showToast("❌ " + data.error);
+                } else {
+                    showToast("✅ Заказ удалён");
+                    loadOrders();
+                }
+            })
+            .catch(err => {
+                console.error(err);
+                showToast("❌ Ошибка сервера");
+            });
+        }
+
+        // Закрытие модалок по клику на фон
+        document.querySelectorAll('.modal-overlay').forEach(overlay => {
+            overlay.addEventListener('click', (e) => {
+                if (e.target === overlay) {
+                    overlay.classList.remove('show');
+                }
+            });
+        });
+    </script>
+</body>
+</html>
