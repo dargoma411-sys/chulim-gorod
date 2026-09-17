@@ -109,13 +109,41 @@
             align-items: center;
             justify-content: center;
             gap: 8px;
-            transition: all 0.2s;
+            transition: all 0.3s ease;
             box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+            position: relative;
+            overflow: hidden;
         }
-        .top-btn:active {
+        .top-btn::after {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -120%;
+            width: 80%;
+            height: 200%;
+            background: linear-gradient(90deg, transparent 0%, rgba(255, 255, 255, 0.6) 50%, transparent 100%);
+            transform: skewX(-25deg);
+            transition: left 0.6s ease;
+            pointer-events: none;
+        }
+        .top-btn:hover {
             background: #2b5278;
-            transform: scale(0.97);
             border-color: #3a6a9a;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 16px rgba(43, 82, 120, 0.5);
+        }
+        .top-btn:hover::after { left: 150%; }
+        .top-btn:active {
+            transform: scale(0.97);
+            background: #1e3a5f;
+        }
+        .top-btn:active::after {
+            left: -120%;
+            transition: none;
+        }
+        .top-btn:active::after {
+            left: 150%;
+            transition: left 0.5s ease;
         }
 
         .section-title {
@@ -139,7 +167,7 @@
             text-align: center;
             cursor: pointer;
             border: 1px solid rgba(255,255,255,0.08);
-            transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+            transition: all 0.35s cubic-bezier(0.4, 0, 0.2, 1);
             position: relative;
             overflow: hidden;
             box-shadow: 0 6px 18px rgba(43, 82, 120, 0.35);
@@ -151,18 +179,40 @@
             width: 200%; height: 200%;
             background: radial-gradient(circle, rgba(255,255,255,0.12) 0%, transparent 70%);
             animation: shimmer 6s infinite linear;
+            z-index: 0;
         }
         .card::after {
             content: '';
             position: absolute;
-            top: 0; left: 0; right: 0;
-            height: 2px;
-            background: linear-gradient(90deg, transparent, #6ab3f3, transparent);
-            opacity: 0.7;
+            top: -50%;
+            left: -120%;
+            width: 80%;
+            height: 200%;
+            background: linear-gradient(90deg, transparent 0%, rgba(255, 255, 255, 0.7) 50%, transparent 100%);
+            transform: skewX(-25deg);
+            transition: left 0.7s ease;
+            pointer-events: none;
+            z-index: 2;
         }
+        /* Наведение */
+        .card:hover {
+            transform: translateY(-4px) scale(1.02);
+            box-shadow: 0 12px 28px rgba(43, 82, 120, 0.6);
+            border-color: rgba(106, 179, 243, 0.4);
+        }
+        .card:hover::after { left: 150%; }
+        /* Нажатие */
         .card:active {
-            transform: scale(0.96);
-            box-shadow: 0 4px 12px rgba(43, 82, 120, 0.6);
+            transform: scale(0.96) translateY(0);
+            box-shadow: 0 4px 12px rgba(43, 82, 120, 0.7);
+        }
+        .card:active::after {
+            left: -120%;
+            transition: none;
+        }
+        .card:active::after {
+            left: 150%;
+            transition: left 0.5s ease;
         }
         .card .icon {
             width: 44px;
@@ -348,23 +398,52 @@
             font-size: 15px;
             font-weight: 700;
             cursor: pointer;
-            transition: all 0.2s;
+            transition: all 0.25s ease;
             letter-spacing: 0.3px;
+            position: relative;
+            overflow: hidden;
         }
-        .modal-btn:active { transform: scale(0.97); }
+        .modal-btn::after {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -120%;
+            width: 80%;
+            height: 200%;
+            background: linear-gradient(90deg, transparent 0%, rgba(255, 255, 255, 0.5) 50%, transparent 100%);
+            transform: skewX(-25deg);
+            transition: left 0.6s ease;
+            pointer-events: none;
+        }
+        .modal-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 16px rgba(0,0,0,0.3);
+        }
+        .modal-btn:hover::after { left: 150%; }
+        .modal-btn:active {
+            transform: scale(0.97);
+        }
+        .modal-btn:active::after {
+            left: -120%;
+            transition: none;
+        }
+        .modal-btn:active::after {
+            left: 150%;
+            transition: left 0.5s ease;
+        }
         .modal-btn.cancel {
             background: rgba(255,255,255,0.08);
             color: var(--tg-theme-text-color, #ffffff);
             border: 1px solid rgba(255,255,255,0.1);
         }
-        .modal-btn.cancel:active { background: rgba(255,255,255,0.15); }
+        .modal-btn.cancel:hover { background: rgba(255,255,255,0.15); }
         .modal-btn.confirm {
             background: linear-gradient(135deg, #2b5278 0%, #3a6a9a 100%);
             color: white;
             box-shadow: 0 4px 12px rgba(43, 82, 120, 0.4);
         }
-        .modal-btn.confirm:active {
-            box-shadow: 0 2px 6px rgba(43, 82, 120, 0.6);
+        .modal-btn.confirm:hover {
+            box-shadow: 0 6px 20px rgba(43, 82, 120, 0.6);
         }
         .modal-btn.danger {
             background: linear-gradient(135deg, #7a2b2b 0%, #9a3a3a 100%);
@@ -414,9 +493,37 @@
             font-size: 13px;
             cursor: pointer;
             font-weight: 700;
-            transition: all 0.2s;
+            transition: all 0.25s ease;
+            position: relative;
+            overflow: hidden;
         }
+        .order-cancel-btn::after {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -120%;
+            width: 80%;
+            height: 200%;
+            background: linear-gradient(90deg, transparent 0%, rgba(255, 255, 255, 0.5) 50%, transparent 100%);
+            transform: skewX(-25deg);
+            transition: left 0.6s ease;
+            pointer-events: none;
+        }
+        .order-cancel-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 16px rgba(122, 43, 43, 0.5);
+        }
+        .order-cancel-btn:hover::after { left: 150%; }
         .order-cancel-btn:active { transform: scale(0.97); }
+        .order-cancel-btn:active::after {
+            left: -120%;
+            transition: none;
+        }
+        .order-cancel-btn:active::after {
+            left: 150%;
+            transition: left 0.5s ease;
+        }
+
         .order-delete-btn {
             flex: 1;
             padding: 11px;
@@ -427,11 +534,38 @@
             font-size: 13px;
             cursor: pointer;
             font-weight: 700;
-            transition: all 0.2s;
+            transition: all 0.25s ease;
+            position: relative;
+            overflow: hidden;
         }
-        .order-delete-btn:active {
+        .order-delete-btn::after {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -120%;
+            width: 80%;
+            height: 200%;
+            background: linear-gradient(90deg, transparent 0%, rgba(255, 255, 255, 0.5) 50%, transparent 100%);
+            transform: skewX(-25deg);
+            transition: left 0.6s ease;
+            pointer-events: none;
+        }
+        .order-delete-btn:hover {
             background: rgba(255,255,255,0.12);
+            transform: translateY(-2px);
+            box-shadow: 0 6px 16px rgba(0,0,0,0.3);
+        }
+        .order-delete-btn:hover::after { left: 150%; }
+        .order-delete-btn:active {
             transform: scale(0.97);
+        }
+        .order-delete-btn:active::after {
+            left: -120%;
+            transition: none;
+        }
+        .order-delete-btn:active::after {
+            left: 150%;
+            transition: left 0.5s ease;
         }
 
         .currency-list {
@@ -450,15 +584,42 @@
             font-weight: 600;
             cursor: pointer;
             text-align: left;
-            transition: all 0.2s;
+            transition: all 0.25s ease;
             display: flex;
             align-items: center;
             justify-content: space-between;
+            position: relative;
+            overflow: hidden;
         }
-        .currency-btn:active {
+        .currency-btn::after {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -120%;
+            width: 80%;
+            height: 200%;
+            background: linear-gradient(90deg, transparent 0%, rgba(255, 255, 255, 0.5) 50%, transparent 100%);
+            transform: skewX(-25deg);
+            transition: left 0.6s ease;
+            pointer-events: none;
+        }
+        .currency-btn:hover {
             background: #2b5278;
             border-color: #3a6a9a;
+            transform: translateX(4px);
+            box-shadow: 0 6px 16px rgba(43, 82, 120, 0.4);
+        }
+        .currency-btn:hover::after { left: 150%; }
+        .currency-btn:active {
             transform: scale(0.98);
+        }
+        .currency-btn:active::after {
+            left: -120%;
+            transition: none;
+        }
+        .currency-btn:active::after {
+            left: 150%;
+            transition: left 0.5s ease;
         }
         .currency-btn .currency-rate {
             font-size: 12px;
@@ -715,112 +876,4 @@
                 fetch(`${API_URL}/api/profile/${user.id}`)
                 .then(r => r.json())
                 .then(data => {
-                    showToast(`👤 Заказов: ${data.orders_count}, потрачено: ${data.total_spent_text} ₽`);
-                })
-                .catch(() => showToast("❌ Ошибка сервера"));
-            } else if (action === "my_orders") {
-                loadOrders();
-            }
-        }
-
-        function loadOrders() {
-            fetch(`${API_URL}/api/orders/${user.id}`)
-            .then(r => r.json())
-            .then(orders => {
-                const list = document.getElementById('orders-list');
-                if (orders.length === 0) {
-                    list.innerHTML = '<p style="opacity: 0.6;">У тебя пока нет заказов.</p>';
-                } else {
-                    list.innerHTML = orders.map(o => {
-                        let statusText = '';
-                        let statusClass = '';
-                        if (o.status === 'pending') { statusText = '⏳ В обработке'; statusClass = 'pending'; }
-                        else if (o.status === 'completed') { statusText = '✅ Выполнен'; statusClass = 'completed'; }
-                        else { statusText = '❌ Отменён'; statusClass = 'cancelled'; }
-
-                        let buttons = '';
-                        if (o.status === 'pending') {
-                            buttons = `<div class="order-buttons">
-                                <button class="order-cancel-btn" onclick="openCancelModal(${o.id}, '${o.category_name}', ${o.quantity}, '${o.unit}', '${o.price_text}')">Отменить</button>
-                            </div>`;
-                        } else if (o.status === 'cancelled') {
-                            buttons = `<div class="order-buttons">
-                                <button class="order-delete-btn" onclick="deleteOrder(${o.id})">🗑 Удалить</button>
-                            </div>`;
-                        }
-
-                        return `
-                            <div class="order-item">
-                                <div class="order-title">Заказ #${o.id}</div>
-                                <div class="order-info">${o.category_name}</div>
-                                <div class="order-info">${o.quantity} ${o.unit}</div>
-                                <div class="order-info">💰 ${o.price_text} ₽</div>
-                                <div class="order-status ${statusClass}">${statusText}</div>
-                                ${buttons}
-                            </div>
-                        `;
-                    }).join('');
-                }
-                document.getElementById('orders-modal').classList.add('show');
-            })
-            .catch(() => showToast("❌ Ошибка сервера"));
-        }
-
-        function closeOrdersModal() {
-            document.getElementById('orders-modal').classList.remove('show');
-        }
-
-        function openCancelModal(orderId, catName, qty, unit, price) {
-            cancelOrderId = orderId;
-            document.getElementById('cancel-info').innerHTML = 
-                `Заказ #${orderId}<br>${catName}<br>${qty} ${unit}<br>💰 ${price} ₽`;
-            document.getElementById('cancel-modal').classList.add('show');
-        }
-
-        function closeCancelModal() {
-            document.getElementById('cancel-modal').classList.remove('show');
-            cancelOrderId = null;
-        }
-
-        function confirmCancel() {
-            if (!cancelOrderId) return;
-            const orderId = cancelOrderId;
-            closeCancelModal();
-
-            fetch(`${API_URL}/api/orders/${orderId}/cancel`, {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ user_id: user.id })
-            })
-            .then(r => r.json())
-            .then(data => {
-                if (data.error) {
-                    showToast("❌ " + data.error);
-                } else {
-                    showToast("✅ Заказ отменён");
-                    loadOrders();
-                }
-            })
-            .catch(() => showToast("❌ Ошибка сервера"));
-        }
-
-        function deleteOrder(orderId) {
-            fetch(`${API_URL}/api/orders/${orderId}/delete`, {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ user_id: user.id })
-            })
-            .then(r => r.json())
-            .then(data => {
-                if (data.error) {
-                    showToast("❌ " + data.error);
-                } else {
-                    showToast("✅ Заказ удалён");
-                    loadOrders();
-                }
-            })
-            .catch(() => showToast("❌ Ошибка сервера"));
-        }
-    </script>
-</body>
-</html>
+                    showToast(`👤 Заказов: ${data.orders_count}, потрачено: ${data.total
