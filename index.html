@@ -12,18 +12,32 @@
             background: var(--tg-theme-bg-color, #17212b);
             color: var(--tg-theme-text-color, #ffffff);
             padding: 16px;
-            padding-bottom: 80px;
+            padding-bottom: 40px;
             min-height: 100vh;
         }
         .header {
-            text-align: center; margin-bottom: 24px; padding: 16px;
+            text-align: center; margin-bottom: 16px; padding: 16px;
             background: linear-gradient(135deg, #2b5278 0%, #1c3a5c 100%);
             border-radius: 16px;
         }
         .header h1 { font-size: 24px; margin-bottom: 4px; }
         .header p { font-size: 14px; opacity: 0.8; }
+
+        /* Кнопки профиля и заказов — СВЕРХУ, под шапкой */
+        .top-buttons {
+            display: flex; gap: 10px; margin-bottom: 16px;
+        }
+        .top-btn {
+            flex: 1; background: var(--tg-theme-secondary-bg-color, #232e3c);
+            border: none; color: var(--tg-theme-text-color, #ffffff);
+            padding: 12px; border-radius: 12px; font-size: 14px;
+            cursor: pointer; display: flex; align-items: center;
+            justify-content: center; gap: 6px; transition: background 0.2s;
+        }
+        .top-btn:active { background: #2b5278; }
+
         .section-title {
-            font-size: 14px; opacity: 0.6; margin: 16px 0 8px 4px;
+            font-size: 14px; opacity: 0.6; margin: 8px 0 8px 4px;
             text-transform: uppercase; letter-spacing: 0.5px;
         }
         .grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; }
@@ -37,29 +51,21 @@
         .card .emoji { font-size: 32px; display: block; margin-bottom: 8px; }
         .card .name { font-size: 14px; font-weight: 600; margin-bottom: 4px; }
         .card .desc { font-size: 12px; opacity: 0.6; }
-        .menu-buttons { margin-top: 24px; display: flex; flex-direction: column; gap: 10px; }
-        .menu-btn {
-            background: var(--tg-theme-secondary-bg-color, #232e3c);
-            border: none; color: var(--tg-theme-text-color, #ffffff);
-            padding: 14px 16px; border-radius: 12px; font-size: 15px;
-            text-align: left; cursor: pointer; display: flex;
-            align-items: center; gap: 10px; transition: background 0.2s;
-        }
-        .menu-btn:active { background: #2b5278; }
+
         .footer {
-            position: fixed; bottom: 0; left: 0; right: 0;
-            padding: 12px 16px; background: var(--tg-theme-bg-color, #17212b);
-            border-top: 1px solid rgba(255,255,255,0.08);
+            margin-top: 24px; padding: 12px;
             text-align: center; font-size: 12px; opacity: 0.5;
         }
         .toast {
-            position: fixed; bottom: 100px; left: 50%; transform: translateX(-50%);
+            position: fixed; bottom: 40px; left: 50%; transform: translateX(-50%);
             background: #2b5278; color: white; padding: 12px 24px;
             border-radius: 12px; font-size: 14px; opacity: 0;
             transition: opacity 0.3s; pointer-events: none; z-index: 100;
+            max-width: 90%; text-align: center;
         }
         .toast.show { opacity: 1; }
-        /* Модальное окно */
+
+        /* Своё модальное окно */
         .modal-overlay {
             position: fixed; top: 0; left: 0; right: 0; bottom: 0;
             background: rgba(0,0,0,0.7); display: none;
@@ -99,6 +105,16 @@
         <p>Игровая валюта и подписки</p>
     </div>
 
+    <!-- Кнопки СВЕРХУ -->
+    <div class="top-buttons">
+        <button class="top-btn" onclick="openBot('profile')">
+            👤 Профиль
+        </button>
+        <button class="top-btn" onclick="openBot('my_orders')">
+            🛒 Мои заказы
+        </button>
+    </div>
+
     <div class="section-title">Категории</div>
     <div class="grid">
         <div class="card" onclick="openCategory('cat_stars', '⭐ Telegram Stars', 'звёзд')">
@@ -126,15 +142,6 @@
             <div class="name">Brawl Stars Gems</div>
             <div class="desc">от 100 шт</div>
         </div>
-    </div>
-
-    <div class="menu-buttons">
-        <button class="menu-btn" onclick="openBot('profile')">
-            👤 <span>Профиль</span>
-        </button>
-        <button class="menu-btn" onclick="openBot('my_orders')">
-            🛒 <span>Мои заказы</span>
-        </button>
     </div>
 
     <div class="footer">MorvexxShop © 2026</div>
@@ -169,7 +176,7 @@
             const toast = document.getElementById('toast');
             toast.textContent = text;
             toast.classList.add('show');
-            setTimeout(() => toast.classList.remove('show'), 2000);
+            setTimeout(() => toast.classList.remove('show'), 3000);
         }
 
         function openCategory(catCode, catName, unit) {
@@ -193,6 +200,7 @@
                 return;
             }
 
+            const cat = currentCategory;
             closeModal();
 
             fetch(`${API_URL}/api/orders`, {
@@ -201,7 +209,7 @@
                 body: JSON.stringify({
                     user_id: user.id,
                     username: user.username,
-                    category: currentCategory,
+                    category: cat,
                     quantity: quantity
                 })
             })
@@ -236,7 +244,7 @@
                     orders.forEach(o => {
                         text += `#${o.id} ${o.category_name} — ${o.quantity} ${o.unit} — ${o.price_text} ₽\n`;
                     });
-                    alert(text);
+                    showToast(text);
                 })
                 .catch(() => showToast("❌ Ошибка сервера"));
             }
