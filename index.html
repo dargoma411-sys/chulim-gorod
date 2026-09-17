@@ -20,6 +20,138 @@
             overflow-x: hidden;
         }
 
+        /* ===== ЭКРАН ЗАГРУЗКИ ===== */
+        .loading-screen {
+            position: fixed;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background: linear-gradient(135deg, #0f1620 0%, #1e3a5f 50%, #2b5278 100%);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            z-index: 9999;
+            transition: opacity 0.6s ease, visibility 0.6s ease;
+            overflow: hidden;
+        }
+        .loading-screen.hide {
+            opacity: 0;
+            visibility: hidden;
+            pointer-events: none;
+        }
+
+        .loading-screen::before {
+            content: '';
+            position: absolute;
+            top: -50%; left: -50%;
+            width: 200%; height: 200%;
+            background: radial-gradient(circle, rgba(106, 179, 243, 0.15) 0%, transparent 60%);
+            animation: shimmer 8s infinite linear;
+        }
+
+        .loading-logo {
+            font-size: 36px;
+            font-weight: 800;
+            letter-spacing: 1px;
+            color: #ffffff;
+            text-shadow: 0 0 25px rgba(106, 179, 243, 0.8), 0 2px 10px rgba(0,0,0,0.4);
+            animation: glowPulse 2s ease-in-out infinite;
+            position: relative;
+            z-index: 2;
+            margin-bottom: 8px;
+        }
+
+        .loading-subtitle {
+            font-size: 13px;
+            opacity: 0.7;
+            font-weight: 500;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            position: relative;
+            z-index: 2;
+            margin-bottom: 40px;
+        }
+
+        .loading-spinner {
+            width: 70px;
+            height: 70px;
+            position: relative;
+            z-index: 2;
+            margin-bottom: 30px;
+        }
+        .loading-spinner::before,
+        .loading-spinner::after {
+            content: '';
+            position: absolute;
+            border-radius: 50%;
+            top: 0; left: 0; right: 0; bottom: 0;
+        }
+        .loading-spinner::before {
+            border: 3px solid rgba(255,255,255,0.1);
+        }
+        .loading-spinner::after {
+            border: 3px solid transparent;
+            border-top-color: #6ab3f3;
+            border-right-color: #6ab3f3;
+            animation: spin 1s linear infinite;
+            box-shadow: 0 0 20px rgba(106, 179, 243, 0.6);
+        }
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        .loading-progress {
+            width: 200px;
+            height: 4px;
+            background: rgba(255,255,255,0.1);
+            border-radius: 4px;
+            overflow: hidden;
+            position: relative;
+            z-index: 2;
+        }
+        .loading-progress-bar {
+            height: 100%;
+            width: 0%;
+            background: linear-gradient(90deg, #2b5278 0%, #6ab3f3 50%, #2b5278 100%);
+            background-size: 200% 100%;
+            border-radius: 4px;
+            animation: progressAnim 2s ease-in-out infinite, progressGrow 3s ease-out forwards;
+            box-shadow: 0 0 10px rgba(106, 179, 243, 0.8);
+        }
+        @keyframes progressAnim {
+            0% { background-position: 0% 0; }
+            100% { background-position: 200% 0; }
+        }
+        @keyframes progressGrow {
+            0% { width: 0%; }
+            30% { width: 40%; }
+            60% { width: 70%; }
+            100% { width: 95%; }
+        }
+
+        .loading-status {
+            margin-top: 16px;
+            font-size: 12px;
+            opacity: 0.6;
+            font-weight: 500;
+            position: relative;
+            z-index: 2;
+            letter-spacing: 0.5px;
+            animation: pulse 1.5s ease-in-out infinite;
+        }
+        @keyframes pulse {
+            0%, 100% { opacity: 0.4; }
+            50% { opacity: 0.9; }
+        }
+
+        .loading-snow {
+            position: absolute;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            pointer-events: none;
+            z-index: 1;
+        }
+
+        /* ===== СНЕЖИНКИ ===== */
         .snow-container {
             position: fixed;
             top: 0;
@@ -144,6 +276,11 @@
         }
         .top-btn:active {
             transform: scale(0.97);
+        }
+        .top-btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+            transform: none !important;
         }
 
         .section-title {
@@ -602,9 +739,36 @@
             opacity: 0.6;
             font-weight: 500;
         }
+
+        .orders-loading {
+            text-align: center;
+            padding: 30px 0;
+            opacity: 0.6;
+        }
+        .orders-loading-spinner {
+            width: 40px;
+            height: 40px;
+            border: 3px solid rgba(255,255,255,0.1);
+            border-top-color: #6ab3f3;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin: 0 auto 12px;
+        }
     </style>
 </head>
 <body>
+    <!-- ===== ЭКРАН ЗАГРУЗКИ ===== -->
+    <div class="loading-screen" id="loading-screen">
+        <div class="loading-snow" id="loading-snow"></div>
+        <div class="loading-logo">MorvexxShop</div>
+        <div class="loading-subtitle">Игровая валюта</div>
+        <div class="loading-spinner"></div>
+        <div class="loading-progress">
+            <div class="loading-progress-bar"></div>
+        </div>
+        <div class="loading-status" id="loading-status">Загрузка магазина...</div>
+    </div>
+
     <div class="snow-container" id="snow"></div>
 
     <div class="content">
@@ -614,8 +778,8 @@
         </div>
 
         <div class="top-buttons">
-            <button class="top-btn" onclick="openBot('profile')">👤 Профиль</button>
-            <button class="top-btn" onclick="openBot('my_orders')">📦 Заказы</button>
+            <button class="top-btn" id="btn-profile" onclick="openBot('profile')">👤 Профиль</button>
+            <button class="top-btn" id="btn-orders" onclick="openBot('my_orders')">📦 Заказы</button>
         </div>
 
         <div class="section-title">Категории</div>
@@ -736,11 +900,15 @@
     </div>
 
     <script>
-        // Инициализация Telegram WebApp
+        // ===== ИНИЦИАЛИЗАЦИЯ =====
         const tg = window.Telegram?.WebApp;
         if (tg) {
-            tg.ready();
-            tg.expand();
+            try {
+                tg.ready();
+                tg.expand();
+            } catch(e) {
+                console.error('TG init error:', e);
+            }
         }
 
         const API_URL = "https://morvexx-api.onrender.com";
@@ -750,16 +918,71 @@
         let currentRate = 0;
         let cancelOrderId = null;
 
-        // Проверка инициализации
-        function checkUser() {
-            if (!user.id) {
-                showToast("⚠️ Telegram не инициализирован. Откройте бота в Telegram.");
-                return false;
+        // ===== ЭКРАН ЗАГРУЗКИ =====
+        function createLoadingSnow() {
+            const container = document.getElementById('loading-snow');
+            const snowChars = ['❄', '❅', '❆', '•', '*'];
+            for (let i = 0; i < 25; i++) {
+                const flake = document.createElement('div');
+                flake.className = 'snowflake';
+                flake.textContent = snowChars[Math.floor(Math.random() * snowChars.length)];
+                flake.style.left = Math.random() * 100 + '%';
+                flake.style.fontSize = (Math.random() * 12 + 8) + 'px';
+                flake.style.animationDuration = (Math.random() * 10 + 8) + 's';
+                flake.style.animationDelay = (Math.random() * 5) + 's';
+                flake.style.opacity = (Math.random() * 0.5 + 0.3);
+                container.appendChild(flake);
             }
-            return true;
+        }
+        createLoadingSnow();
+
+        function updateLoadingStatus(text) {
+            const status = document.getElementById('loading-status');
+            if (status) status.textContent = text;
         }
 
-        // Создание снежинок
+        function hideLoadingScreen() {
+            const loading = document.getElementById('loading-screen');
+            if (loading) {
+                loading.classList.add('hide');
+                setTimeout(() => loading.remove(), 700);
+            }
+        }
+
+        // Предзагрузка: будим сервер заранее
+        async function initApp() {
+            updateLoadingStatus('Подключение к серверу...');
+            
+            // Минимальное время показа загрузки (чтобы анимация была видна)
+            const minLoadTime = new Promise(resolve => setTimeout(resolve, 1800));
+            
+            // Пинг к API чтобы разбудить сервер
+            const pingApi = (async () => {
+                if (!user.id) return;
+                try {
+                    const controller = new AbortController();
+                    const timeoutId = setTimeout(() => controller.abort(), 8000);
+                    
+                    updateLoadingStatus('Загрузка данных...');
+                    await fetch(`${API_URL}/api/profile/${user.id}`, {
+                        signal: controller.signal,
+                        cache: 'no-store'
+                    });
+                    clearTimeout(timeoutId);
+                } catch(e) {
+                    console.log('API ping failed (сервер может спать):', e);
+                }
+            })();
+            
+            await Promise.all([minLoadTime, pingApi]);
+            
+            updateLoadingStatus('Готово!');
+            setTimeout(hideLoadingScreen, 300);
+        }
+
+        initApp();
+
+        // ===== СНЕЖИНКИ НА ОСНОВНОМ ФОНЕ =====
         function createSnow() {
             const container = document.getElementById('snow');
             const snowChars = ['❄', '❅', '❆', '•', '*'];
@@ -778,6 +1001,15 @@
         }
         createSnow();
 
+        // ===== УТИЛИТЫ =====
+        function checkUser() {
+            if (!user.id) {
+                showToast("⚠️ Откройте магазин через Telegram бота");
+                return false;
+            }
+            return true;
+        }
+
         function formatNumber(n) {
             const parts = n.toFixed(2).split('.');
             parts[0] = parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, '.');
@@ -791,6 +1023,14 @@
             setTimeout(() => toast.classList.remove('show'), 3000);
         }
 
+        function escapeHtml(text) {
+            if (!text) return '';
+            const div = document.createElement('div');
+            div.textContent = text;
+            return div.innerHTML;
+        }
+
+        // ===== КАТЕГОРИИ =====
         function openCategory(catCode, catName, unit, rate) {
             if (!checkUser()) return;
             currentCategory = catCode;
@@ -847,6 +1087,8 @@
             const cat = currentCategory;
             closeModal();
 
+            showToast("⏳ Отправка заказа...");
+
             fetch(`${API_URL}/api/orders`, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
@@ -871,13 +1113,19 @@
             });
         }
 
+        // ===== ПРОФИЛЬ И ЗАКАЗЫ =====
         function openBot(action) {
             if (!checkUser()) return;
             
             if (action === "profile") {
+                const btn = document.getElementById('btn-profile');
+                btn.disabled = true;
+                showToast("⏳ Загрузка профиля...");
+                
                 fetch(`${API_URL}/api/profile/${user.id}`)
                 .then(r => r.json())
                 .then(data => {
+                    btn.disabled = false;
                     if (data.error) {
                         showToast("❌ " + data.error);
                     } else {
@@ -885,6 +1133,7 @@
                     }
                 })
                 .catch(err => {
+                    btn.disabled = false;
                     console.error(err);
                     showToast("❌ Ошибка сервера");
                 });
@@ -894,19 +1143,20 @@
         }
 
         function loadOrders() {
+            const list = document.getElementById('orders-list');
+            list.innerHTML = '<div class="orders-loading"><div class="orders-loading-spinner"></div>Загрузка заказов...</div>';
+            document.getElementById('orders-modal').classList.add('show');
+            
             fetch(`${API_URL}/api/orders/${user.id}`)
             .then(r => r.json())
             .then(orders => {
-                const list = document.getElementById('orders-list');
-                
                 if (!Array.isArray(orders)) {
-                    list.innerHTML = '<p style="opacity: 0.6;">Ошибка загрузки заказов.</p>';
-                    document.getElementById('orders-modal').classList.add('show');
+                    list.innerHTML = '<p style="opacity: 0.6; text-align: center;">Ошибка загрузки заказов.</p>';
                     return;
                 }
                 
                 if (orders.length === 0) {
-                    list.innerHTML = '<p style="opacity: 0.6;">У тебя пока нет заказов.</p>';
+                    list.innerHTML = '<p style="opacity: 0.6; text-align: center; padding: 20px;">У тебя пока нет заказов.</p>';
                 } else {
                     list.innerHTML = orders.map(o => {
                         let statusText = '';
@@ -923,9 +1173,13 @@
                         }
 
                         let buttons = '';
+                        const catName = escapeHtml(o.category_name || '').replace(/'/g, "\\'");
+                        const unit = escapeHtml(o.unit || '').replace(/'/g, "\\'");
+                        const priceText = escapeHtml(o.price_text || '').replace(/'/g, "\\'");
+                        
                         if (o.status === 'pending') {
                             buttons = `<div class="order-buttons">
-                                <button class="order-cancel-btn" onclick="openCancelModal(${o.id}, '${(o.category_name || '').replace(/'/g, "\\'")}', ${o.quantity}, '${(o.unit || '').replace(/'/g, "\\'")}', '${(o.price_text || '').replace(/'/g, "\\'")}')">Отменить</button>
+                                <button class="order-cancel-btn" onclick="openCancelModal(${o.id}, '${catName}', ${o.quantity}, '${unit}', '${priceText}')">Отменить</button>
                             </div>`;
                         } else if (o.status === 'cancelled') {
                             buttons = `<div class="order-buttons">
@@ -936,20 +1190,19 @@
                         return `
                             <div class="order-item">
                                 <div class="order-title">Заказ #${o.id}</div>
-                                <div class="order-info">${o.category_name || 'Неизвестно'}</div>
-                                <div class="order-info">${o.quantity} ${o.unit || ''}</div>
-                                <div class="order-info">💰 ${o.price_text || '?'} ₽</div>
+                                <div class="order-info">${escapeHtml(o.category_name) || 'Неизвестно'}</div>
+                                <div class="order-info">${o.quantity} ${escapeHtml(o.unit) || ''}</div>
+                                <div class="order-info">💰 ${escapeHtml(o.price_text) || '?'} ₽</div>
                                 <div class="order-status ${statusClass}">${statusText}</div>
                                 ${buttons}
                             </div>
                         `;
                     }).join('');
                 }
-                document.getElementById('orders-modal').classList.add('show');
             })
             .catch(err => {
                 console.error(err);
-                showToast("❌ Ошибка сервера");
+                list.innerHTML = '<p style="opacity: 0.6; text-align: center;">❌ Ошибка загрузки</p>';
             });
         }
 
@@ -974,6 +1227,8 @@
             const orderId = cancelOrderId;
             closeCancelModal();
 
+            showToast("⏳ Отмена заказа...");
+
             fetch(`${API_URL}/api/orders/${orderId}/cancel`, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
@@ -995,6 +1250,8 @@
         }
 
         function deleteOrder(orderId) {
+            showToast("⏳ Удаление...");
+            
             fetch(`${API_URL}/api/orders/${orderId}/delete`, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
