@@ -16,9 +16,7 @@
             min-height: 100vh;
         }
         .header {
-            text-align: center;
-            margin-bottom: 24px;
-            padding: 16px;
+            text-align: center; margin-bottom: 24px; padding: 16px;
             background: linear-gradient(135deg, #2b5278 0%, #1c3a5c 100%);
             border-radius: 16px;
         }
@@ -35,9 +33,7 @@
             cursor: pointer; transition: transform 0.2s, background 0.2s;
             border: 1px solid transparent;
         }
-        .card:active {
-            transform: scale(0.97); background: #2b5278; border-color: #3a6a9a;
-        }
+        .card:active { transform: scale(0.97); background: #2b5278; border-color: #3a6a9a; }
         .card .emoji { font-size: 32px; display: block; margin-bottom: 8px; }
         .card .name { font-size: 14px; font-weight: 600; margin-bottom: 4px; }
         .card .desc { font-size: 12px; opacity: 0.6; }
@@ -60,9 +56,41 @@
             position: fixed; bottom: 100px; left: 50%; transform: translateX(-50%);
             background: #2b5278; color: white; padding: 12px 24px;
             border-radius: 12px; font-size: 14px; opacity: 0;
-            transition: opacity 0.3s; pointer-events: none;
+            transition: opacity 0.3s; pointer-events: none; z-index: 100;
         }
         .toast.show { opacity: 1; }
+        /* Модальное окно */
+        .modal-overlay {
+            position: fixed; top: 0; left: 0; right: 0; bottom: 0;
+            background: rgba(0,0,0,0.7); display: none;
+            align-items: center; justify-content: center; z-index: 200;
+            padding: 20px;
+        }
+        .modal-overlay.show { display: flex; }
+        .modal {
+            background: var(--tg-theme-secondary-bg-color, #232e3c);
+            border-radius: 16px; padding: 24px; width: 100%; max-width: 340px;
+        }
+        .modal h3 { font-size: 18px; margin-bottom: 8px; }
+        .modal p { font-size: 14px; opacity: 0.7; margin-bottom: 16px; }
+        .modal input {
+            width: 100%; padding: 14px; border-radius: 10px;
+            border: 1px solid rgba(255,255,255,0.15);
+            background: var(--tg-theme-bg-color, #17212b);
+            color: var(--tg-theme-text-color, #ffffff);
+            font-size: 16px; margin-bottom: 16px; outline: none;
+        }
+        .modal input:focus { border-color: #2b5278; }
+        .modal-buttons { display: flex; gap: 10px; }
+        .modal-btn {
+            flex: 1; padding: 12px; border-radius: 10px; border: none;
+            font-size: 15px; font-weight: 600; cursor: pointer;
+        }
+        .modal-btn.cancel {
+            background: var(--tg-theme-bg-color, #17212b);
+            color: var(--tg-theme-text-color, #ffffff);
+        }
+        .modal-btn.confirm { background: #2b5278; color: white; }
     </style>
 </head>
 <body>
@@ -73,27 +101,27 @@
 
     <div class="section-title">Категории</div>
     <div class="grid">
-        <div class="card" onclick="openCategory('cat_stars')">
+        <div class="card" onclick="openCategory('cat_stars', '⭐ Telegram Stars', 'звёзд')">
             <span class="emoji">⭐</span>
             <div class="name">Telegram Stars</div>
             <div class="desc">от 100 шт</div>
         </div>
-        <div class="card" onclick="openCategory('cat_robux')">
+        <div class="card" onclick="openCategory('cat_robux', '🎮 Robux', 'Robux')">
             <span class="emoji">🎮</span>
             <div class="name">Robux</div>
             <div class="desc">от 100 шт</div>
         </div>
-        <div class="card" onclick="openCategory('cat_steam')">
+        <div class="card" onclick="openCategory('cat_steam', '💨 Steam Balance', 'баланса')">
             <span class="emoji">💨</span>
             <div class="name">Steam Balance</div>
             <div class="desc">RUB, UAH, USD, EUR</div>
         </div>
-        <div class="card" onclick="openCategory('cat_standoff')">
+        <div class="card" onclick="openCategory('cat_standoff', '🔫 Standoff 2 Gold', 'голды')">
             <span class="emoji">🔫</span>
             <div class="name">Standoff 2 Gold</div>
             <div class="desc">от 100 шт</div>
         </div>
-        <div class="card" onclick="openCategory('cat_brawl')">
+        <div class="card" onclick="openCategory('cat_brawl', '💎 Brawl Stars Gems', 'гемов')">
             <span class="emoji">💎</span>
             <div class="name">Brawl Stars Gems</div>
             <div class="desc">от 100 шт</div>
@@ -112,6 +140,19 @@
     <div class="footer">MorvexxShop © 2026</div>
     <div class="toast" id="toast"></div>
 
+    <!-- Модальное окно -->
+    <div class="modal-overlay" id="modal">
+        <div class="modal">
+            <h3 id="modal-title">Введите количество</h3>
+            <p id="modal-desc">Сколько хотите купить?</p>
+            <input type="number" id="modal-input" placeholder="Например: 500" inputmode="numeric">
+            <div class="modal-buttons">
+                <button class="modal-btn cancel" onclick="closeModal()">Отмена</button>
+                <button class="modal-btn confirm" onclick="confirmModal()">Купить</button>
+            </div>
+        </div>
+    </div>
+
     <script>
         const tg = window.Telegram?.WebApp;
         if (tg) {
@@ -122,6 +163,8 @@
         const API_URL = "https://morvexx-api.onrender.com";
         const user = tg?.initDataUnsafe?.user || {};
 
+        let currentCategory = null;
+
         function showToast(text) {
             const toast = document.getElementById('toast');
             toast.textContent = text;
@@ -129,9 +172,28 @@
             setTimeout(() => toast.classList.remove('show'), 2000);
         }
 
-        function openCategory(catCode) {
-            const quantity = prompt("Напишите количество:");
-            if (!quantity || isNaN(quantity)) return;
+        function openCategory(catCode, catName, unit) {
+            currentCategory = catCode;
+            document.getElementById('modal-title').textContent = catName;
+            document.getElementById('modal-desc').textContent = `Введите количество (${unit}):`;
+            document.getElementById('modal-input').value = '';
+            document.getElementById('modal').classList.add('show');
+            setTimeout(() => document.getElementById('modal-input').focus(), 100);
+        }
+
+        function closeModal() {
+            document.getElementById('modal').classList.remove('show');
+            currentCategory = null;
+        }
+
+        function confirmModal() {
+            const quantity = parseInt(document.getElementById('modal-input').value);
+            if (!quantity || quantity <= 0) {
+                showToast("❌ Введите число");
+                return;
+            }
+
+            closeModal();
 
             fetch(`${API_URL}/api/orders`, {
                 method: 'POST',
@@ -139,8 +201,8 @@
                 body: JSON.stringify({
                     user_id: user.id,
                     username: user.username,
-                    category: catCode,
-                    quantity: parseInt(quantity)
+                    category: currentCategory,
+                    quantity: quantity
                 })
             })
             .then(r => r.json())
@@ -151,7 +213,7 @@
                     showToast(`✅ Заказ #${data.order_id} принят! Сумма: ${data.price_text} ₽`);
                 }
             })
-            .catch(() => showToast("Ошибка сервера"));
+            .catch(() => showToast("❌ Ошибка сервера"));
         }
 
         function openBot(action) {
@@ -159,24 +221,24 @@
                 fetch(`${API_URL}/api/profile/${user.id}`)
                 .then(r => r.json())
                 .then(data => {
-                    alert(`👤 Профиль\n\nЗаказов: ${data.orders_count}\nПотрачено: ${data.total_spent_text} ₽`);
+                    showToast(`👤 Заказов: ${data.orders_count}, потрачено: ${data.total_spent_text} ₽`);
                 })
-                .catch(() => alert("Ошибка сервера"));
+                .catch(() => showToast("❌ Ошибка сервера"));
             } else if (action === "my_orders") {
                 fetch(`${API_URL}/api/orders/${user.id}`)
                 .then(r => r.json())
                 .then(orders => {
                     if (orders.length === 0) {
-                        alert("У тебя пока нет заказов.");
+                        showToast("🛒 У тебя пока нет заказов");
                         return;
                     }
-                    let text = "🛒 Мои заказы\n\n";
+                    let text = "🛒 Мои заказы:\n\n";
                     orders.forEach(o => {
-                        text += `Заказ #${o.id}\n${o.category_name}\n${o.quantity} ${o.unit}\n💰 ${o.price_text} ₽\n\n`;
+                        text += `#${o.id} ${o.category_name} — ${o.quantity} ${o.unit} — ${o.price_text} ₽\n`;
                     });
                     alert(text);
                 })
-                .catch(() => alert("Ошибка сервера"));
+                .catch(() => showToast("❌ Ошибка сервера"));
             }
         }
     </script>
