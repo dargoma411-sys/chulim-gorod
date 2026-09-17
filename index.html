@@ -119,6 +119,9 @@
             tg.expand();
         }
 
+        const API_URL = "https://morvexx-api.onrender.com";
+        const user = tg?.initDataUnsafe?.user || {};
+
         function showToast(text) {
             const toast = document.getElementById('toast');
             toast.textContent = text;
@@ -126,21 +129,54 @@
             setTimeout(() => toast.classList.remove('show'), 2000);
         }
 
-        function openCategory(cat) {
-            if (tg) {
-                tg.sendData(JSON.stringify({ action: 'open_category', category: cat }));
-                tg.close();
-            } else {
-                showToast('Открой через Telegram!');
-            }
+        function openCategory(catCode) {
+            const quantity = prompt("Напишите количество:");
+            if (!quantity || isNaN(quantity)) return;
+
+            fetch(`${API_URL}/api/orders`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    user_id: user.id,
+                    username: user.username,
+                    category: catCode,
+                    quantity: parseInt(quantity)
+                })
+            })
+            .then(r => r.json())
+            .then(data => {
+                if (data.error) {
+                    showToast("❌ " + data.error);
+                } else {
+                    showToast(`✅ Заказ #${data.order_id} принят! Сумма: ${data.price_text} ₽`);
+                }
+            })
+            .catch(() => showToast("Ошибка сервера"));
         }
 
         function openBot(action) {
-            if (tg) {
-                tg.sendData(JSON.stringify({ action: action }));
-                tg.close();
-            } else {
-                showToast('Открой через Telegram!');
+            if (action === "profile") {
+                fetch(`${API_URL}/api/profile/${user.id}`)
+                .then(r => r.json())
+                .then(data => {
+                    alert(`👤 Профиль\n\nЗаказов: ${data.orders_count}\nПотрачено: ${data.total_spent_text} ₽`);
+                })
+                .catch(() => alert("Ошибка сервера"));
+            } else if (action === "my_orders") {
+                fetch(`${API_URL}/api/orders/${user.id}`)
+                .then(r => r.json())
+                .then(orders => {
+                    if (orders.length === 0) {
+                        alert("У тебя пока нет заказов.");
+                        return;
+                    }
+                    let text = "🛒 Мои заказы\n\n";
+                    orders.forEach(o => {
+                        text += `Заказ #${o.id}\n${o.category_name}\n${o.quantity} ${o.unit}\n💰 ${o.price_text} ₽\n\n`;
+                    });
+                    alert(text);
+                })
+                .catch(() => alert("Ошибка сервера"));
             }
         }
     </script>
