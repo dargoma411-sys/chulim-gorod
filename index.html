@@ -33,7 +33,11 @@
             font-size: 14px; opacity: 0.6; margin: 8px 0 8px 4px;
             text-transform: uppercase; letter-spacing: 0.5px;
         }
-        .grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; }
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 12px;
+        }
         .card {
             background: var(--tg-theme-secondary-bg-color, #232e3c);
             border-radius: 14px; padding: 16px; text-align: center;
@@ -43,6 +47,12 @@
         .card .emoji { font-size: 32px; display: block; margin-bottom: 8px; }
         .card .name { font-size: 14px; font-weight: 600; margin-bottom: 4px; }
         .card .desc { font-size: 12px; opacity: 0.6; }
+        /* Карточка по центру */
+        .card.center {
+            grid-column: 1 / -1;
+            max-width: 50%;
+            margin: 0 auto;
+        }
         .footer { margin-top: 24px; padding: 12px; text-align: center; font-size: 12px; opacity: 0.5; }
         .toast {
             position: fixed; bottom: 40px; left: 50%; transform: translateX(-50%);
@@ -148,7 +158,7 @@
             <div class="name">Standoff 2 Gold</div>
             <div class="desc">от 100 шт</div>
         </div>
-        <div class="card" onclick="openCategory('cat_brawl', '💎 Brawl Stars Gems', 'гемов', 1.2)">
+        <div class="card center" onclick="openCategory('cat_brawl', '💎 Brawl Stars Gems', 'гемов', 1.2)">
             <span class="emoji">💎</span>
             <div class="name">Brawl Stars Gems</div>
             <div class="desc">от 100 шт</div>
@@ -215,18 +225,6 @@
         </div>
     </div>
 
-    <!-- Окно подтверждения удаления -->
-    <div class="modal-overlay" id="delete-modal">
-        <div class="modal">
-            <h3>Удалить заказ?</h3>
-            <p id="delete-info">Вы уверены?</p>
-            <div class="modal-buttons">
-                <button class="modal-btn cancel" onclick="closeDeleteModal()">Назад</button>
-                <button class="modal-btn danger" onclick="confirmDelete()">Удалить</button>
-            </div>
-        </div>
-    </div>
-
     <script>
         const tg = window.Telegram?.WebApp;
         if (tg) { tg.ready(); tg.expand(); }
@@ -237,7 +235,6 @@
         let currentCategory = null;
         let currentRate = 0;
         let cancelOrderId = null;
-        let deleteOrderId = null;
 
         function formatNumber(n) {
             const parts = n.toFixed(2).split('.');
@@ -360,7 +357,7 @@
                             </div>`;
                         } else if (o.status === 'cancelled') {
                             buttons = `<div class="order-buttons">
-                                <button class="order-delete-btn" onclick="openDeleteModal(${o.id}, '${o.category_name}', ${o.quantity}, '${o.unit}', '${o.price_text}')">🗑 Удалить</button>
+                                <button class="order-delete-btn" onclick="deleteOrder(${o.id})">🗑 Удалить</button>
                             </div>`;
                         }
 
@@ -419,23 +416,8 @@
             .catch(() => showToast("❌ Ошибка сервера"));
         }
 
-        function openDeleteModal(orderId, catName, qty, unit, price) {
-            deleteOrderId = orderId;
-            document.getElementById('delete-info').innerHTML = 
-                `Заказ #${orderId}<br>${catName}<br>${qty} ${unit}<br>💰 ${price} ₽`;
-            document.getElementById('delete-modal').classList.add('show');
-        }
-
-        function closeDeleteModal() {
-            document.getElementById('delete-modal').classList.remove('show');
-            deleteOrderId = null;
-        }
-
-        function confirmDelete() {
-            if (!deleteOrderId) return;
-            const orderId = deleteOrderId;
-            closeDeleteModal();
-
+        // Удаление — сразу, без подтверждения
+        function deleteOrder(orderId) {
             fetch(`${API_URL}/api/orders/${orderId}/delete`, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
