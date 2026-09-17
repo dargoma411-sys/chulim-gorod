@@ -18,7 +18,6 @@
             -webkit-tap-highlight-color: transparent;
         }
 
-        /* Шапка */
         .header {
             text-align: center;
             margin-bottom: 20px;
@@ -58,7 +57,6 @@
             font-weight: 500;
         }
 
-        /* Кнопки сверху */
         .top-buttons {
             display: flex;
             gap: 10px;
@@ -87,7 +85,6 @@
             border-color: #3a6a9a;
         }
 
-        /* Заголовок секции */
         .section-title {
             font-size: 12px;
             opacity: 0.5;
@@ -97,7 +94,6 @@
             font-weight: 700;
         }
 
-        /* Сетка */
         .grid {
             display: grid;
             grid-template-columns: repeat(2, 1fr);
@@ -131,12 +127,18 @@
             box-shadow: 0 6px 20px rgba(43, 82, 120, 0.5);
         }
         .card:active::after { opacity: 1; }
-        .card .emoji {
-            font-size: 34px;
+        .card .icon {
+            width: 44px;
+            height: 44px;
             display: block;
-            margin-bottom: 10px;
+            margin: 0 auto 10px;
             color: #ffffff;
-            filter: drop-shadow(0 2px 4px rgba(0,0,0,0.4));
+            filter: drop-shadow(0 2px 6px rgba(0,0,0,0.4));
+        }
+        .card .icon svg {
+            width: 100%;
+            height: 100%;
+            display: block;
         }
         .card .name {
             font-size: 13px;
@@ -150,14 +152,12 @@
             font-weight: 500;
         }
 
-        /* Карточка по центру */
         .card.center {
             grid-column: 1 / -1;
             max-width: 50%;
             margin: 0 auto;
         }
 
-        /* Футер */
         .footer {
             margin-top: 28px;
             padding: 16px;
@@ -168,7 +168,6 @@
             letter-spacing: 0.5px;
         }
 
-        /* Toast */
         .toast {
             position: fixed;
             bottom: 40px;
@@ -195,7 +194,6 @@
             transform: translateX(-50%) translateY(0);
         }
 
-        /* Модальные окна */
         .modal-overlay {
             position: fixed;
             top: 0; left: 0; right: 0; bottom: 0;
@@ -324,7 +322,6 @@
             box-shadow: 0 4px 12px rgba(122, 43, 43, 0.4);
         }
 
-        /* Заказы */
         .order-item {
             background: rgba(0,0,0,0.25);
             border-radius: 14px;
@@ -387,7 +384,6 @@
             transform: scale(0.97);
         }
 
-        /* Список валют */
         .currency-list {
             display: flex;
             flex-direction: column;
@@ -435,27 +431,37 @@
     <div class="section-title">Категории</div>
     <div class="grid">
         <div class="card" onclick="openCategory('cat_stars', 'Telegram Stars', 'звёзд', 1.45)">
-            <span class="emoji">★</span>
+            <span class="icon">
+                <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l2.4 7.4H22l-6.2 4.5 2.4 7.4L12 16.8l-6.2 4.5 2.4-7.4L2 9.4h7.6L12 2z"/></svg>
+            </span>
             <div class="name">Telegram Stars</div>
             <div class="desc">от 100 шт</div>
         </div>
         <div class="card" onclick="openCategory('cat_robux', 'Robux', 'Robux', 1.1)">
-            <span class="emoji">◆</span>
+            <span class="icon">
+                <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 1v22M17 5H9.5a3.5 3.5 0 000 7h5a3.5 3.5 0 010 7H6"/></svg>
+            </span>
             <div class="name">Robux</div>
             <div class="desc">от 100 шт</div>
         </div>
         <div class="card" onclick="openSteam()">
-            <span class="emoji">▲</span>
+            <span class="icon">
+                <svg viewBox="0 0 24 24" fill="currentColor"><path d="M2 6a2 2 0 012-2h16a2 2 0 012 2v12a2 2 0 01-2 2H4a2 2 0 01-2-2V6zm3 6a2 2 0 104 0 2 2 0 00-4 0zm9 2a3 3 0 100-6 3 3 0 000 6z"/></svg>
+            </span>
             <div class="name">Steam Balance</div>
             <div class="desc">RUB · UAH · USD · EUR</div>
         </div>
         <div class="card" onclick="openCategory('cat_standoff', 'Standoff 2 Gold', 'голды', 0.5)">
-            <span class="emoji">●</span>
+            <span class="icon">
+                <svg viewBox="0 0 24 24" fill="currentColor"><path d="M4 8h16a2 2 0 012 2v4a2 2 0 01-2 2H4a2 2 0 01-2-2v-4a2 2 0 012-2zm0 2v4h16v-4H4zm2 6v2h4v-2H6zm8 0v2h4v-2h-4zM9 4h6v2H9V4z"/></svg>
+            </span>
             <div class="name">Standoff 2 Gold</div>
             <div class="desc">от 100 шт</div>
         </div>
         <div class="card center" onclick="openCategory('cat_brawl', 'Brawl Stars Gems', 'гемов', 1.2)">
-            <span class="emoji">◇</span>
+            <span class="icon">
+                <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2L2 9l10 13L22 9 12 2zm0 2.5L19 9l-7 9.5L5 9l7-4.5z"/></svg>
+            </span>
             <div class="name">Brawl Stars Gems</div>
             <div class="desc">от 100 шт</div>
         </div>
@@ -464,7 +470,6 @@
     <div class="footer">MorvexxShop © 2026</div>
     <div class="toast" id="toast"></div>
 
-    <!-- Окно ввода количества -->
     <div class="modal-overlay" id="modal">
         <div class="modal">
             <h3 id="modal-title">Введите количество</h3>
@@ -481,7 +486,6 @@
         </div>
     </div>
 
-    <!-- Окно выбора валюты Steam -->
     <div class="modal-overlay" id="steam-modal">
         <div class="modal">
             <h3>Steam Balance</h3>
@@ -510,7 +514,6 @@
         </div>
     </div>
 
-    <!-- Окно со списком заказов -->
     <div class="modal-overlay" id="orders-modal">
         <div class="modal">
             <h3>Мои заказы</h3>
@@ -521,7 +524,6 @@
         </div>
     </div>
 
-    <!-- Окно подтверждения отмены -->
     <div class="modal-overlay" id="cancel-modal">
         <div class="modal">
             <h3>Отменить заказ?</h3>
