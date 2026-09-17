@@ -11,9 +11,7 @@
             font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
             background: var(--tg-theme-bg-color, #17212b);
             color: var(--tg-theme-text-color, #ffffff);
-            padding: 16px;
-            padding-bottom: 40px;
-            min-height: 100vh;
+            padding: 16px; padding-bottom: 40px; min-height: 100vh;
         }
         .header {
             text-align: center; margin-bottom: 16px; padding: 16px;
@@ -22,17 +20,15 @@
         }
         .header h1 { font-size: 24px; margin-bottom: 4px; }
         .header p { font-size: 14px; opacity: 0.8; }
-
         .top-buttons { display: flex; gap: 10px; margin-bottom: 16px; }
         .top-btn {
             flex: 1; background: var(--tg-theme-secondary-bg-color, #232e3c);
             border: none; color: var(--tg-theme-text-color, #ffffff);
             padding: 12px; border-radius: 12px; font-size: 14px;
             cursor: pointer; display: flex; align-items: center;
-            justify-content: center; gap: 6px; transition: background 0.2s;
+            justify-content: center; gap: 6px;
         }
         .top-btn:active { background: #2b5278; }
-
         .section-title {
             font-size: 14px; opacity: 0.6; margin: 8px 0 8px 4px;
             text-transform: uppercase; letter-spacing: 0.5px;
@@ -41,27 +37,21 @@
         .card {
             background: var(--tg-theme-secondary-bg-color, #232e3c);
             border-radius: 14px; padding: 16px; text-align: center;
-            cursor: pointer; transition: transform 0.2s, background 0.2s;
-            border: 1px solid transparent;
+            cursor: pointer; border: 1px solid transparent;
         }
-        .card:active { transform: scale(0.97); background: #2b5278; border-color: #3a6a9a; }
+        .card:active { transform: scale(0.97); background: #2b5278; }
         .card .emoji { font-size: 32px; display: block; margin-bottom: 8px; }
         .card .name { font-size: 14px; font-weight: 600; margin-bottom: 4px; }
         .card .desc { font-size: 12px; opacity: 0.6; }
-
-        .footer {
-            margin-top: 24px; padding: 12px;
-            text-align: center; font-size: 12px; opacity: 0.5;
-        }
+        .footer { margin-top: 24px; padding: 12px; text-align: center; font-size: 12px; opacity: 0.5; }
         .toast {
             position: fixed; bottom: 40px; left: 50%; transform: translateX(-50%);
             background: #2b5278; color: white; padding: 12px 24px;
             border-radius: 12px; font-size: 14px; opacity: 0;
             transition: opacity 0.3s; pointer-events: none; z-index: 100;
-            max-width: 90%; text-align: center;
+            max-width: 90%; text-align: center; white-space: pre-line;
         }
         .toast.show { opacity: 1; }
-
         .modal-overlay {
             position: fixed; top: 0; left: 0; right: 0; bottom: 0;
             background: rgba(0,0,0,0.7); display: none;
@@ -72,6 +62,7 @@
         .modal {
             background: var(--tg-theme-secondary-bg-color, #232e3c);
             border-radius: 16px; padding: 24px; width: 100%; max-width: 340px;
+            max-height: 80vh; overflow-y: auto;
         }
         .modal h3 { font-size: 18px; margin-bottom: 8px; }
         .modal p { font-size: 14px; opacity: 0.7; margin-bottom: 16px; }
@@ -82,17 +73,13 @@
             color: var(--tg-theme-text-color, #ffffff);
             font-size: 16px; outline: none;
         }
-        .modal input:focus { border-color: #2b5278; }
-
         .price-box {
             margin-top: 12px; margin-bottom: 16px;
             padding: 12px; border-radius: 10px;
-            background: var(--tg-theme-bg-color, #17212b);
-            text-align: center;
+            background: var(--tg-theme-bg-color, #17212b); text-align: center;
         }
         .price-label { font-size: 12px; opacity: 0.6; margin-bottom: 4px; }
         .price-value { font-size: 20px; font-weight: 700; color: #6ab3f3; }
-
         .modal-buttons { display: flex; gap: 10px; }
         .modal-btn {
             flex: 1; padding: 12px; border-radius: 10px; border: none;
@@ -103,6 +90,22 @@
             color: var(--tg-theme-text-color, #ffffff);
         }
         .modal-btn.confirm { background: #2b5278; color: white; }
+        .order-item {
+            background: var(--tg-theme-bg-color, #17212b);
+            border-radius: 12px; padding: 14px; margin-bottom: 10px;
+        }
+        .order-item .order-title { font-size: 14px; font-weight: 600; margin-bottom: 6px; }
+        .order-item .order-info { font-size: 13px; opacity: 0.8; margin-bottom: 4px; }
+        .order-item .order-status { font-size: 13px; margin-bottom: 10px; }
+        .order-status.pending { color: #f3b76a; }
+        .order-status.completed { color: #6af38a; }
+        .order-status.cancelled { color: #f36a6a; }
+        .order-cancel-btn {
+            width: 100%; padding: 10px; border-radius: 8px; border: none;
+            background: #5a2b2b; color: #ff9a9a; font-size: 14px;
+            cursor: pointer; font-weight: 600;
+        }
+        .order-cancel-btn:active { background: #7a2b2b; }
     </style>
 </head>
 <body>
@@ -154,12 +157,10 @@
             <h3 id="modal-title">Введите количество</h3>
             <p id="modal-desc">Сколько хотите купить?</p>
             <input type="text" id="modal-input" placeholder="Например: 500" inputmode="numeric" oninput="updatePrice()">
-            
             <div class="price-box">
                 <div class="price-label">Стоимость:</div>
                 <div class="price-value" id="price-value">0 ₽</div>
             </div>
-
             <div class="modal-buttons">
                 <button class="modal-btn cancel" onclick="closeModal()">Отмена</button>
                 <button class="modal-btn confirm" onclick="confirmModal()">Купить</button>
@@ -180,6 +181,17 @@
             </div>
             <div class="modal-buttons" style="margin-top: 16px;">
                 <button class="modal-btn cancel" onclick="closeSteamModal()">Отмена</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Окно со списком заказов -->
+    <div class="modal-overlay" id="orders-modal">
+        <div class="modal">
+            <h3>🛒 Мои заказы</h3>
+            <div id="orders-list"></div>
+            <div class="modal-buttons" style="margin-top: 16px;">
+                <button class="modal-btn cancel" onclick="closeOrdersModal()">Закрыть</button>
             </div>
         </div>
     </div>
@@ -207,7 +219,6 @@
             setTimeout(() => toast.classList.remove('show'), 3000);
         }
 
-        // === Обычные категории ===
         function openCategory(catCode, catName, unit, rate) {
             currentCategory = catCode;
             currentRate = rate;
@@ -219,11 +230,9 @@
             setTimeout(() => document.getElementById('modal-input').focus(), 100);
         }
 
-        // === Steam ===
         function openSteam() {
             document.getElementById('steam-modal').classList.add('show');
         }
-
         function closeSteamModal() {
             document.getElementById('steam-modal').classList.remove('show');
         }
@@ -240,7 +249,6 @@
             setTimeout(() => document.getElementById('modal-input').focus(), 100);
         }
 
-        // === Общее ===
         function updatePrice() {
             const input = document.getElementById('modal-input').value;
             const quantity = parseInt(input) || 0;
@@ -260,7 +268,6 @@
                 showToast("❌ Введите число");
                 return;
             }
-
             const cat = currentCategory;
             closeModal();
 
@@ -285,7 +292,6 @@
             .catch(() => showToast("❌ Ошибка сервера"));
         }
 
-        // === Профиль и заказы ===
         function openBot(action) {
             if (action === "profile") {
                 fetch(`${API_URL}/api/profile/${user.id}`)
@@ -295,21 +301,69 @@
                 })
                 .catch(() => showToast("❌ Ошибка сервера"));
             } else if (action === "my_orders") {
-                fetch(`${API_URL}/api/orders/${user.id}`)
-                .then(r => r.json())
-                .then(orders => {
-                    if (orders.length === 0) {
-                        showToast("🛒 У тебя пока нет заказов");
-                        return;
-                    }
-                    let text = "🛒 Мои заказы:\n\n";
-                    orders.forEach(o => {
-                        text += `#${o.id} ${o.category_name} — ${o.quantity} ${o.unit} — ${o.price_text} ₽\n`;
-                    });
-                    showToast(text);
-                })
-                .catch(() => showToast("❌ Ошибка сервера"));
+                loadOrders();
             }
+        }
+
+        function loadOrders() {
+            fetch(`${API_URL}/api/orders/${user.id}`)
+            .then(r => r.json())
+            .then(orders => {
+                const list = document.getElementById('orders-list');
+                if (orders.length === 0) {
+                    list.innerHTML = '<p style="opacity: 0.6;">У тебя пока нет заказов.</p>';
+                } else {
+                    list.innerHTML = orders.map(o => {
+                        let statusText = '';
+                        let statusClass = '';
+                        if (o.status === 'pending') { statusText = '⏳ В обработке'; statusClass = 'pending'; }
+                        else if (o.status === 'completed') { statusText = '✅ Выполнен'; statusClass = 'completed'; }
+                        else { statusText = '❌ Отменён'; statusClass = 'cancelled'; }
+
+                        let cancelBtn = '';
+                        if (o.status === 'pending') {
+                            cancelBtn = `<button class="order-cancel-btn" onclick="cancelOrder(${o.id})">Отменить заказ</button>`;
+                        }
+
+                        return `
+                            <div class="order-item">
+                                <div class="order-title">Заказ #${o.id}</div>
+                                <div class="order-info">${o.category_name}</div>
+                                <div class="order-info">${o.quantity} ${o.unit}</div>
+                                <div class="order-info">💰 ${o.price_text} ₽</div>
+                                <div class="order-status ${statusClass}">${statusText}</div>
+                                ${cancelBtn}
+                            </div>
+                        `;
+                    }).join('');
+                }
+                document.getElementById('orders-modal').classList.add('show');
+            })
+            .catch(() => showToast("❌ Ошибка сервера"));
+        }
+
+        function closeOrdersModal() {
+            document.getElementById('orders-modal').classList.remove('show');
+        }
+
+        function cancelOrder(orderId) {
+            if (!confirm("Отменить заказ #" + orderId + "?")) return;
+
+            fetch(`${API_URL}/api/orders/${orderId}/cancel`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ user_id: user.id })
+            })
+            .then(r => r.json())
+            .then(data => {
+                if (data.error) {
+                    showToast("❌ " + data.error);
+                } else {
+                    showToast("✅ Заказ отменён");
+                    loadOrders();
+                }
+            })
+            .catch(() => showToast("❌ Ошибка сервера"));
         }
     </script>
 </body>
