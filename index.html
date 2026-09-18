@@ -754,6 +754,89 @@
             animation: spin 1s linear infinite;
             margin: 0 auto 12px;
         }
+
+        /* ===== ПРОФИЛЬ ===== */
+        .profile-header {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            margin-bottom: 20px;
+            padding-bottom: 20px;
+            border-bottom: 1px solid rgba(255,255,255,0.08);
+        }
+        .profile-avatar {
+            width: 64px;
+            height: 64px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #2b5278 0%, #3a6a9a 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 28px;
+            font-weight: 800;
+            color: #ffffff;
+            flex-shrink: 0;
+            border: 2px solid rgba(106, 179, 243, 0.4);
+            box-shadow: 0 4px 12px rgba(43, 82, 120, 0.4);
+            overflow: hidden;
+        }
+        .profile-avatar img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        .profile-info {
+            flex: 1;
+            min-width: 0;
+        }
+        .profile-name {
+            font-size: 16px;
+            font-weight: 700;
+            margin-bottom: 2px;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+        .profile-username {
+            font-size: 13px;
+            opacity: 0.6;
+            margin-bottom: 4px;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+        .profile-id {
+            font-size: 11px;
+            opacity: 0.4;
+            font-family: monospace;
+        }
+        .profile-stats {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
+            margin-bottom: 4px;
+        }
+        .profile-stat {
+            background: rgba(0,0,0,0.25);
+            border-radius: 12px;
+            padding: 14px;
+            text-align: center;
+            border: 1px solid rgba(255,255,255,0.06);
+        }
+        .profile-stat-label {
+            font-size: 10px;
+            opacity: 0.5;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            font-weight: 700;
+            margin-bottom: 6px;
+        }
+        .profile-stat-value {
+            font-size: 20px;
+            font-weight: 800;
+            color: #6ab3f3;
+            letter-spacing: 0.3px;
+        }
     </style>
 </head>
 <body>
@@ -887,6 +970,22 @@
         </div>
     </div>
 
+    <!-- Окно профиля -->
+    <div class="modal-overlay" id="profile-modal">
+        <div class="modal">
+            <h3>Профиль</h3>
+            <div id="profile-content">
+                <div class="orders-loading">
+                    <div class="orders-loading-spinner"></div>
+                    Загрузка профиля...
+                </div>
+            </div>
+            <div class="modal-buttons" style="margin-top: 16px;">
+                <button class="modal-btn cancel" onclick="closeProfileModal()">Закрыть</button>
+            </div>
+        </div>
+    </div>
+
     <!-- Окно подтверждения отмены -->
     <div class="modal-overlay" id="cancel-modal">
         <div class="modal">
@@ -953,10 +1052,8 @@
         async function initApp() {
             updateLoadingStatus('Подключение к серверу...');
             
-            // Минимальное время показа загрузки (чтобы анимация была видна)
             const minLoadTime = new Promise(resolve => setTimeout(resolve, 1800));
             
-            // Пинг к API чтобы разбудить сервер
             const pingApi = (async () => {
                 if (!user.id) return;
                 try {
@@ -970,7 +1067,7 @@
                     });
                     clearTimeout(timeoutId);
                 } catch(e) {
-                    console.log('API ping failed (сервер может спать):', e);
+                    console.log('API ping failed:', e);
                 }
             })();
             
@@ -1118,28 +1215,57 @@
             if (!checkUser()) return;
             
             if (action === "profile") {
-                const btn = document.getElementById('btn-profile');
-                btn.disabled = true;
-                showToast("⏳ Загрузка профиля...");
-                
-                fetch(`${API_URL}/api/profile/${user.id}`)
-                .then(r => r.json())
-                .then(data => {
-                    btn.disabled = false;
-                    if (data.error) {
-                        showToast("❌ " + data.error);
-                    } else {
-                        showToast(`👤 Заказов: ${data.orders_count}, потрачено: ${data.total_spent_text} ₽`);
-                    }
-                })
-                .catch(err => {
-                    btn.disabled = false;
-                    console.error(err);
-                    showToast("❌ Ошибка сервера");
-                });
+                loadProfile();
             } else if (action === "my_orders") {
                 loadOrders();
             }
+        }
+
+        function loadProfile() {
+            const content = document.getElementById('profile-content');
+            content.innerHTML = '<div class="orders-loading"><div class="orders-loading-spinner"></div>Загрузка профиля...</div>';
+            document.getElementById('profile-modal').classList.add('show');
+
+            const displayName = user.first_name || 'Пользователь';
+            const username = user.username ? '@' + user.username : 'без юзернейма';
+            const initials = displayName.charAt(0).toUpperCase();
+
+            fetch(`${API_URL}/api/profile/${user.id}`)
+            .then(r => r.json())
+            .then(data => {
+                const avatarHtml = user.photo_url
+                    ? `<img src="${user.photo_url}" alt="avatar">`
+                    : initials;
+
+                content.innerHTML = `
+                    <div class="profile-header">
+                        <div class="profile-avatar">${avatarHtml}</div>
+                        <div class="profile-info">
+                            <div class="profile-name">${escapeHtml(displayName)}</div>
+                            <div class="profile-username">${escapeHtml(username)}</div>
+                            <div class="profile-id">ID: ${user.id}</div>
+                        </div>
+                    </div>
+                    <div class="profile-stats">
+                        <div class="profile-stat">
+                            <div class="profile-stat-label">Заказов</div>
+                            <div class="profile-stat-value">${data.orders_count || 0}</div>
+                        </div>
+                        <div class="profile-stat">
+                            <div class="profile-stat-label">Потрачено</div>
+                            <div class="profile-stat-value">${data.total_spent_text || '0'} ₽</div>
+                        </div>
+                    </div>
+                `;
+            })
+            .catch(err => {
+                console.error(err);
+                content.innerHTML = '<p style="opacity: 0.6; text-align: center; padding: 20px;">❌ Ошибка загрузки профиля</p>';
+            });
+        }
+
+        function closeProfileModal() {
+            document.getElementById('profile-modal').classList.remove('show');
         }
 
         function loadOrders() {
