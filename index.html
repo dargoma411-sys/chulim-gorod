@@ -417,7 +417,7 @@
             max-width: 100%;
             min-width: 300px;
             height: auto;
-            max-height: 80vh;
+            max-height: 70vh;
             object-fit: contain;
             border-radius: 10px;
             box-shadow: 0 20px 60px rgba(0, 0, 0, 0.7);
@@ -477,6 +477,30 @@
 
         .lightbox-close:active {
             transform: scale(0.95);
+        }
+
+        .lightbox-more {
+            margin-top: 20px;
+            background: linear-gradient(135deg, var(--accent), #2980b9);
+            color: white;
+            border: none;
+            padding: 10px 26px;
+            border-radius: 30px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            box-shadow: 0 5px 15px rgba(52,152,219,0.4);
+            z-index: 10001;
+        }
+
+        .lightbox-more:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(52,152,219,0.55);
+        }
+
+        .lightbox-more:active {
+            transform: scale(0.97);
         }
 
         .attractions-grid {
@@ -700,7 +724,6 @@
             opacity: 0.7;
         }
 
-        /* === ДОБАВЛЕНО: стили для новых блоков в том же стиле === */
         .quiz-box {
             background: linear-gradient(145deg, #ffffff, #f0f4f8);
             border-radius: 15px;
@@ -828,7 +851,6 @@
             box-shadow: 0 8px 25px rgba(0,0,0,0.1);
             cursor: zoom-in;
         }
-        /* === КОНЕЦ ДОБАВЛЕННЫХ СТИЛЕЙ === */
 
         @media (min-width: 1600px) {
             .container { max-width: 1500px; }
@@ -881,7 +903,7 @@
             .lightbox-caption h4 { font-size: 1.1rem; }
             .lightbox-caption p { font-size: 0.85rem; }
             .lightbox-content img {
-                max-height: 75vh;
+                max-height: 60vh;
                 width: 100%;
                 min-width: auto;
             }
@@ -1199,7 +1221,6 @@
             </div>
         </section>
 
-        <!-- РАЗДЕЛ: Викторина (QR и творческие работы удалены) -->
         <section id="quiz">
             <h2>Мини-викторина</h2>
             <p style="color:#777; margin-bottom:20px;">Проверьте, насколько хорошо вы узнали народ чулымцы</p>
@@ -1226,7 +1247,8 @@
         <button class="lightbox-close" onclick="closeLightbox()">✕</button>
         <div class="lightbox-content">
             <img id="lightbox-img" src="" alt="">
-            <div class="lightbox-caption">
+            <button class="lightbox-more" id="lightbox-more" onclick="toggleLightboxInfo()">Подробнее ▾</button>
+            <div class="lightbox-caption" id="lightbox-caption" style="display:none;">
                 <h4 id="lightbox-title"></h4>
                 <p id="lightbox-desc"></p>
             </div>
@@ -1259,10 +1281,23 @@
             const img = document.getElementById('lightbox-img');
             const t = document.getElementById('lightbox-title');
             const d = document.getElementById('lightbox-desc');
+            const caption = document.getElementById('lightbox-caption');
+            const moreBtn = document.getElementById('lightbox-more');
 
             img.src = src;
             t.textContent = title || '';
             d.textContent = desc || '';
+
+            // По умолчанию описание скрыто
+            caption.style.display = 'none';
+            moreBtn.textContent = 'Подробнее ▾';
+
+            // Если описания нет — кнопку вообще не показываем
+            if (!title && !desc) {
+                moreBtn.style.display = 'none';
+            } else {
+                moreBtn.style.display = 'inline-block';
+            }
 
             lightbox.classList.add('show');
             document.body.style.overflow = 'hidden';
@@ -1272,11 +1307,26 @@
             const lightbox = document.getElementById('lightbox');
             lightbox.classList.remove('show');
             document.body.style.overflow = '';
+            // Сброс состояния на случай повторного открытия
+            document.getElementById('lightbox-caption').style.display = 'none';
+            document.getElementById('lightbox-more').textContent = 'Подробнее ▾';
         }
 
         function closeLightboxOnBg(event) {
             if (event.target.id === 'lightbox') {
                 closeLightbox();
+            }
+        }
+
+        function toggleLightboxInfo() {
+            const caption = document.getElementById('lightbox-caption');
+            const moreBtn = document.getElementById('lightbox-more');
+            if (caption.style.display === 'none' || !caption.style.display) {
+                caption.style.display = 'block';
+                moreBtn.textContent = 'Скрыть ▴';
+            } else {
+                caption.style.display = 'none';
+                moreBtn.textContent = 'Подробнее ▾';
             }
         }
 
@@ -1320,7 +1370,6 @@
         let score = 0;
         let answered = false;
 
-        // Перемешивание массива (алгоритм Фишера–Йетса)
         function shuffleArray(arr) {
             const a = arr.slice();
             for (let i = a.length - 1; i > 0; i--) {
@@ -1330,7 +1379,6 @@
             return a;
         }
 
-        // Подготовка викторины: перемешиваем вопросы и варианты ответов
         function prepareQuiz() {
             shuffledQuiz = shuffleArray(quizData).map(q => {
                 const optionsWithIndex = q.options.map((text, idx) => ({ text, isCorrect: idx === q.correct }));
