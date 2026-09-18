@@ -252,7 +252,6 @@
             font-family: Georgia, serif;
         }
 
-        /* ===== ГАЛЕРЕЯ С ОПИСАНИЯМИ ===== */
         .gallery-full {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(340px, 1fr));
@@ -359,7 +358,6 @@
             letter-spacing: 0.5px;
         }
 
-        /* ===== МОДАЛЬНОЕ ОКНО ДЛЯ ПРОСМОТРА ФОТО ===== */
         .lightbox {
             position: fixed;
             top: 0;
@@ -452,7 +450,6 @@
             transform: scale(0.95);
         }
 
-        /* ===== ДОСТОПРИМЕЧАТЕЛЬНОСТИ ===== */
         .attractions-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
@@ -527,22 +524,29 @@
             height: 100%;
             backface-visibility: hidden;
             border-radius: 15px;
-            padding: 25px;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            text-align: center;
             box-shadow: 0 5px 20px rgba(0,0,0,0.1);
         }
 
         .fact-front {
             background: linear-gradient(135deg, var(--primary), #34495e);
             color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
         }
 
-        .fact-front .icon { font-size: 3rem; margin-bottom: 15px; }
-        .fact-front h4 { font-size: 1.2rem; }
+        .fact-front h4 {
+            font-size: 1.4rem;
+            font-weight: 700;
+            text-align: center;
+            letter-spacing: 0.5px;
+            line-height: 1.3;
+        }
+
+        .fact-front .icon {
+            display: none;
+        }
 
         .fact-back {
             background: linear-gradient(135deg, var(--accent), #2980b9);
@@ -550,6 +554,12 @@
             transform: rotateY(180deg);
             font-size: 0.95rem;
             line-height: 1.5;
+            padding: 25px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
         }
 
         .heroes-grid {
@@ -720,7 +730,6 @@
             </div>
         </section>
 
-        <!-- ФОТОГАЛЕРЕЯ С ОПИСАНИЯМИ -->
         <section id="gallery">
             <h2>Фотографии</h2>
             <p style="color:#777; margin-bottom:10px;">Нажми на фото, чтобы рассмотреть подробнее</p>
@@ -867,7 +876,6 @@
             <div class="facts-grid">
                 <div class="fact-card" onclick="this.classList.toggle('flipped')">
                     <div class="fact-front">
-                        <div class="icon">🌊</div>
                         <h4>Название города</h4>
                     </div>
                     <div class="fact-back">
@@ -876,7 +884,6 @@
                 </div>
                 <div class="fact-card" onclick="this.classList.toggle('flipped')">
                     <div class="fact-front">
-                        <div class="icon">📅</div>
                         <h4>Год основания</h4>
                     </div>
                     <div class="fact-back">
@@ -885,7 +892,6 @@
                 </div>
                 <div class="fact-card" onclick="this.classList.toggle('flipped')">
                     <div class="fact-front">
-                        <div class="icon">🚂</div>
                         <h4>Транссиб</h4>
                     </div>
                     <div class="fact-back">
@@ -894,7 +900,6 @@
                 </div>
                 <div class="fact-card" onclick="this.classList.toggle('flipped')">
                     <div class="fact-front">
-                        <div class="icon">🧀</div>
                         <h4>Моцарелла</h4>
                     </div>
                     <div class="fact-back">
@@ -972,7 +977,6 @@
         </div>
     </footer>
 
-    <!-- Модальное окно для просмотра фото -->
     <div class="lightbox" id="lightbox" onclick="closeLightboxOnBg(event)">
         <button class="lightbox-close" onclick="closeLightbox()">✕</button>
         <div class="lightbox-content">
@@ -985,7 +989,6 @@
     </div>
 
     <script>
-        // ===== ПЛАВНОЕ ПОЯВЛЕНИЕ СЕКЦИЙ =====
         const sections = document.querySelectorAll('section');
         const observer = new IntersectionObserver((entries) => {
             entries.forEach(entry => {
@@ -996,7 +999,6 @@
         }, { threshold: 0.1 });
         sections.forEach(section => observer.observe(section));
 
-        // ===== ПЛАВНАЯ ПРОКРУТКА =====
         document.querySelectorAll('nav a').forEach(anchor => {
             anchor.addEventListener('click', function(e) {
                 e.preventDefault();
@@ -1007,7 +1009,6 @@
             });
         });
 
-        // ===== ЛАЙТБОКС (просмотр фото) =====
         function openLightbox(src, title, desc) {
             const lightbox = document.getElementById('lightbox');
             const img = document.getElementById('lightbox-img');
@@ -1034,7 +1035,6 @@
             }
         }
 
-        // Закрытие по Escape
         document.addEventListener('keydown', (e) => {
             if (e.key === 'Escape') {
                 closeLightbox();
