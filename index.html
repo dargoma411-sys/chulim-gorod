@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Мой Чулым — Школьный проект</title>
+    <title>Город Чулым — Школьный проект</title>
     <style>
         * {
             margin: 0;
@@ -18,7 +18,6 @@
             line-height: 1.6;
         }
 
-        /* --- Шапка --- */
         header {
             background: linear-gradient(135deg, #2c3e50, #3498db);
             color: white;
@@ -61,7 +60,6 @@
             font-weight: 300;
         }
 
-        /* --- Навигация --- */
         nav {
             background: white;
             padding: 15px;
@@ -86,7 +84,6 @@
             color: #3498db;
         }
 
-        /* --- Основной контент --- */
         .container {
             max-width: 1100px;
             margin: 0 auto;
@@ -115,7 +112,6 @@
             padding-left: 15px;
         }
 
-        /* --- О городе --- */
         .about-text {
             font-size: 1.1rem;
             color: #555;
@@ -130,7 +126,6 @@
             font-style: italic;
         }
 
-        /* --- Фотогалерея --- */
         .gallery {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
@@ -159,14 +154,12 @@
             border-color: #3498db;
         }
 
-        /* Если ты вставишь <img>, он займет все место */
         .gallery-item img {
             width: 100%;
             height: 100%;
             object-fit: cover;
         }
 
-        /* --- Достопримечательности --- */
         .attractions-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
@@ -197,7 +190,6 @@
             font-size: 0.95rem;
         }
 
-        /* --- Факты --- */
         .facts-list {
             list-style: none;
             display: grid;
@@ -220,7 +212,6 @@
             margin-bottom: 5px;
         }
 
-        /* --- Подвал --- */
         footer {
             background: #2c3e50;
             color: rgba(255,255,255,0.8);
@@ -233,7 +224,6 @@
             color: white;
         }
 
-        /* --- Адаптив --- */
         @media (max-width: 768px) {
             header h1 { font-size: 2rem; }
             nav { flex-wrap: wrap; gap: 15px; }
@@ -245,8 +235,8 @@
 <body>
 
     <header>
-        <h1>Мой Чулым</h1>
-        <p>Школьный проект о городе, в котором я живу</p>
+        <h1>Город Чулым</h1>
+        <p>Школьный проект о городе, который стоит на реке Чулым</p>
     </header>
 
     <nav>
@@ -258,25 +248,22 @@
 
     <div class="container">
 
-        <!-- О ГОРОДЕ -->
         <section id="about">
             <h2>О городе Чулым</h2>
             <div class="about-text">
                 <p>Чулым — небольшой, но уютный город в Новосибирской области, расположенный на берегу реки с таким же названием. Он находится всего в 131 километре от Новосибирска и является административным центром Чулымского района.</p>
                 
                 <div class="highlight">
-                    "Чулым прошёл колоссальный путь развития. Каждое новое поколение стремится сделать город ещё красивее и комфортнее для жизни."
+                    «Чулым прошёл колоссальный путь развития. Каждое новое поколение стремится сделать город ещё красивее и комфортнее для жизни».
                 </div>
 
                 <p>Основание города связано со строительством Сибирского тракта в 1762 году. Позже, с приходом Транссибирской железной дороги, Чулым стал важным транспортным узлом. Статус города он получил в 1947 году. Сегодня Чулым — это тихий уголок Сибири с богатой историей и добрыми людьми.</p>
             </div>
         </section>
 
-        <!-- ФОТОГАЛЕРЕЯ -->
         <section id="gallery">
             <h2>Фотографии</h2>
             <div class="gallery">
-                <!-- ВСТАВЬ СВОИ ФОТО СЮДА: Убери текст внутри div и добавь <img src="путь_к_фото.jpg" alt="Чулым"> -->
                 <div class="gallery-item">📸 Твоё фото здесь</div>
                 <div class="gallery-item">📸 Твоё фото здесь</div>
                 <div class="gallery-item">📸 Твоё фото здесь</div>
@@ -284,7 +271,6 @@
             </div>
         </section>
 
-        <!-- ДОСТОПРИМЕЧАТЕЛЬНОСТИ -->
         <section id="attractions">
             <h2>Достопримечательности</h2>
             <div class="attractions-grid">
@@ -307,7 +293,6 @@
             </div>
         </section>
 
-        <!-- ФАКТЫ -->
         <section id="facts">
             <h2>Интересные факты</h2>
             <ul class="facts-list">
@@ -333,7 +318,7 @@
     </div>
 
     <footer>
-        <p>Школьный проект <strong>«Мой Чулым»</strong></p>
+        <p>Школьный проект <strong>«Город Чулым»</strong></p>
         <p>Выполнил: [Твоё Имя] · [Год]</p>
     </footer>
 
