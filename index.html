@@ -106,7 +106,9 @@
             padding: 18px;
             display: flex;
             justify-content: center;
-            gap: 40px;
+            align-items: center;
+            gap: 15px;
+            flex-wrap: wrap;
             box-shadow: 0 4px 20px rgba(0,0,0,0.1);
             position: sticky;
             top: 0;
@@ -137,6 +139,13 @@
 
         nav a:hover::after { width: 100%; }
         nav a:hover { color: var(--accent); }
+
+        .nav-sep {
+            color: rgba(44, 62, 80, 0.3);
+            font-weight: 300;
+            font-size: 1.1rem;
+            user-select: none;
+        }
 
         .container {
             max-width: 1200px;
@@ -675,11 +684,12 @@
             nav {
                 position: static;
                 flex-wrap: wrap;
-                gap: 12px;
+                gap: 10px;
                 padding: 12px;
                 backdrop-filter: none;
             }
             nav a { font-size: 0.9rem; }
+            .nav-sep { display: none; }
             section { padding: 30px 20px; }
             h2 { font-size: 1.6rem; }
             .container { padding: 30px 15px; }
@@ -705,10 +715,15 @@
 
     <nav>
         <a href="#about">О городе</a>
+        <span class="nav-sep">|</span>
         <a href="#gallery">Фотографии</a>
+        <span class="nav-sep">|</span>
         <a href="#attractions">Достопримечательности</a>
+        <span class="nav-sep">|</span>
         <a href="#facts">Факты</a>
+        <span class="nav-sep">|</span>
         <a href="#heroes">Герои</a>
+        <span class="nav-sep">|</span>
         <a href="#nature">Природа</a>
     </nav>
 
