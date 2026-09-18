@@ -20,10 +20,18 @@
         }
 
         body {
-            background: linear-gradient(135deg, #f5f7fa 0%, #e4e8ec 100%);
+            background: linear-gradient(-45deg, #2c3e50, #3498db, #1a252f, #2980b9, #34495e);
+            background-size: 400% 400%;
+            animation: gradientShift 15s ease infinite;
             color: #333;
             line-height: 1.7;
             overflow-x: hidden;
+        }
+
+        @keyframes gradientShift {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
         }
 
         header {
@@ -151,6 +159,12 @@
             max-width: 1200px;
             margin: 0 auto;
             padding: 60px 20px;
+            background: rgba(245, 247, 250, 0.88);
+            backdrop-filter: blur(10px);
+            border-radius: 30px;
+            margin-top: 30px;
+            margin-bottom: 30px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.25);
         }
 
         section {
@@ -678,6 +692,14 @@
             .about-text { font-size: 1.25rem; }
         }
 
+        @media (min-width: 2200px) {
+            .container { max-width: 1800px; }
+            header h1 { font-size: 5rem; }
+            header p { font-size: 1.8rem; }
+            h2 { font-size: 2.8rem; }
+            .about-text { font-size: 1.35rem; }
+        }
+
         @media (max-width: 768px) {
             header h1 { font-size: 2.2rem; }
             header p { font-size: 1rem; }
@@ -692,7 +714,12 @@
             .nav-sep { display: none; }
             section { padding: 30px 20px; }
             h2 { font-size: 1.6rem; }
-            .container { padding: 30px 15px; }
+            .container {
+                padding: 20px 15px;
+                border-radius: 20px;
+                margin-top: 15px;
+                margin-bottom: 15px;
+            }
             .gallery-full { grid-template-columns: 1fr; }
             .lightbox-caption h4 { font-size: 1.1rem; }
             .lightbox-caption p { font-size: 0.85rem; }
