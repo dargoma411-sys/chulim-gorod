@@ -26,7 +26,6 @@
             overflow-x: hidden;
         }
 
-        /* --- Шапка --- */
         header {
             background: linear-gradient(135deg, #1a252f 0%, #2c3e50 50%, #3498db 100%);
             color: white;
@@ -101,7 +100,6 @@
             to { opacity: 1; transform: translateY(0); }
         }
 
-        /* --- Навигация --- */
         nav {
             background: rgba(255, 255, 255, 0.95);
             backdrop-filter: blur(10px);
@@ -145,14 +143,12 @@
             color: var(--accent);
         }
 
-        /* --- Контейнер --- */
         .container {
             max-width: 1200px;
             margin: 0 auto;
             padding: 60px 20px;
         }
 
-        /* --- Секции --- */
         section {
             background: white;
             padding: 50px;
@@ -228,7 +224,6 @@
             font-family: Georgia, serif;
         }
 
-        /* --- Галерея --- */
         .gallery {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
@@ -270,7 +265,6 @@
             transform: scale(1.1);
         }
 
-        /* --- Карточки достопримечательностей --- */
         .attractions-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
@@ -279,13 +273,14 @@
 
         .attraction-card {
             background: linear-gradient(145deg, #ffffff, #f8f9fa);
-            padding: 30px;
             border-radius: 15px;
             border-top: 5px solid var(--accent);
             transition: all 0.4s;
             box-shadow: 0 5px 20px rgba(0,0,0,0.06);
             position: relative;
             overflow: hidden;
+            display: flex;
+            flex-direction: column;
         }
 
         .attraction-card::before {
@@ -297,6 +292,7 @@
             height: 100%;
             background: linear-gradient(90deg, transparent, rgba(52, 152, 219, 0.05), transparent);
             transition: left 0.5s;
+            z-index: 1;
         }
 
         .attraction-card:hover::before {
@@ -306,6 +302,24 @@
         .attraction-card:hover {
             transform: translateY(-10px);
             box-shadow: 0 20px 50px rgba(0,0,0,0.12);
+        }
+
+        .attraction-card img {
+            width: 100%;
+            height: 220px;
+            object-fit: cover;
+            display: block;
+            transition: transform 0.4s;
+        }
+
+        .attraction-card:hover img {
+            transform: scale(1.05);
+        }
+
+        .attraction-content {
+            padding: 25px;
+            position: relative;
+            z-index: 2;
         }
 
         .attraction-card h3 {
@@ -322,7 +336,6 @@
             font-size: 1rem;
         }
 
-        /* --- Факты (переворачивающиеся карточки) --- */
         .facts-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
@@ -379,7 +392,6 @@
             line-height: 1.5;
         }
 
-        /* --- Секция героев --- */
         .heroes-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
@@ -425,7 +437,6 @@
             font-size: 0.9rem;
         }
 
-        /* --- Секция природы --- */
         .nature-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
@@ -459,7 +470,6 @@
             font-size: 0.95rem;
         }
 
-        /* --- Подвал --- */
         footer {
             background: linear-gradient(135deg, #1a252f, #2c3e50);
             color: rgba(255,255,255,0.8);
@@ -480,7 +490,6 @@
             opacity: 0.7;
         }
 
-        /* --- Адаптив --- */
         @media (max-width: 768px) {
             header h1 { font-size: 2.2rem; }
             header p { font-size: 1rem; }
@@ -511,7 +520,6 @@
 
     <div class="container">
 
-        <!-- О ГОРОДЕ -->
         <section id="about">
             <h2>О городе Чулым</h2>
             <div class="about-text">
@@ -527,52 +535,64 @@
             </div>
         </section>
 
-        <!-- ФОТОГАЛЕРЕЯ -->
         <section id="gallery">
             <h2>Фотографии</h2>
-            <p style="color:#777; margin-bottom:20px;">Нажми на фото, чтобы увеличить (когда добавишь свои картинки)</p>
             <div class="gallery">
-                <div class="gallery-item">📸 Твоё фото здесь</div>
-                <div class="gallery-item">📸 Твоё фото здесь</div>
-                <div class="gallery-item">📸 Твоё фото здесь</div>
-                <div class="gallery-item">📸 Твоё фото здесь</div>
-                <div class="gallery-item">📸 Твоё фото здесь</div>
-                <div class="gallery-item">📸 Твоё фото здесь</div>
+                <div class="gallery-item"><img src="https://zap-sib-rail.narod.ru/Stations/Photo/Nsk/chulimska-city.jpg" alt="Чулым, вид со стороны посёлка"></div>
+                <div class="gallery-item"><img src="https://cdn2.tu-tu.ru/image/source/1/27db0f33fe1620ed68a1e7b3fd7c306a/" alt="Станция Чулымская"></div>
+                <div class="gallery-item"><img src="https://avatars.mds.yandex.net/i?id=76f1eb4ce0f997329c564d21a969f6a6_l-10414372-images-thumbs&n=13" alt="Храм Рождества Богородицы"></div>
+                <div class="gallery-item"><img src="https://avatars.mds.yandex.net/i?id=45fa99d5781a9967906b70f73e61eeb8_l-4944710-images-thumbs&n=13&n=13&w=690&h=460" alt="Монумент Славы"></div>
             </div>
         </section>
 
-        <!-- ДОСТОПРИМЕЧАТЕЛЬНОСТИ -->
         <section id="attractions">
             <h2>Достопримечательности</h2>
             <div class="attractions-grid">
                 <div class="attraction-card">
-                    <h3>🚂 Станция Чулымская</h3>
-                    <p>Открыта в 1896 году на Транссибирской магистрали. Расположена на 3205 км главного хода Транссиба. В годы Великой Отечественной войны здесь размещался завод, выпускавший мины.</p>
+                    <img src="https://cdn2.tu-tu.ru/image/source/1/27db0f33fe1620ed68a1e7b3fd7c306a/" alt="Станция Чулымская">
+                    <div class="attraction-content">
+                        <h3>🚂 Станция Чулымская</h3>
+                        <p>Открыта в 1896 году на Транссибирской магистрали. Расположена на 3205 км главного хода Транссиба. В годы Великой Отечественной войны здесь размещался завод, выпускавший мины.</p>
+                    </div>
                 </div>
                 <div class="attraction-card">
-                    <h3>⛪ Храм Рождества Богородицы</h3>
-                    <p>Украшение города, построенное в 2005–2009 годах на пожертвования жителей. До строительства церкви богослужения совершались в здании бывшего магазина.</p>
+                    <img src="https://avatars.mds.yandex.net/i?id=76f1eb4ce0f997329c564d21a969f6a6_l-10414372-images-thumbs&n=13" alt="Храм Рождества Богородицы">
+                    <div class="attraction-content">
+                        <h3>⛪ Храм Рождества Богородицы</h3>
+                        <p>Украшение города, построенное в 2005–2009 годах на пожертвования жителей. До строительства церкви богослужения совершались в здании бывшего магазина.</p>
+                    </div>
                 </div>
                 <div class="attraction-card">
-                    <h3>🏛 Краеведческий музей</h3>
-                    <p>Школьный музей «Сердцем прикоснись к истории» открыт в 2008 году. Первый экспонат — лапоть, найденный в огороде при копании колодца в 1986 году.</p>
+                    <img src="https://avatars.mds.yandex.net/i?id=464acc289c558e1aace278d878c6d27b_l-8324697-images-thumbs&n=13&n=13&w=690&h=460" alt="Краеведческий музей">
+                    <div class="attraction-content">
+                        <h3>🏛 Краеведческий музей</h3>
+                        <p>Школьный музей «Сердцем прикоснись к истории» открыт в 2008 году. Первый экспонат — лапоть, найденный в огороде при копании колодца в 1986 году.</p>
+                    </div>
                 </div>
                 <div class="attraction-card">
-                    <h3>🕊 Монумент Славы</h3>
-                    <p>Мемориал воинам-чулымцам, погибшим в Великой Отечественной войне. Открыт 22 июня 2012 года. На стеле высечены 4370 фамилий павших воинов.</p>
+                    <img src="https://avatars.mds.yandex.net/i?id=45fa99d5781a9967906b70f73e61eeb8_l-4944710-images-thumbs&n=13&n=13&w=690&h=460" alt="Монумент Славы">
+                    <div class="attraction-content">
+                        <h3>🕊 Монумент Славы</h3>
+                        <p>Мемориал воинам-чулымцам, погибшим в Великой Отечественной войне. Открыт 22 июня 2012 года. На стеле высечены 4370 фамилий павших воинов.</p>
+                    </div>
                 </div>
                 <div class="attraction-card">
-                    <h3>🏊 Спорткомплекс «Радуга»</h3>
-                    <p>Открыт в 2003 году. Имеет возможности для проведения соревнований любого масштаба. Универсальный зал со спортивным паркетом.</p>
+                    <img src="https://avatars.mds.yandex.net/i?id=00c2c1f14bf68966ac678c78ead9f09a_l-5870145-images-thumbs&n=13&n=13&w=690&h=460" alt="Спорткомплекс Радуга">
+                    <div class="attraction-content">
+                        <h3>🏊 Спорткомплекс «Радуга»</h3>
+                        <p>Открыт в 2003 году. Имеет возможности для проведения соревнований любого масштаба. Универсальный зал со спортивным паркетом.</p>
+                    </div>
                 </div>
                 <div class="attraction-card">
-                    <h3>🏭 Фабрика «Фаворит»</h3>
-                    <p>Крупнейший производитель молочной продукции за Уралом. Здесь производят единственную от Урала до Дальнего Востока моцареллу.</p>
+                    <img src="https://avatars.mds.yandex.net/i?id=ce06d1062feb04baaa47538eef42f4695667aeb7-4803223-images-thumbs&n=13&n=13&w=690&h=460" alt="Фабрика Фаворит">
+                    <div class="attraction-content">
+                        <h3>🏭 Фабрика «Фаворит»</h3>
+                        <p>Крупнейший производитель молочной продукции за Уралом. Здесь производят единственную от Урала до Дальнего Востока моцареллу.</p>
+                    </div>
                 </div>
             </div>
         </section>
 
-        <!-- ФАКТЫ (переворачивающиеся карточки) -->
         <section id="facts">
             <h2>Интересные факты</h2>
             <p style="color:#777; margin-bottom:20px;">Нажми на карточку, чтобы перевернуть и узнать факт</p>
@@ -616,7 +636,6 @@
             </div>
         </section>
 
-        <!-- ГЕРОИ -->
         <section id="heroes">
             <h2>Герои-чулымцы</h2>
             <p style="color:#777; margin-bottom:20px;">Чулым — родина Героев Советского Союза</p>
@@ -645,7 +664,6 @@
             <p style="margin-top:25px; color:#777; font-size:0.95rem;">Всего 11 чулымцев удостоены звания Героя Советского Союза.</p>
         </section>
 
-        <!-- ПРИРОДА -->
         <section id="nature">
             <h2>Природа и климат</h2>
             <div class="nature-grid">
@@ -679,7 +697,6 @@
     </footer>
 
     <script>
-        // Плавное появление секций при прокрутке
         const sections = document.querySelectorAll('section');
 
         const observer = new IntersectionObserver((entries) => {
@@ -696,7 +713,6 @@
             observer.observe(section);
         });
 
-        // Плавная прокрутка для навигации
         document.querySelectorAll('nav a').forEach(anchor => {
             anchor.addEventListener('click', function(e) {
                 e.preventDefault();
