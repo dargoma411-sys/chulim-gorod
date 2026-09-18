@@ -386,17 +386,20 @@
             display: flex;
             flex-direction: column;
             align-items: center;
+            width: 100%;
         }
 
         .lightbox-content img {
+            width: 100%;
             max-width: 100%;
-            max-height: 85vh;
-            width: auto;
+            min-width: 300px;
             height: auto;
+            max-height: 80vh;
             object-fit: contain;
             border-radius: 10px;
             box-shadow: 0 20px 60px rgba(0, 0, 0, 0.7);
             animation: zoomIn 0.3s ease-out;
+            image-rendering: auto;
         }
 
         @keyframes zoomIn {
@@ -658,7 +661,6 @@
             opacity: 0.7;
         }
 
-        /* ===== БОЛЬШИЕ ЭКРАНЫ (доска, проектор) ===== */
         @media (min-width: 1600px) {
             .container { max-width: 1500px; }
             header h1 { font-size: 4.5rem; }
@@ -685,8 +687,9 @@
             .lightbox-caption h4 { font-size: 1.1rem; }
             .lightbox-caption p { font-size: 0.85rem; }
             .lightbox-content img {
-                max-height: 70vh;
-                max-width: 95vw;
+                max-height: 75vh;
+                width: 100%;
+                min-width: auto;
             }
             .lightbox { padding: 10px; }
         }
@@ -696,7 +699,7 @@
 
     <header>
         <h1>Город Чулым</h1>
-        <p>Город, который стоит на реке Чулым в Новосибирской области</p>
+        <p>Школьный проект о городе, который стоит на реке Чулым в Новосибирской области</p>
         <div class="scroll-hint">↓</div>
     </header>
 
