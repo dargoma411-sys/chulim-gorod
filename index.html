@@ -532,8 +532,17 @@
 
         .facts-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            grid-template-columns: repeat(4, 1fr);
             gap: 20px;
+            perspective: 1000px;
+        }
+
+        .facts-row-2 {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 20px;
+            max-width: 66%;
+            margin: 20px auto 0;
             perspective: 1000px;
         }
 
@@ -566,7 +575,7 @@
         }
 
         .fact-front h4 {
-            font-size: 1.4rem;
+            font-size: 1.1rem;
             font-weight: 700;
             text-align: center;
             letter-spacing: 0.5px;
@@ -581,9 +590,9 @@
             background: linear-gradient(135deg, var(--accent), #2980b9);
             color: white;
             transform: rotateY(180deg);
-            font-size: 0.95rem;
+            font-size: 0.85rem;
             line-height: 1.5;
-            padding: 25px;
+            padding: 20px;
             display: flex;
             flex-direction: column;
             justify-content: center;
@@ -700,6 +709,11 @@
             .about-text { font-size: 1.35rem; }
         }
 
+        @media (max-width: 1200px) {
+            .facts-grid { grid-template-columns: repeat(2, 1fr); }
+            .facts-row-2 { max-width: 100%; }
+        }
+
         @media (max-width: 768px) {
             header h1 { font-size: 2.2rem; }
             header p { font-size: 1rem; }
@@ -721,6 +735,8 @@
                 margin-bottom: 15px;
             }
             .gallery-full { grid-template-columns: 1fr; }
+            .facts-grid { grid-template-columns: 1fr; }
+            .facts-row-2 { grid-template-columns: 1fr; max-width: 100%; }
             .lightbox-caption h4 { font-size: 1.1rem; }
             .lightbox-caption p { font-size: 0.85rem; }
             .lightbox-content img {
@@ -941,7 +957,7 @@
         <section id="facts">
             <h2>Интересные факты</h2>
             <p style="color:#777; margin-bottom:20px;">Нажмите на карточку, чтобы перевернуть и узнать факт</p>
-                        <div class="facts-grid">
+            <div class="facts-grid">
                 <div class="fact-card" onclick="this.classList.toggle('flipped')">
                     <div class="fact-front">
                         <h4>Название города</h4>
@@ -974,6 +990,8 @@
                         Через город проходит легендарная Транссибирская магистраль. Станция Чулымская открыта в 1896 году.
                     </div>
                 </div>
+            </div>
+            <div class="facts-row-2">
                 <div class="fact-card" onclick="this.classList.toggle('flipped')">
                     <div class="fact-front">
                         <h4>Моцарелла</h4>
