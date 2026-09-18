@@ -283,18 +283,21 @@
         .toast.show {
             opacity: 1; transform: translateX(-50%) translateY(0);
         }
+
         .modal-overlay {
             position: fixed; top: 0; left: 0; right: 0; bottom: 0;
-            background: rgba(0,0,0,0.75); backdrop-filter: blur(4px);
+            background: rgba(0,0,0,0.5);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
             display: none; align-items: center; justify-content: center;
             z-index: 200; padding: 20px;
-            animation: fadeIn 0.2s;
+            opacity: 0;
+            transition: opacity 0.3s ease;
         }
-        @keyframes fadeIn {
-            from { opacity: 0; }
-            to { opacity: 1; }
+        .modal-overlay.show {
+            display: flex;
+            opacity: 1;
         }
-        .modal-overlay.show { display: flex; }
         .modal {
             background: linear-gradient(145deg, #1c2733 0%, #232e3c 100%);
             border-radius: 20px; padding: 24px; width: 100%;
@@ -304,8 +307,8 @@
             animation: slideUp 0.3s cubic-bezier(0.4, 0, 0.2, 1);
         }
         @keyframes slideUp {
-            from { transform: translateY(30px); opacity: 0; }
-            to { transform: translateY(0); opacity: 1; }
+            from { transform: translateY(30px) scale(0.95); opacity: 0; }
+            to { transform: translateY(0) scale(1); opacity: 1; }
         }
         .modal h3 {
             font-size: 19px; font-weight: 700; margin-bottom: 8px;
@@ -518,8 +521,6 @@
             font-size: 20px; font-weight: 800; color: #6ab3f3;
             letter-spacing: 0.3px;
         }
-
-        /* ===== АДМИН-ПАНЕЛЬ ===== */
         .admin-order {
             background: rgba(0,0,0,0.25); border-radius: 14px;
             padding: 14px; margin-bottom: 10px;
@@ -605,7 +606,7 @@
             color: #ffffff; padding: 6px 10px;
             border-radius: 8px; text-decoration: none;
             font-size: 11px; font-weight: 700;
-            margin-top: 4px; cursor: pointer; border: none;  
+            margin-top: 4px; cursor: pointer; border: none;
         }
         .contact-btn:active { transform: scale(0.97); }
     </style>
@@ -616,9 +617,7 @@
         <div class="loading-logo">MorvexxShop</div>
         <div class="loading-subtitle">Игровая валюта</div>
         <div class="loading-spinner"></div>
-        <div class="loading-progress">
-            <div class="loading-progress-bar"></div>
-        </div>
+        <div class="loading-progress"><div class="loading-progress-bar"></div></div>
         <div class="loading-status" id="loading-status">Загрузка магазина...</div>
     </div>
 
@@ -633,6 +632,7 @@
         <div class="top-buttons">
             <button class="top-btn" id="btn-profile" onclick="openBot('profile')">👤 Профиль</button>
             <button class="top-btn" id="btn-orders" onclick="openBot('my_orders')">📦 Заказы</button>
+            <button class="top-btn" onclick="openFaqModal()" style="flex: 0 0 52px; font-size: 18px; font-weight: 800;">?</button>
         </div>
 
         <div class="section-title">Категории</div>
@@ -695,9 +695,7 @@
                 <button class="currency-btn" onclick="chooseSteamCurrency('usd', 'Доллары', '$', 84.17)"><span>Доллары</span><span class="currency-rate">84,17 ₽</span></button>
                 <button class="currency-btn" onclick="chooseSteamCurrency('eur', 'Евро', '€', 97.13)"><span>Евро</span><span class="currency-rate">97,13 ₽</span></button>
             </div>
-            <div class="modal-buttons">
-                <button class="modal-btn cancel" onclick="closeSteamModal()">Назад</button>
-            </div>
+            <div class="modal-buttons"><button class="modal-btn cancel" onclick="closeSteamModal()">Назад</button></div>
         </div>
     </div>
 
@@ -715,10 +713,7 @@
         <div class="modal">
             <h3>Профиль</h3>
             <div id="profile-content">
-                <div class="orders-loading">
-                    <div class="orders-loading-spinner"></div>
-                    Загрузка профиля...
-                </div>
+                <div class="orders-loading"><div class="orders-loading-spinner"></div>Загрузка профиля...</div>
             </div>
             <div class="modal-buttons" style="margin-top: 16px;">
                 <button class="modal-btn cancel" onclick="closeProfileModal()">Закрыть</button>
@@ -737,15 +732,45 @@
         </div>
     </div>
 
-    <!-- Кнопка админа -->
+    <div class="modal-overlay" id="faq-modal">
+        <div class="modal" style="max-width: 400px;">
+            <h3>❓ Помощь</h3>
+            <div class="faq-item">
+                <div class="faq-q">Как купить товар?</div>
+                <div class="faq-a">Выбери категорию → введи количество → нажми «Купить». Менеджер свяжется с тобой для оплаты.</div>
+            </div>
+            <div class="faq-item">
+                <div class="faq-q">Как оплатить заказ?</div>
+                <div class="faq-a">После оформления менеджер напишет тебе в Telegram и предложит удобный способ оплаты.</div>
+            </div>
+            <div class="faq-item">
+                <div class="faq-q">Сколько ждать после оплаты?</div>
+                <div class="faq-a">Обычно выдача занимает от 5 минут до 1 часа. Если заказ большой — до 24 часов.</div>
+            </div>
+            <div class="faq-item">
+                <div class="faq-q">Можно ли отменить заказ?</div>
+                <div class="faq-a">Да. Зайди в «Мои заказы» → нажми «Отменить» рядом с заказом, пока он в обработке.</div>
+            </div>
+            <div class="faq-item">
+                <div class="faq-q">Что если товар не пришёл?</div>
+                <div class="faq-a">Напиши нам в чат или подожди — менеджер обязательно свяжется и решит вопрос.</div>
+            </div>
+            <div class="faq-item">
+                <div class="faq-q">Как связаться с поддержкой?</div>
+                <div class="faq-a">Напиши в личку боту — мы отвечаем в течение часа.</div>
+            </div>
+            <div class="modal-buttons" style="margin-top: 16px;">
+                <button class="modal-btn cancel" onclick="closeFaqModal()">Закрыть</button>
+            </div>
+        </div>
+    </div>
+
     <button class="faq-btn" id="admin-fab" onclick="openAdminPanel()" style="display: none; position: fixed; bottom: 20px; right: 20px; z-index: 150; box-shadow: 0 6px 20px rgba(0,0,0,0.5); width: 52px; height: 52px; font-size: 22px;">🛠</button>
 
-    <!-- Окно админ-панели -->
     <div class="modal-overlay" id="admin-modal">
         <div class="modal" style="max-width: 420px;">
             <div class="admin-header-row">
                 <div class="admin-title">🛠 Админ-панель</div>
-                <button class="faq-btn" onclick="openFaqModal()">?</button>
             </div>
             <div class="admin-filter">
                 <button class="admin-filter-btn active" data-filter="all" onclick="filterAdmin('all')">Все</button>
@@ -754,43 +779,10 @@
                 <button class="admin-filter-btn" data-filter="cancelled" onclick="filterAdmin('cancelled')">❌ Отмена</button>
             </div>
             <div id="admin-orders-list">
-                <div class="orders-loading">
-                    <div class="orders-loading-spinner"></div>
-                    Загрузка...
-                </div>
+                <div class="orders-loading"><div class="orders-loading-spinner"></div>Загрузка...</div>
             </div>
             <div class="modal-buttons" style="margin-top: 16px;">
                 <button class="modal-btn cancel" onclick="closeAdminPanel()">Закрыть</button>
-            </div>
-        </div>
-    </div>
-
-    <!-- Окно FAQ -->
-    <div class="modal-overlay" id="faq-modal">
-        <div class="modal" style="max-width: 420px;">
-            <h3>❓ Частые вопросы</h3>
-            <div class="faq-item">
-                <div class="faq-q">Как связаться с клиентом?</div>
-                <div class="faq-a">В карточке заказа указан юзернейм. Нажми «💬 Написать» — откроется чат в Telegram.</div>
-            </div>
-            <div class="faq-item">
-                <div class="faq-q">Как выполнить заказ?</div>
-                <div class="faq-a">Нажми «✅ Выполнить». Статус изменится на «Выполнен».</div>
-            </div>
-            <div class="faq-item">
-                <div class="faq-q">Как отменить заказ?</div>
-                <div class="faq-a">Нажми «❌ Отменить» в карточке. Клиент увидит статус «Отменён».</div>
-            </div>
-            <div class="faq-item">
-                <div class="faq-q">Что делать, если клиент не отвечает?</div>
-                <div class="faq-a">Подожди 24 часа. Если молчит — отмени заказ.</div>
-            </div>
-            <div class="faq-item">
-                <div class="faq-q">Как часто проверять заказы?</div>
-                <div class="faq-a">Раз в день открывай админ-панель и обрабатывай новые заказы.</div>
-            </div>
-            <div class="modal-buttons" style="margin-top: 16px;">
-                <button class="modal-btn cancel" onclick="closeFaqModal()">Закрыть</button>
             </div>
         </div>
     </div>
@@ -812,7 +804,6 @@
         let allAdminOrders = [];
         let currentFilter = 'all';
 
-        // Показать кнопку админа
         if (isAdmin) {
             setTimeout(() => {
                 const fab = document.getElementById('admin-fab');
@@ -820,7 +811,6 @@
             }, 200);
         }
 
-        // ЭКРАН ЗАГРУЗКИ
         function createLoadingSnow() {
             const container = document.getElementById('loading-snow');
             const snowChars = ['❄', '❅', '❆', '•', '*'];
@@ -887,7 +877,6 @@
         }
         createSnow();
 
-        // УТИЛИТЫ
         function checkUser() {
             if (!user.id) {
                 showToast("⚠️ Откройте магазин через Telegram бота");
@@ -913,7 +902,6 @@
             return div.innerHTML;
         }
 
-        // КАТЕГОРИИ
         function openCategory(catCode, catName, unit, rate) {
             if (!checkUser()) return;
             currentCategory = catCode; currentRate = rate;
@@ -928,9 +916,7 @@
             if (!checkUser()) return;
             document.getElementById('steam-modal').classList.add('show');
         }
-        function closeSteamModal() {
-            document.getElementById('steam-modal').classList.remove('show');
-        }
+        function closeSteamModal() { document.getElementById('steam-modal').classList.remove('show'); }
         function chooseSteamCurrency(code, name, symbol, rate) {
             closeSteamModal();
             currentCategory = "cat_steam"; currentRate = rate;
@@ -971,7 +957,6 @@
             .catch(err => { console.error(err); showToast("❌ Ошибка сервера"); });
         }
 
-        // ПРОФИЛЬ И ЗАКАЗЫ
         function openBot(action) {
             if (!checkUser()) return;
             if (action === "profile") loadProfile();
@@ -1005,9 +990,7 @@
             })
             .catch(err => { console.error(err); content.innerHTML = '<p style="opacity: 0.6; text-align: center; padding: 20px;">❌ Ошибка загрузки</p>'; });
         }
-        function closeProfileModal() {
-            document.getElementById('profile-modal').classList.remove('show');
-        }
+        function closeProfileModal() { document.getElementById('profile-modal').classList.remove('show'); }
         function loadOrders() {
             const list = document.getElementById('orders-list');
             list.innerHTML = '<div class="orders-loading"><div class="orders-loading-spinner"></div>Загрузка заказов...</div>';
@@ -1052,10 +1035,7 @@
             document.getElementById('cancel-info').innerHTML = `Заказ #${orderId}<br>${catName}<br>${qty} ${unit}<br>💰 ${price} ₽`;
             document.getElementById('cancel-modal').classList.add('show');
         }
-        function closeCancelModal() {
-            document.getElementById('cancel-modal').classList.remove('show');
-            cancelOrderId = null;
-        }
+        function closeCancelModal() { document.getElementById('cancel-modal').classList.remove('show'); cancelOrderId = null; }
         function confirmCancel() {
             if (!cancelOrderId) return;
             const orderId = cancelOrderId;
@@ -1088,17 +1068,15 @@
             .catch(err => { console.error(err); showToast("❌ Ошибка сервера"); });
         }
 
-        // АДМИН-ПАНЕЛЬ
+        function openFaqModal() { document.getElementById('faq-modal').classList.add('show'); }
+        function closeFaqModal() { document.getElementById('faq-modal').classList.remove('show'); }
+
         function openAdminPanel() {
             if (!isAdmin) return;
             loadAdminOrders();
             document.getElementById('admin-modal').classList.add('show');
         }
-        function closeAdminPanel() {
-            document.getElementById('admin-modal').classList.remove('show');
-        }
-        function openFaqModal() { document.getElementById('faq-modal').classList.add('show'); }
-        function closeFaqModal() { document.getElementById('faq-modal').classList.remove('show'); }
+        function closeAdminPanel() { document.getElementById('admin-modal').classList.remove('show'); }
         function filterAdmin(filter) {
             currentFilter = filter;
             document.querySelectorAll('.admin-filter-btn').forEach(btn => {
@@ -1173,7 +1151,6 @@
             .catch(err => { console.error(err); showToast("❌ Ошибка сервера"); });
         }
 
-        // Закрытие модалок по клику на фон
         document.querySelectorAll('.modal-overlay').forEach(overlay => {
             overlay.addEventListener('click', (e) => {
                 if (e.target === overlay) overlay.classList.remove('show');
