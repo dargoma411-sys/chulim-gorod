@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Народ чулымцы — Школьный проект 7А</title>
+    <title>Народ чулымцы — Школьный проект</title>
     <style>
         * {
             margin: 0;
@@ -701,58 +701,6 @@
         }
 
         /* === ДОБАВЛЕНО: стили для новых блоков в том же стиле === */
-        .qr-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-            gap: 25px;
-            margin-top: 20px;
-        }
-
-        .qr-card {
-            background: linear-gradient(145deg, #ffffff, #f8f9fa);
-            border-radius: 15px;
-            padding: 25px 20px;
-            text-align: center;
-            box-shadow: 0 5px 20px rgba(0,0,0,0.06);
-            border-top: 4px solid var(--accent);
-            transition: all 0.3s;
-        }
-
-        .qr-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
-        }
-
-        .qr-card .qr-img {
-            width: 160px;
-            height: 160px;
-            margin: 0 auto 15px;
-            background: #fff;
-            border-radius: 12px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            overflow: hidden;
-            border: 1px solid rgba(52,152,219,0.2);
-        }
-
-        .qr-card .qr-img img {
-            width: 100%;
-            height: 100%;
-            object-fit: contain;
-        }
-
-        .qr-card h4 {
-            color: var(--primary);
-            font-size: 1.05rem;
-            margin-bottom: 8px;
-        }
-
-        .qr-card p {
-            color: #777;
-            font-size: 0.88rem;
-        }
-
         .quiz-box {
             background: linear-gradient(145deg, #ffffff, #f0f4f8);
             border-radius: 15px;
@@ -837,49 +785,25 @@
             transform: none;
         }
 
-        .creative-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
-            gap: 25px;
-            margin-top: 10px;
+        .quiz-restart {
+            margin-top: 20px;
+            margin-left: 12px;
+            background: linear-gradient(135deg, #27ae60, #1e8449);
+            color: white;
+            border: none;
+            padding: 12px 28px;
+            border-radius: 30px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            box-shadow: 0 5px 15px rgba(39,174,96,0.3);
         }
 
-        .creative-card {
-            background: linear-gradient(145deg, #fff, #f0f4f8);
-            border-radius: 15px;
-            overflow: hidden;
-            box-shadow: 0 5px 20px rgba(0,0,0,0.06);
-            border-bottom: 4px solid var(--accent);
-            transition: all 0.4s;
-            display: flex;
-            flex-direction: column;
+        .quiz-restart:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(39,174,96,0.45);
         }
-
-        .creative-card:hover {
-            transform: translateY(-8px);
-            box-shadow: 0 15px 40px rgba(0,0,0,0.12);
-        }
-
-        .creative-card img {
-            width: 100%;
-            height: 220px;
-            object-fit: cover;
-            display: block;
-            cursor: zoom-in;
-            transition: transform 0.4s;
-        }
-
-        .creative-card:hover img { transform: scale(1.05); }
-
-        .creative-content { padding: 20px; }
-
-        .creative-card h4 {
-            color: var(--primary);
-            margin-bottom: 8px;
-            font-size: 1.1rem;
-        }
-
-        .creative-card p { color: #777; font-size: 0.9rem; }
 
         .map-block {
             background: linear-gradient(145deg, #e8f4fd, #d1e9fc);
@@ -962,6 +886,7 @@
                 min-width: auto;
             }
             .lightbox { padding: 10px; }
+            .quiz-restart { margin-left: 0; margin-top: 12px; }
         }
     </style>
 </head>
@@ -969,7 +894,7 @@
 
     <header>
         <h1>Народ чулымцы</h1>
-        <p>Школьный проект 7А в рамках Года единства народов России — 2026</p>
+        <p>Школьный проект в рамках Года единства народов России — 2026</p>
         <div class="scroll-hint">↓</div>
     </header>
 
@@ -986,11 +911,7 @@
         <span class="nav-sep">|</span>
         <a href="#facts">Факты</a>
         <span class="nav-sep">|</span>
-        <a href="#qr">QR-коды</a>
-        <span class="nav-sep">|</span>
         <a href="#quiz">Викторина</a>
-        <span class="nav-sep">|</span>
-        <a href="#creative">Творчество</a>
     </nav>
 
     <div class="container">
@@ -1024,7 +945,7 @@
                 </div>
 
                 <div class="highlight">
-                    «Чулымцы — один из самых малочисленных тюркских народов России. Сохранение их языка и культуры — важная задача для всех нас».
+                    «Чулым прошёл колоссальный путь развития. Каждое новое поколение стремится сделать город ещё красивее и комфортнее для проживания».
                 </div>
 
                 <p>Чулымский язык относится к <strong>тюркской группе алтайской семьи</strong>. В 2010-х годах для него был создан алфавит на основе кириллицы. Сегодня чулымский язык считается <strong>исчезающим</strong>: на нём говорит лишь несколько десятков человек старшего поколения.</p>
@@ -1041,7 +962,7 @@
                 <h4>📍 Где живут чулымцы</h4>
                 <p>Чулымцы компактно проживают в нескольких сёлах вдоль реки Чулым: <strong>Тегульдет</strong> (Томская область), <strong>Пышкино-Троицкое</strong>, <strong>Старый Чулым</strong>, <strong>Усть-Чулым</strong> и других. Часть чулымцев живёт в городах — Новосибирске, Томске, Ачинске.</p>
                 <p style="margin-top:10px;">Ниже — схематичная карта бассейна реки Чулым с указанием основных мест проживания народа.</p>
-                <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/1/1a/Chulym_River_basin.png/800px-Chulym_River_basin.png" alt="Карта бассейна реки Чулым" onclick="openLightbox('https://upload.wikimedia.org/wikipedia/commons/thumb/1/1a/Chulym_River_basin.png/800px-Chulym_River_basin.png', 'Бассейн реки Чулым', 'Река Чулым — историческая родина чулымцев. Длина реки — около 1799 км. Бассейн охватывает Новосибирскую, Томскую области и Красноярский край.')">
+                <img src="https://avatars.mds.yandex.net/i?id=547cc83282257f3d9fcfc4742b6fbe4761a87c75-13079178-images-thumbs&n=13" alt="Карта бассейна реки Чулым" onclick="openLightbox('https://avatars.mds.yandex.net/i?id=547cc83282257f3d9fcfc4742b6fbe4761a87c75-13079178-images-thumbs&n=13', 'Бассейн реки Чулым', 'Река Чулым — историческая родина чулымцев. Длина реки — около 1799 км. Бассейн охватывает Новосибирскую, Томскую области и Красноярский край.')">
             </div>
         </section>
 
@@ -1278,43 +1199,7 @@
             </div>
         </section>
 
-        <!-- НОВЫЙ РАЗДЕЛ: QR-коды -->
-        <section id="qr">
-            <h2>QR-коды</h2>
-            <p style="color:#777; margin-bottom:10px;">Наведите камеру телефона, чтобы послушать народную музыку и узнать больше</p>
-            <div class="qr-grid">
-                <div class="qr-card">
-                    <div class="qr-img">
-                        <img src="https://api.qrserver.com/v1/create-qr-code/?size=160x160&data=https://www.youtube.com/results?search_query=чулымская+народная+музыка" alt="QR-код: чулымская музыка">
-                    </div>
-                    <h4>🎵 Народная музыка</h4>
-                    <p>Чулымские песни и наигрыши</p>
-                </div>
-                <div class="qr-card">
-                    <div class="qr-img">
-                        <img src="https://api.qrserver.com/v1/create-qr-code/?size=160x160&data=https://ru.wikipedia.org/wiki/Чулымцы" alt="QR-код: статья о чулымцах">
-                    </div>
-                    <h4>📖 Статья о чулымцах</h4>
-                    <p>Википедия: история и культура</p>
-                </div>
-                <div class="qr-card">
-                    <div class="qr-img">
-                        <img src="https://api.qrserver.com/v1/create-qr-code/?size=160x160&data=https://www.youtube.com/results?search_query=чулымцы+документальный+фильм" alt="QR-код: видео о чулымцах">
-                    </div>
-                    <h4>🎬 Видеоэкскурсия</h4>
-                    <p>Документальные фильмы о народе</p>
-                </div>
-                <div class="qr-card">
-                    <div class="qr-img">
-                        <img src="https://api.qrserver.com/v1/create-qr-code/?size=160x160&data=https://www.google.com/maps/search/Тегульдет+Томская+область" alt="QR-код: карта расселения">
-                    </div>
-                    <h4>🗺 Карта расселения</h4>
-                    <p>Село Тегульдет и другие места</p>
-                </div>
-            </div>
-        </section>
-
-        <!-- НОВЫЙ РАЗДЕЛ: Викторина -->
+        <!-- РАЗДЕЛ: Викторина (QR и творческие работы удалены) -->
         <section id="quiz">
             <h2>Мини-викторина</h2>
             <p style="color:#777; margin-bottom:20px;">Проверьте, насколько хорошо вы узнали народ чулымцы</p>
@@ -1323,49 +1208,14 @@
                 <div class="quiz-options" id="quiz-options"></div>
                 <div class="quiz-result" id="quiz-result"></div>
                 <button class="quiz-next" id="quiz-next" onclick="nextQuestion()" disabled>Следующий вопрос →</button>
-            </div>
-        </section>
-
-        <!-- НОВЫЙ РАЗДЕЛ: Творческие работы -->
-        <section id="creative">
-            <h2>Творческие работы</h2>
-            <p style="color:#777; margin-bottom:10px;">Рисунки, орнаменты и поделки учеников 7А, посвящённые чулымцам</p>
-            <div class="creative-grid">
-                <div class="creative-card">
-                    <img src="https://avatars.mds.yandex.net/i?id=6a1b644a3ed4e534f3d48b1f4a2ce6e1_l-13095555-images-thumbs&n=13&n=13&w=432&h=576" alt="Орнамент чулымцев" onclick="openLightbox('https://avatars.mds.yandex.net/i?id=6a1b644a3ed4e534f3d48b1f4a2ce6e1_l-13095555-images-thumbs&n=13&n=13&w=432&h=576', 'Орнамент чулымцев', 'Традиционный орнамент чулымцев — геометрические узоры, вышитые бисером и нитками.')">
-                    <div class="creative-content">
-                        <h4>Орнамент чулымцев</h4>
-                        <p>Рисунок ученицы 7А. Геометрические узоры, вышитые бисером.</p>
-                    </div>
-                </div>
-                <div class="creative-card">
-                    <img src="https://avatars.mds.yandex.net/i?id=7e592b391c42c3b506b3fe3c2e83507a_l-5870008-images-thumbs&n=13" alt="Макет избы" onclick="openLightbox('https://avatars.mds.yandex.net/i?id=7e592b391c42c3b506b3fe3c2e83507a_l-5870008-images-thumbs&n=13', 'Макет чулымской избы', 'Поделка ученика 7А: макет традиционного жилища чулымцев из картона и дерева.')">
-                    <div class="creative-content">
-                        <h4>Макет избы</h4>
-                        <p>Поделка ученика 7А: традиционное жилище чулымцев.</p>
-                    </div>
-                </div>
-                <div class="creative-card">
-                    <img src="https://img2.fedpress.ru/thumbs/800/2023/08/2437/8448f2d5a5a22281c9f5453964aa357f.jpg" alt="Чулымский алфавит" onclick="openLightbox('https://img2.fedpress.ru/thumbs/800/2023/08/2437/8448f2d5a5a22281c9f5453964aa357f.jpg', 'Плакат «Чулымский алфавит»', 'Творческая работа учеников 7А: плакат с чулымским алфавитом.')">
-                    <div class="creative-content">
-                        <h4>Плакат «Алфавит»</h4>
-                        <p>Творческая работа учеников 7А: чулымский алфавит.</p>
-                    </div>
-                </div>
-                <div class="creative-card">
-                    <img src="https://avatars.mds.yandex.net/i?id=8f18c95596f5cea9d93a4b02b6bb45a1_l-5496183-images-thumbs&n=13" alt="Река Чулым" onclick="openLightbox('https://avatars.mds.yandex.net/i?id=8f18c95596f5cea9d93a4b02b6bb45a1_l-5496183-images-thumbs&n=13', 'Рисунок «Река Чулым»', 'Рисунок ученика 7А: река Чулым — историческая родина чулымцев.')">
-                    <div class="creative-content">
-                        <h4>Рисунок «Река Чулым»</h4>
-                        <p>Рисунок ученика 7А: река — родина чулымцев.</p>
-                    </div>
-                </div>
+                <button class="quiz-restart" id="quiz-restart" onclick="restartQuiz()" style="display:none;">🔄 Пройти заново</button>
             </div>
         </section>
 
     </div>
 
     <footer>
-        <p>Школьный проект <strong>«Народ чулымцы»</strong> — 7А класс</p>
+        <p>Школьный проект <strong>«Народ чулымцы»</strong></p>
         <p>2026 — Год единства народов России</p>
         <div class="project-info">
             Сайт создан в рамках общешкольного проекта «Единое воспитательное пространство»
@@ -1436,7 +1286,7 @@
             }
         });
 
-        // === ВИКТОРИНА ===
+        // === ВИКТОРИНА с перемешиванием вопросов и вариантов ===
         const quizData = [
             {
                 question: 'К какой языковой группе относится чулымский язык?',
@@ -1465,17 +1315,44 @@
             }
         ];
 
+        let shuffledQuiz = [];
         let currentQuestion = 0;
         let score = 0;
         let answered = false;
 
+        // Перемешивание массива (алгоритм Фишера–Йетса)
+        function shuffleArray(arr) {
+            const a = arr.slice();
+            for (let i = a.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [a[i], a[j]] = [a[j], a[i]];
+            }
+            return a;
+        }
+
+        // Подготовка викторины: перемешиваем вопросы и варианты ответов
+        function prepareQuiz() {
+            shuffledQuiz = shuffleArray(quizData).map(q => {
+                const optionsWithIndex = q.options.map((text, idx) => ({ text, isCorrect: idx === q.correct }));
+                const shuffledOptions = shuffleArray(optionsWithIndex);
+                const newCorrect = shuffledOptions.findIndex(o => o.isCorrect);
+                return {
+                    question: q.question,
+                    options: shuffledOptions.map(o => o.text),
+                    correct: newCorrect
+                };
+            });
+        }
+
         function loadQuestion() {
-            const q = quizData[currentQuestion];
-            document.getElementById('quiz-question').textContent = `Вопрос ${currentQuestion + 1} из ${quizData.length}: ${q.question}`;
+            const q = shuffledQuiz[currentQuestion];
+            document.getElementById('quiz-question').textContent = `Вопрос ${currentQuestion + 1} из ${shuffledQuiz.length}: ${q.question}`;
             const optionsBox = document.getElementById('quiz-options');
             optionsBox.innerHTML = '';
             document.getElementById('quiz-result').textContent = '';
             document.getElementById('quiz-next').disabled = true;
+            document.getElementById('quiz-next').style.display = 'inline-block';
+            document.getElementById('quiz-restart').style.display = 'none';
             answered = false;
 
             q.options.forEach((opt, index) => {
@@ -1490,7 +1367,7 @@
         function selectAnswer(index, btn) {
             if (answered) return;
             answered = true;
-            const q = quizData[currentQuestion];
+            const q = shuffledQuiz[currentQuestion];
             const options = document.querySelectorAll('.quiz-option');
             options.forEach((b, i) => {
                 if (i === q.correct) b.classList.add('correct');
@@ -1505,21 +1382,35 @@
                 result.textContent = `❌ Неверно. Правильный ответ: ${q.options[q.correct]}`;
             }
             document.getElementById('quiz-next').disabled = false;
-            document.getElementById('quiz-next').textContent = currentQuestion === quizData.length - 1 ? 'Показать результат →' : 'Следующий вопрос →';
+            document.getElementById('quiz-next').textContent = currentQuestion === shuffledQuiz.length - 1 ? 'Показать результат →' : 'Следующий вопрос →';
         }
 
         function nextQuestion() {
-            if (currentQuestion < quizData.length - 1) {
+            if (currentQuestion < shuffledQuiz.length - 1) {
                 currentQuestion++;
                 loadQuestion();
             } else {
-                document.getElementById('quiz-question').textContent = `Викторина завершена! Ваш результат: ${score} из ${quizData.length}`;
+                document.getElementById('quiz-question').textContent = `Викторина завершена! Ваш результат: ${score} из ${shuffledQuiz.length}`;
                 document.getElementById('quiz-options').innerHTML = '';
-                document.getElementById('quiz-result').textContent = score === quizData.length ? '🎉 Отлично! Вы настоящий знаток чулымской культуры!' : '👏 Спасибо за участие! Попробуйте ещё раз, чтобы улучшить результат.';
+                document.getElementById('quiz-result').textContent = score === shuffledQuiz.length ? '🎉 Отлично! Вы настоящий знаток чулымской культуры!' : '👏 Спасибо за участие! Попробуйте ещё раз, чтобы улучшить результат.';
                 document.getElementById('quiz-next').style.display = 'none';
+                document.getElementById('quiz-restart').style.display = 'inline-block';
             }
         }
 
+        function restartQuiz() {
+            prepareQuiz();
+            currentQuestion = 0;
+            score = 0;
+            answered = false;
+            document.getElementById('quiz-next').style.display = 'inline-block';
+            document.getElementById('quiz-next').textContent = 'Следующий вопрос →';
+            document.getElementById('quiz-restart').style.display = 'none';
+            loadQuestion();
+        }
+
+        // Инициализация
+        prepareQuiz();
         loadQuestion();
     </script>
 
