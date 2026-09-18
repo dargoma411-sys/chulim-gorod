@@ -146,16 +146,25 @@
             100% { transform: translateY(110vh) translateX(20px) rotate(360deg); opacity: 0; }
         }
         .content { position: relative; z-index: 1; }
-        .header {
-            text-align: center; margin-bottom: 20px; padding: 28px 20px;
+
+        /* ===== ВЕРХНЯЯ ПАНЕЛЬ С БРЕНДОМ ===== */
+        .top-bar {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 16px;
+            padding: 12px 14px;
             background: linear-gradient(135deg, #1e3a5f 0%, #2b5278 50%, #3a6a9a 100%);
-            border-radius: 24px;
-            box-shadow: 0 8px 24px rgba(43, 82, 120, 0.4);
-            position: relative; overflow: hidden;
+            border-radius: 18px;
+            box-shadow: 0 6px 20px rgba(43, 82, 120, 0.4);
+            position: relative;
+            overflow: hidden;
         }
-        .header::before {
-            content: ''; position: absolute;
-            top: -50%; right: -50%; width: 200%; height: 200%;
+        .top-bar::before {
+            content: '';
+            position: absolute;
+            top: -50%; right: -50%;
+            width: 200%; height: 200%;
             background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, transparent 70%);
             animation: shimmer 8s infinite linear;
         }
@@ -163,20 +172,61 @@
             0% { transform: rotate(0deg); }
             100% { transform: rotate(360deg); }
         }
-        .header h1 {
-            font-size: 28px; font-weight: 800; margin-bottom: 6px;
-            letter-spacing: 0.5px; position: relative; z-index: 1;
-            text-shadow: 0 0 20px rgba(106, 179, 243, 0.6), 0 2px 8px rgba(0,0,0,0.3);
+        .brand {
+            position: relative;
+            z-index: 1;
+            text-align: left;
+            flex: 1;
+            min-width: 0;
+        }
+        .brand-name {
+            font-size: 20px;
+            font-weight: 800;
+            letter-spacing: 0.5px;
+            text-shadow: 0 0 15px rgba(106, 179, 243, 0.6), 0 2px 6px rgba(0,0,0,0.3);
             animation: glowPulse 3s ease-in-out infinite;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
         }
         @keyframes glowPulse {
             0%, 100% { text-shadow: 0 0 20px rgba(106, 179, 243, 0.5), 0 2px 8px rgba(0,0,0,0.3); }
             50% { text-shadow: 0 0 30px rgba(106, 179, 243, 0.8), 0 2px 8px rgba(0,0,0,0.3); }
         }
-        .header p {
-            font-size: 13px; opacity: 0.85;
-            position: relative; z-index: 1; font-weight: 500;
+        .brand-sub {
+            font-size: 11px;
+            opacity: 0.75;
+            font-weight: 500;
+            margin-top: 2px;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
         }
+        .faq-btn-top {
+            width: 40px;
+            height: 40px;
+            border-radius: 12px;
+            border: 1px solid rgba(255,255,255,0.15);
+            background: rgba(0,0,0,0.25);
+            color: #ffffff;
+            font-size: 18px;
+            font-weight: 800;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.2s;
+            flex-shrink: 0;
+            position: relative;
+            z-index: 1;
+            backdrop-filter: blur(4px);
+        }
+        .faq-btn-top:active {
+            transform: scale(0.95);
+            background: rgba(0,0,0,0.4);
+            border-color: #6ab3f3;
+        }
+
         .top-buttons { display: flex; gap: 10px; margin-bottom: 20px; }
         .top-btn {
             flex: 1;
@@ -624,15 +674,17 @@
     <div class="snow-container" id="snow"></div>
 
     <div class="content">
-        <div class="header">
-            <h1>MorvexxShop</h1>
-            <p>Игровая валюта и подписки</p>
+        <div class="top-bar">
+            <button class="faq-btn-top" onclick="openFaqModal()">?</button>
+            <div class="brand">
+                <div class="brand-name">MorvexxShop</div>
+                <div class="brand-sub">Игровая валюта и подписки</div>
+            </div>
         </div>
 
         <div class="top-buttons">
             <button class="top-btn" id="btn-profile" onclick="openBot('profile')">👤 Профиль</button>
             <button class="top-btn" id="btn-orders" onclick="openBot('my_orders')">📦 Заказы</button>
-            <button class="top-btn" onclick="openFaqModal()" style="flex: 0 0 52px; font-size: 18px; font-weight: 800;">?</button>
         </div>
 
         <div class="section-title">Категории</div>
