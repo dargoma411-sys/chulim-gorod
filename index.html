@@ -147,20 +147,17 @@
         }
         .content { position: relative; z-index: 1; }
 
-        /* ===== ВЕРХНЯЯ ПАНЕЛЬ С БРЕНДОМ ===== */
-        .top-bar {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            margin-bottom: 16px;
-            padding: 12px 14px;
+        .header {
+            text-align: center;
+            margin-bottom: 20px;
+            padding: 28px 20px;
             background: linear-gradient(135deg, #1e3a5f 0%, #2b5278 50%, #3a6a9a 100%);
-            border-radius: 18px;
-            box-shadow: 0 6px 20px rgba(43, 82, 120, 0.4);
+            border-radius: 24px;
+            box-shadow: 0 8px 24px rgba(43, 82, 120, 0.4);
             position: relative;
             overflow: hidden;
         }
-        .top-bar::before {
+        .header::before {
             content: '';
             position: absolute;
             top: -50%; right: -50%;
@@ -172,59 +169,26 @@
             0% { transform: rotate(0deg); }
             100% { transform: rotate(360deg); }
         }
-        .brand {
+        .header h1 {
+            font-size: 28px;
+            font-weight: 800;
+            margin-bottom: 6px;
+            letter-spacing: 0.5px;
             position: relative;
             z-index: 1;
-            text-align: left;
-            flex: 1;
-            min-width: 0;
-        }
-        .brand-name {
-            font-size: 20px;
-            font-weight: 800;
-            letter-spacing: 0.5px;
-            text-shadow: 0 0 15px rgba(106, 179, 243, 0.6), 0 2px 6px rgba(0,0,0,0.3);
+            text-shadow: 0 0 20px rgba(106, 179, 243, 0.6), 0 2px 8px rgba(0,0,0,0.3);
             animation: glowPulse 3s ease-in-out infinite;
-            white-space: nowrap;
-            overflow: hidden;
-            text-overflow: ellipsis;
         }
         @keyframes glowPulse {
             0%, 100% { text-shadow: 0 0 20px rgba(106, 179, 243, 0.5), 0 2px 8px rgba(0,0,0,0.3); }
             50% { text-shadow: 0 0 30px rgba(106, 179, 243, 0.8), 0 2px 8px rgba(0,0,0,0.3); }
         }
-        .brand-sub {
-            font-size: 11px;
-            opacity: 0.75;
-            font-weight: 500;
-            margin-top: 2px;
-            white-space: nowrap;
-            overflow: hidden;
-            text-overflow: ellipsis;
-        }
-        .faq-btn-top {
-            width: 40px;
-            height: 40px;
-            border-radius: 12px;
-            border: 1px solid rgba(255,255,255,0.15);
-            background: rgba(0,0,0,0.25);
-            color: #ffffff;
-            font-size: 18px;
-            font-weight: 800;
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            transition: all 0.2s;
-            flex-shrink: 0;
+        .header p {
+            font-size: 13px;
+            opacity: 0.85;
             position: relative;
             z-index: 1;
-            backdrop-filter: blur(4px);
-        }
-        .faq-btn-top:active {
-            transform: scale(0.95);
-            background: rgba(0,0,0,0.4);
-            border-color: #6ab3f3;
+            font-weight: 500;
         }
 
         .top-buttons { display: flex; gap: 10px; margin-bottom: 20px; }
@@ -619,18 +583,6 @@
             background: #2b5278; border-color: #3a6a9a;
         }
         .admin-filter-btn:active { transform: scale(0.97); }
-        .faq-btn {
-            width: 36px; height: 36px; border-radius: 50%;
-            border: 1px solid rgba(255,255,255,0.1);
-            background: rgba(0,0,0,0.25);
-            color: #6ab3f3; font-size: 18px; font-weight: 800;
-            cursor: pointer;
-            display: flex; align-items: center; justify-content: center;
-            transition: all 0.2s;
-        }
-        .faq-btn:active {
-            transform: scale(0.95); background: #2b5278;
-        }
         .faq-item {
             background: rgba(0,0,0,0.25); border-radius: 12px;
             padding: 14px; margin-bottom: 10px;
@@ -659,6 +611,56 @@
             margin-top: 4px; cursor: pointer; border: none;
         }
         .contact-btn:active { transform: scale(0.97); }
+
+        /* ===== КНОПКИ-КРУЖКИ ВНИЗУ ===== */
+        .faq-fab {
+            position: fixed;
+            bottom: 20px;
+            left: 20px;
+            width: 52px;
+            height: 52px;
+            border-radius: 50%;
+            border: 1px solid rgba(255,255,255,0.15);
+            background: linear-gradient(135deg, #2b5278 0%, #3a6a9a 100%);
+            color: #ffffff;
+            font-size: 22px;
+            font-weight: 800;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 150;
+            box-shadow: 0 6px 20px rgba(43, 82, 120, 0.6);
+            transition: all 0.2s ease;
+        }
+        .faq-fab:active {
+            transform: scale(0.92);
+            box-shadow: 0 4px 12px rgba(43, 82, 120, 0.8);
+        }
+        .admin-fab {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            width: 52px;
+            height: 52px;
+            border-radius: 50%;
+            border: 1px solid rgba(255,255,255,0.15);
+            background: linear-gradient(135deg, #7a2b2b 0%, #9a3a3a 100%);
+            color: #ffffff;
+            font-size: 22px;
+            font-weight: 800;
+            cursor: pointer;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            z-index: 150;
+            box-shadow: 0 6px 20px rgba(122, 43, 43, 0.6);
+            transition: all 0.2s ease;
+        }
+        .admin-fab:active {
+            transform: scale(0.92);
+            box-shadow: 0 4px 12px rgba(122, 43, 43, 0.8);
+        }
     </style>
 </head>
 <body>
@@ -674,12 +676,9 @@
     <div class="snow-container" id="snow"></div>
 
     <div class="content">
-        <div class="top-bar">
-            <button class="faq-btn-top" onclick="openFaqModal()">?</button>
-            <div class="brand">
-                <div class="brand-name">MorvexxShop</div>
-                <div class="brand-sub">Игровая валюта и подписки</div>
-            </div>
+        <div class="header">
+            <h1>MorvexxShop</h1>
+            <p>Игровая валюта и подписки</p>
         </div>
 
         <div class="top-buttons">
@@ -817,7 +816,11 @@
         </div>
     </div>
 
-    <button class="faq-btn" id="admin-fab" onclick="openAdminPanel()" style="display: none; position: fixed; bottom: 20px; right: 20px; z-index: 150; box-shadow: 0 6px 20px rgba(0,0,0,0.5); width: 52px; height: 52px; font-size: 22px;">🛠</button>
+    <!-- Кнопка помощи (левый нижний угол) -->
+    <button class="faq-fab" onclick="openFaqModal()">?</button>
+
+    <!-- Кнопка админки (правый нижний угол, только для админа) -->
+    <button class="admin-fab" id="admin-fab" onclick="openAdminPanel()">🛠</button>
 
     <div class="modal-overlay" id="admin-modal">
         <div class="modal" style="max-width: 420px;">
