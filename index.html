@@ -84,6 +84,47 @@
             animation: slideUp 1s ease-out 0.3s both;
         }
 
+        /* === СНЕЖИНКИ === */
+        .snowflakes {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            overflow: hidden;
+            z-index: 0;
+        }
+
+        .snowflake {
+            position: absolute;
+            top: -10%;
+            color: #ffffff;
+            font-size: 1.2rem;
+            opacity: 0.9;
+            animation: fall linear infinite;
+            text-shadow: 0 0 6px rgba(255,255,255,0.8);
+            user-select: none;
+        }
+
+        @keyframes fall {
+            0% {
+                transform: translateY(-10vh) translateX(0) rotate(0deg);
+                opacity: 0;
+            }
+            10% {
+                opacity: 0.9;
+            }
+            90% {
+                opacity: 0.9;
+            }
+            100% {
+                transform: translateY(110vh) translateX(20px) rotate(360deg);
+                opacity: 0;
+            }
+        }
+        /* === КОНЕЦ СНЕЖИНОК === */
+
         .scroll-hint {
             margin-top: 40px;
             font-size: 2rem;
@@ -915,6 +956,7 @@
 <body>
 
     <header>
+        <div class="snowflakes" id="snowflakes"></div>
         <h1>Народ чулымцы</h1>
         <p>Школьный проект в рамках Года единства народов России — 2026</p>
         <div class="scroll-hint">↓</div>
@@ -1236,11 +1278,11 @@
     </div>
 
     <footer>
-    <p>Школьный проект <strong>«Народ чулымцы»</strong></p>
-    <div class="project-info">
-        Сайт создан в рамках общешкольного проекта «Единое воспитательное пространство»
-    </div>
-</footer>
+        <p>Школьный проект <strong>«Народ чулымцы»</strong></p>
+        <div class="project-info">
+            Сайт создан в рамках общешкольного проекта «Единое воспитательное пространство»
+        </div>
+    </footer>
 
     <div class="lightbox" id="lightbox" onclick="closeLightboxOnBg(event)">
         <button class="lightbox-close" onclick="closeLightbox()">✕</button>
@@ -1287,11 +1329,9 @@
             t.textContent = title || '';
             d.textContent = desc || '';
 
-            // По умолчанию описание скрыто
             caption.style.display = 'none';
             moreBtn.textContent = 'Подробнее ▾';
 
-            // Если описания нет — кнопку вообще не показываем
             if (!title && !desc) {
                 moreBtn.style.display = 'none';
             } else {
@@ -1306,7 +1346,6 @@
             const lightbox = document.getElementById('lightbox');
             lightbox.classList.remove('show');
             document.body.style.overflow = '';
-            // Сброс состояния на случай повторного открытия
             document.getElementById('lightbox-caption').style.display = 'none';
             document.getElementById('lightbox-more').textContent = 'Подробнее ▾';
         }
@@ -1459,6 +1498,27 @@
         // Инициализация
         prepareQuiz();
         loadQuestion();
+
+        // === СНЕЖИНКИ ТОЛЬКО В ШАПКЕ ===
+        (function createSnowflakes() {
+            const container = document.getElementById('snowflakes');
+            if (!container) return;
+
+            const flakes = ['❄', '❅', '❆', '✻', '✼'];
+            const count = 40;
+
+            for (let i = 0; i < count; i++) {
+                const snow = document.createElement('span');
+                snow.className = 'snowflake';
+                snow.textContent = flakes[Math.floor(Math.random() * flakes.length)];
+                snow.style.left = Math.random() * 100 + '%';
+                snow.style.fontSize = (0.7 + Math.random() * 1.2) + 'rem';
+                snow.style.animationDuration = (6 + Math.random() * 8) + 's';
+                snow.style.animationDelay = (Math.random() * 8) + 's';
+                snow.style.opacity = (0.5 + Math.random() * 0.5);
+                container.appendChild(snow);
+            }
+        })();
     </script>
 
 </body>
